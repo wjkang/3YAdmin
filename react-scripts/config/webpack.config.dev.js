@@ -172,7 +172,7 @@ module.exports = {
               babelrc: false,
               presets: [require.resolve('babel-preset-react-app')],
               plugins: [
-                ['import', [{ libraryName: 'antd', style: true }]],  // import less
+                ['import', [{ libraryName: 'antd', style: 'css' }]],  // import less
               ],
               // @remove-on-eject-end
               // This is a feature of `babel-loader` for webpack (not Babel itself).
