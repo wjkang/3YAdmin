@@ -172,7 +172,7 @@ module.exports = {
               babelrc: false,
               presets: [require.resolve('babel-preset-react-app')],
               plugins: [
-                ['import', [{ libraryName: 'antd', style: 'css' }]],  // import less
+                ['import', [{ libraryName: 'antd', style: true }]],  // import less
               ],
               // @remove-on-eject-end
               // This is a feature of `babel-loader` for webpack (not Babel itself).
@@ -181,84 +181,7 @@ module.exports = {
               cacheDirectory: true,
             },
           },
-          // Parse less files and modify variables
-          // {
-          //   test: /\.less$/,
-          //   use: [
-          //     require.resolve('style-loader'),
-          //     ({ resource }) => ({
-          //       loader: 'css-loader',
-          //       options: {
-          //         importLoaders: 1,
-          //         modules: /\.module\.less/.test(resource),
-          //         localIdentName: '[name]__[local]___[hash:base64:5]',
-          //       },
-          //     }),
-          //     {
-          //       loader: require.resolve('postcss-loader'),
-          //       options: {
-          //         ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-          //         plugins: () => [
-          //           require('postcss-flexbugs-fixes'),
-          //           autoprefixer({
-          //             browsers: [
-          //               '>1%',
-          //               'last 4 versions',
-          //               'Firefox ESR',
-          //               'not ie < 9', // React doesn't support IE8 anyway
-          //             ],
-          //             flexbox: 'no-2009',
-          //           }),
-          //         ],
-          //       },
-          //     },
-          //     {
-          //       loader: require.resolve('less-loader'),
-          //       options: {
-          //         javascriptEnabled:true
-          //         //modifyVars: theme,
-          //       },
-          //     },
-          //   ],
-          // },
-          // "postcss" loader applies autoprefixer to our CSS.
-          // "css" loader resolves paths in CSS and adds assets as dependencies.
-          // "style" loader turns CSS into JS modules that inject <style> tags.
-          // In production, we use a plugin to extract that CSS to a file, but
-          // in development "style" loader enables hot editing of CSS.
-          // {
-          //   test: /\.css$/,
-          //   use: [
-          //     require.resolve('style-loader'),
-          //     {
-          //       loader: require.resolve('css-loader'),
-          //       options: {
-          //         importLoaders: 1,
-          //       },
-          //     },
-          //     {
-          //       loader: require.resolve('postcss-loader'),
-          //       options: {
-          //         // Necessary for external CSS imports to work
-          //         // https://github.com/facebookincubator/create-react-app/issues/2677
-          //         ident: 'postcss',
-          //         plugins: () => [
-          //           require('postcss-flexbugs-fixes'),
-          //           autoprefixer({
-          //             browsers: [
-          //               '>1%',
-          //               'last 4 versions',
-          //               'Firefox ESR',
-          //               'not ie < 9', // React doesn't support IE8 anyway
-          //             ],
-          //             flexbox: 'no-2009',
-          //           }),
-          //         ],
-          //       },
-          //     },
-          //   ],
-          // },
-          // Parse less files and modify variables
+          //Parse less files and modify variables
           {
             test: /\.less$/,
             use: [
@@ -292,24 +215,27 @@ module.exports = {
               {
                 loader: require.resolve('less-loader'),
                 options: {
+                  javascriptEnabled:true
                   //modifyVars: theme,
-                  javascriptEnabled: true
                 },
               },
             ],
           },
+          // "postcss" loader applies autoprefixer to our CSS.
+          // "css" loader resolves paths in CSS and adds assets as dependencies.
+          // "style" loader turns CSS into JS modules that inject <style> tags.
+          // In production, we use a plugin to extract that CSS to a file, but
+          // in development "style" loader enables hot editing of CSS.
           {
             test: /\.css$/,
             use: [
               require.resolve('style-loader'),
-              ({ resource }) => ({
-                loader: 'css-loader',
+              {
+                loader: require.resolve('css-loader'),
                 options: {
                   importLoaders: 1,
-                  modules: /\.module\.css/.test(resource),
-                  localIdentName: '[name]__[local]___[hash:base64:5]',
                 },
-              }),
+              },
               {
                 loader: require.resolve('postcss-loader'),
                 options: {

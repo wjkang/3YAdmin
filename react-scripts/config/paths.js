@@ -59,6 +59,7 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  vendorConfig: resolveApp('react-scripts/config/vendor.config.js')
 };
 
 

@@ -92,16 +92,16 @@ choosePort(HOST, DEFAULT_PORT)
     //     console.log('webpack: done.')
     //   }
     // }))
-    compiler.run(function (err, stats) {
-      if (err) throw err
-      process.stdout.write(stats.toString({
-        colors: true,
-        modules: false,
-        children: false,
-        chunks: false,
-        chunkModules: false
-      }) + '\n\n')
-    })
+    // compiler.run(function (err, stats) {
+    //   if (err) throw err
+    //   process.stdout.write(stats.toString({
+    //     colors: true,
+    //     modules: false,
+    //     children: false,
+    //     chunks: false,
+    //     chunkModules: false
+    //   }) + '\n\n')
+    // })
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
