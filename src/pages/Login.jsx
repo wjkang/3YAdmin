@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class Login extends React.Component {
-
+    
 }
+
+export default Login
 

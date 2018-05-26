@@ -1,7 +1,6 @@
 //action types
 const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 const GET_USERINFO_SUCCESS = "GET_USERINFO_SUCCESS"
-const GET_ACCESSMENU_SUCCESS = "GET_USERINFO_SUCCESS"
 const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
 
 //reducer
@@ -21,10 +20,7 @@ export default function (state, action) {
             return { ...state, token: action.token }
         case GET_USERINFO_SUCCESS:
             //获取用户信息
-            return { ...state, name: action.name, avatar: action.avatar }
-        case GET_ACCESSMENU_SUCCESS:
-            // 获取授权菜单
-            return { ...state, isAdmin: action.isAdmin, permission: action.permission }
+            return { ...state, name: action.name, avatar: action.avatar, isAdmin: action.isAdmin, permission: action.permission }
         case LOGOUT_SUCCESS:
             // 登出
             return {
@@ -48,9 +44,6 @@ export const getUserInfo = (userInfo) => {
     return { type: GET_USERINFO_SUCCESS, ...userInfo }
 }
 
-export const getAccessMenu = (permission) => {
-    return { type: GET_ACCESSMENU_SUCCESS, ...permission }
-}
 
 export const logout = () => {
     return { type: LOGOUT_SUCCESS }
