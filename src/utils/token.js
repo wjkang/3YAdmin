@@ -1,5 +1,5 @@
 
-const TokenKey = 'fty-admin-token'
+const TokenKey = 'react-antd-admin'
 
 export function getToken() {
   return localStorage.getItem(TokenKey)

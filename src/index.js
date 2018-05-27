@@ -4,11 +4,13 @@ import { Provider } from 'react-redux';
 import store from './store';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import  PageRouters from '@/routers/PageRouters';
+import PageRouters from '@/routers/PageRouters';
+import MySpin from '@/components/MySpin';
 
 ReactDOM.render(
     <Provider store={store}>
-        <PageRouters />
+        <MySpin pageRouters={PageRouters}>
+        </MySpin>
     </Provider>,
     document.getElementById('root'));
 registerServiceWorker();

@@ -1,37 +1,25 @@
-import { Loading, QSpinnerGears,QSpinnerHourglass } from 'quasar'
-
-
+import store from '@/store';
+import { message } from 'antd';
+import { spinLoading } from '@/reducers/app'
 
 let loading = {
 
 }
+
+let hide = false;
+
 let lastRequest = new Date('2018');
 
 loading.show = function (config) {
-    if (config&&config.loading) {
+    if (config && config.loading) {
         let now = new Date();
         let ms = now - lastRequest;
         lastRequest = now;
         if (ms > 2000) {//相隔两秒的请求才重新显示loading
-            if (config.loading == "gears") {
-                Loading.show({
-                    spinner: QSpinnerGears,
-                    message: '',
-                    messageColor: 'white',
-                    spinnerSize: 100,
-                    spinnerColor: 'white',
-                    customClass : ''
-                })
-            }else if(config.loading=="hourglass")
-            {
-                Loading.show({
-                   // spinner: QSpinnerHourglass,
-                    message: '',
-                    messageColor: 'white',
-                    spinnerSize: 100,
-                    spinnerColor: 'white',
-                    customClass : ''
-                })
+            if (config.loading == "message") {
+                hide = message.loading('请求中...', 0);
+            } else if (config.loading == "spin") {
+                store.dispatch(spinLoading(true));
             }
         }
     }
@@ -39,10 +27,14 @@ loading.show = function (config) {
 }
 
 loading.hide = function (config) {
-    if (config&&config.loading) {
-        setTimeout(() => {
-            Loading.hide()
-        }, 1000)
+    if (config && config.loading) {
+        if (config.loading == "message" && hide) {
+            setTimeout(hide, 1000)
+        } else if (config.loading == "spin") {
+            setTimeout(() => {
+                store.dispatch(spinLoading(false));
+            }, 1000);
+        }
     }
 }
 

@@ -3,3 +3,12 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+#root{
+  height: 100%;
+}
+#root>.ant-spin-nested-loading{
+  height: 100%;
+}
+.ant-spin-container{
+  height: 100%;
+}

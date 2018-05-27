@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { getToken, removeToken } from '@/libs/token'
-import loading from '@/libs/loading'
-import permission from '@/libs/permission'
-import { Notify } from 'quasar'
+import { getToken, removeToken } from '@/utils/token'
+import loading from '@/utils/loading'
+import permission from '@/utils/permission'
+import { message } from 'antd';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.API, // api的base_url
+  baseURL: process.env.NODE_ENV === 'production'?'http://69.171.69.13:3000':'http://localhost:3000', // api的base_url
   timeout: 20000 // request timeout
 })
 
@@ -14,9 +14,7 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // Do something before request is sent
   if (!permission.check(config)) {
-    Notify.create({
-      message: "没有请求权限"
-    })
+    message.error('没有请求权限');
     throw "403"
   }
   loading.show(config)
@@ -37,9 +35,7 @@ service.interceptors.response.use(
     loading.hide(response.config)
     const res = response.data;
     if (res.statusCode !== 200) {
-      Notify.create({
-        message: res.msg
-      })
+      message.error(res.msg);
       return Promise.reject('error');
     } else {
 
@@ -51,34 +47,21 @@ service.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       removeToken();
       if (error.config.url.indexOf("logout") === -1) {
-        Notify.create({
-          message: '登陆信息已过期,请重新登陆!'
-        })
+        message.error('登陆信息已过期,请重新登陆!');
       }
       setTimeout(() => {
-        Router.push({
-          name: "login"
-        });
+        
       }, 1000)
 
     } else if (error.response && error.response.status === 500) {
-      Notify.create({
-        message: '系统错误!',
-        position: 'bottom-right'
-      })
+      message.error('系统错误!');
     } else if (error.message.indexOf("timeout")>-1) {
-      Notify.create({
-        message: '网络超时!',
-        position: 'bottom-right'
-      })
+      message.error('网络超时!');
     }
     else if (error == "403") {
 
     } else {
-      Notify.create({
-        message: '网络错误!',
-        position: 'bottom-right'
-      })
+      message.error('网络错误!');
     }
     return Promise.reject(error)
 

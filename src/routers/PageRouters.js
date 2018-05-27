@@ -5,9 +5,8 @@ import App from '@/App';
 
 export default () => (
     <Router>
-        <Switch>
-            <Route exact path="/" render={() => <Redirect to="/home" push />} />        
-            <Route path="/home" component={App} />
+        <Switch>      
+            <Route exact path="/" component={App} />
             <Route path="/login" component={Login} />
         </Switch>
     </Router>
