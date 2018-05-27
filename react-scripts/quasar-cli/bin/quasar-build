@@ -1,0 +1,169 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist'),
+  chalk = require('chalk')
+
+const
+  logger = require('../lib/helpers/logger')
+  log = logger('app:build')
+  warn = logger('app:build', 'red')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    t: 'theme',
+    m: 'mode',
+    T: 'target',
+    A: 'arch',
+    d: 'debug',
+    c: 'clean',
+    h: 'help'
+  },
+  boolean: ['h', 'd', 'c'],
+  string: ['t', 'm', 'T'],
+  default: {
+    t: 'mat',
+    m: 'spa'
+  }
+})
+
+if (argv.help) {
+  console.log(`
+    Description
+      Builds distributables of your app.
+    Usage
+      $ quasar build -p <port number>
+    Options
+      --theme, -t    App theme (default: mat)
+      --mode, -m     App mode [spa|pwa|cordova|electron] (default: spa)
+      --target, -T   App target
+                       - Cordova (default: all installed)
+                          [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                       - Electron (default: yours)
+                          [darwin|win32|linux|mas|all]
+      --debug, -d    Build for debugging purposes
+      --clean, -c    Clean build artifact first
+      --help, -h     Displays this message
+
+      ONLY for Electron mode:
+      --arch, -A     App architecture (default: yours)
+                       [ia32|x64|armv7l|arm64|mips64el|all]
+  `)
+  process.exit(0)
+}
+
+require('../lib/helpers/ensure-argv')(argv, 'build')
+
+log(`${argv.debug ? chalk.red('[ DEBUG ] ') : ''}Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
+log()
+
+if (argv.mode !== 'spa') {
+  require('../lib/mode/install-missing')(argv.mode, argv.target)
+}
+
+const webpack = require('webpack')
+
+const
+  appPaths = require('../lib/build/app-paths'),
+  QuasarConfig = require('../lib/quasar-config'),
+  Generator = require('../lib/generator'),
+  artifacts = require('../lib/build/artifacts')
+
+const
+  quasarConfig = new QuasarConfig({
+    theme: argv.theme,
+    mode: argv.mode,
+    target: argv.target,
+    arch: argv.arch,
+    debug: argv.debug,
+    prod: true
+  })
+
+try {
+  quasarConfig.prepare()
+}
+catch (e) {
+  warn(`[FAIL] quasar.conf.js has JS errors`)
+  process.exit(1)
+}
+
+quasarConfig.compile()
+
+const
+  generator = new Generator(),
+  webpackConfig = quasarConfig.getWebpackConfig(),
+  buildConfig = quasarConfig.getBuildConfig(),
+  mode = argv.mode.toUpperCase(),
+  target = argv.target ? argv.target.toUpperCase() : '',
+  outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
+
+if (argv.clean) {
+  artifacts.clean(outputFolder)
+}
+
+generator.build(quasarConfig)
+
+log(chalk.bold(`Building main...`))
+log()
+
+webpack(webpackConfig, (err, stats) => {
+  if (err) { throw err }
+
+  artifacts.add(outputFolder)
+
+  const notify = buildConfig.build.useNotifier
+    ? require('../lib/helpers/notifier')
+    : () => {}
+
+  process.stdout.write(stats.toString({
+    colors: true,
+    modules: false,
+    children: false,
+    chunks: false,
+    chunkModules: false
+  }) + '\n')
+
+  if (stats.hasErrors()) {
+    warn()
+    warn(chalk.red('[FAIL] Build failed with errors'))
+    warn()
+
+    notify({ subtitle: '[FAIL] Build has errors', message: appPaths.appDir  })
+    process.exit(1)
+  }
+
+  log()
+  log(
+    `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
+  )
+  log()
+
+  if (argv.mode === 'cordova') {
+    const Cordova = require('../lib/cordova')
+
+    Cordova.build(quasarConfig).then(exitCode => {
+      if (exitCode) {
+        notify({ subtitle: '[FAIL] Cordova failed to build' })
+        return
+      }
+
+      notify({ subtitle: '[Success] App was built'  })
+    })
+
+    return
+  }
+  else if (argv.mode === 'electron') {
+    const Electron = require('../lib/electron')
+
+    Electron.build(quasarConfig).then(() => {
+      notify({ subtitle: '[Success] App was built'  })
+    })
+
+    return
+  }
+
+  log()
+  warn('Built files are meant to be served over an HTTP server')
+  warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
+  log()
+})

@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+console.log(`
+  Description
+    Create an ad-hoc http(s) server on a specified folder.
+
+    This command has been deprecated in favor of using the
+    "http-server" NPM package: https://www.npmjs.com/package/http-server
+
+    Install it by typing: "npm install -g http-server"
+    Check its usage by visiting the link above.
+
+    Basic usage is:
+    $ http-server [path] [options]
+`)

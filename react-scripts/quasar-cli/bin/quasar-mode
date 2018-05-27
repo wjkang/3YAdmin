@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist'),
+  chalk = require('chalk')
+
+const
+  log = require('../lib/helpers/logger')('app:mode')
+  appPaths = require('../lib/build/app-paths')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    a: 'add',
+    r: 'remove',
+    h: 'help'
+  },
+  string: ['a', 'r'],
+  boolean: ['h']
+})
+
+if (argv.help) {
+  console.log(`
+    Description
+      Add/Remove support for PWA / Cordova / Electron modes.
+    Usage
+      $ quasar mode -r|-a pwa|cordova|electron
+
+      # determine what modes are currently installed:
+      $ quasar mode
+    Options
+      --add, -a     Add support for mode [pwa|cordova|electron]
+      --remove, -r  Remove support for mode [pwa|cordova|electron]
+      --help, -h     Displays this message
+  `)
+  process.exit(0)
+}
+
+require('../lib/helpers/ensure-argv')(argv, 'mode')
+const getMode = require('../lib/mode')
+
+if (argv.add) {
+  getMode(argv.add).add()
+  process.exit(0)
+}
+else if (argv.remove) {
+  getMode(argv.remove).remove()
+  process.exit(0)
+}
+
+log(`Detecting installed modes...`)
+;['pwa', 'cordova', 'electron'].forEach(mode => {
+  const QuasarMode = getMode(mode)
+  log(
+    `[${getMode(mode).isInstalled ? ' yes ' : '  -  '}] Mode ${mode.toUpperCase()}`
+  )
+})
+log()

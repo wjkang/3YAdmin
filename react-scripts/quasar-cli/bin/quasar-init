@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+const parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    v: 'version',
+    t: 'type',
+    h: 'help'
+  },
+  boolean: ['h'],
+  string: ['v', 't']
+})
+
+if (argv.help) {
+  console.log(`
+    Description
+      Create a Quasar App folder from the starter kit.
+      You need "vue-cli" package installed globally.
+    Usage
+      # Install latest starter kit:
+      $ quasar init <folder_name>
+
+      # Install starter kit for specific Quasar version.
+      # Only specify the major and minor version (no patch version).
+      # Good example: 0.15, 1.0, 1.2
+      # Bad example: 0.15.2, 1.0.1, 1.2.2
+      $ quasar init -v 0.15
+
+      # Install UMD starter kit
+      $ quasar init -t umd <folder_name>
+
+    Options
+      --version, -v  Install specific Quasar version
+      --type, -t     Install specific starter kit
+      --help, -h     Displays this message
+  `)
+  process.exit(0)
+}
+
+const
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:init'),
+  warn = logger('app:init', 'red'),
+  spawn = require('cross-spawn'),
+  resolve = require('path').resolve
+
+if (argv.type && !['umd'].includes(argv.type)) {
+  warn(`Specified type ("${argv.type}") is not recognized.`)
+  warn()
+  process.exit(0)
+}
+
+if (!argv._[0]) {
+  warn(`Missing folder name as parameter.`)
+  warn()
+  process.exit(0)
+}
+
+const
+  cliDir = resolve(__dirname, '..')
+
+let template = `quasarframework/quasar-starter-kit${argv.type ? `-${argv.type}` : ''}`
+if (argv.version) {
+  template = `#v${argv.version}`
+}
+
+try {
+  console.log(` Running command: vue init '${template}' ${argv._[0]}`)
+  const child = spawn.sync('vue', [
+    'init',
+    template,
+    argv._[0]
+  ], { stdio: ['inherit', 'inherit', 'inherit'] })
+
+  if (child.status !== 0) {
+    warn(`Something went wrong... Try running the "vue init" command above manually.`)
+    warn(`Reasons for failure: Package vue-cli not installed globally, specified template is unavailable or it failed to download.`)
+    warn()
+    process.exit(1)
+  }
+}
+catch (err) {
+  console.log(err)
+  warn(`Package vue-cli not installed globally.`)
+  warn('Run "npm i -g vue-cli" to install Vue CLI and then try again.')
+  warn()
+  process.exit(1)
+}

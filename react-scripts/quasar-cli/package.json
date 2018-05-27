@@ -1,0 +1,181 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "quasar-cli@^0.15.14",
+        "scope": null,
+        "escapedName": "quasar-cli",
+        "name": "quasar-cli",
+        "rawSpec": "^0.15.14",
+        "spec": ">=0.15.14 <0.16.0",
+        "type": "range"
+      },
+      "G:\\GitHubProject\\fty.quasar"
+    ]
+  ],
+  "_cnpm_publish_time": 1522094910923,
+  "_from": "quasar-cli@^0.15.14",
+  "_hasShrinkwrap": false,
+  "_id": "quasar-cli@0.15.14",
+  "_location": "/quasar-cli",
+  "_nodeVersion": "8.9.4",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/quasar-cli_0.15.14_1522094910786_0.33179949956810306"
+  },
+  "_npmUser": {
+    "name": "rstoenescu",
+    "email": "razvan.stoenescu@gmail.com"
+  },
+  "_npmVersion": "5.7.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "quasar-cli@^0.15.14",
+    "scope": null,
+    "escapedName": "quasar-cli",
+    "name": "quasar-cli",
+    "rawSpec": "^0.15.14",
+    "spec": ">=0.15.14 <0.16.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "http://registry.npm.taobao.org/quasar-cli/download/quasar-cli-0.15.14.tgz",
+  "_shasum": "e8164b942dbbd5072396196e0f8ed620bbbbd90b",
+  "_shrinkwrap": null,
+  "_spec": "quasar-cli@^0.15.14",
+  "_where": "G:\\GitHubProject\\fty.quasar",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "bin": {
+    "quasar": "./bin/quasar"
+  },
+  "bugs": {
+    "url": "https://github.com/quasarframework/quasar-cli/issues"
+  },
+  "dependencies": {
+    "ajv": "6.4.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.4",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-stage-2": "6.24.1",
+    "babel-register": "6.26.0",
+    "babel-runtime": "6.26.0",
+    "chalk": "2.3.2",
+    "chokidar": "2.0.3",
+    "compression-webpack-plugin": "1.1.11",
+    "copy-webpack-plugin": "4.5.1",
+    "cross-spawn": "6.0.5",
+    "css-loader": "0.28.11",
+    "elementtree": "0.1.7",
+    "extract-text-webpack-plugin": "3.0.2",
+    "fastclick": "1.0.6",
+    "file-loader": "1.1.11",
+    "friendly-errors-webpack-plugin": "1.6.1",
+    "fs-extra": "5.0.0",
+    "html-webpack-plugin": "2.30.1",
+    "import-local-file": "0.2.0",
+    "inquirer": "5.1.0",
+    "json-loader": "0.5.7",
+    "lodash.debounce": "4.0.8",
+    "lodash.template": "4.4.0",
+    "minimist": "1.2.0",
+    "ms": "2.1.1",
+    "net": "1.0.2",
+    "node-loader": "0.6.0",
+    "node-notifier": "5.2.1",
+    "opn": "5.3.0",
+    "optimize-css-assets-webpack-plugin": "3.2.0",
+    "os": "0.1.1",
+    "postcss-loader": "2.1.3",
+    "postcss-rtl": "1.2.3",
+    "progress-bar-webpack-plugin": "1.11.0",
+    "quasar-extras": "1.0.2",
+    "quasar-framework": "0.15.10",
+    "stylus": "0.54.5",
+    "stylus-loader": "3.0.2",
+    "sw-precache-webpack-plugin": "0.11.5",
+    "uglify-es": "3.3.9",
+    "uglifyjs-webpack-plugin": "1.2.4",
+    "update-notifier": "2.4.0",
+    "url-loader": "0.6.2",
+    "vue": "2.5.16",
+    "vue-loader": "14.2.2",
+    "vue-router": "3.0.1",
+    "vue-style-loader": "4.1.0",
+    "vue-template-compiler": "2.5.16",
+    "vuex": "3.0.1",
+    "webpack": "3.11.0",
+    "webpack-bundle-analyzer": "2.11.1",
+    "webpack-dev-server": "2.11.1",
+    "webpack-merge": "4.1.2"
+  },
+  "description": "Quasar Framework CLI",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "e8164b942dbbd5072396196e0f8ed620bbbbd90b",
+    "size": 266393,
+    "noattachment": false,
+    "tarball": "http://registry.npm.taobao.org/quasar-cli/download/quasar-cli-0.15.14.tgz"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0"
+  },
+  "files": [
+    "assets",
+    "bin",
+    "lib",
+    "lists",
+    "templates"
+  ],
+  "gitHead": "f782e51967fd6e921294728517c9375a24395399",
+  "homepage": "http://quasar-framework.org",
+  "keywords": [
+    "quasar",
+    "cli",
+    "web",
+    "spa",
+    "pwa",
+    "electron",
+    "vue",
+    "vuejs",
+    "cordova"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "rstoenescu",
+      "email": "razvan.stoenescu@gmail.com"
+    }
+  ],
+  "name": "quasar-cli",
+  "optionalDependencies": {},
+  "publish_time": 1522094910923,
+  "readme": "![Quasar Framework logo](https://cdn.rawgit.com/quasarframework/quasar-art/863c14bd/dist/svg/quasar-logo-full-inline.svg)\n\n# Quasar CLI\n> CLI for Quasar Framework. Start a project, build it, optimize it.\n\n<a href=\"https://badge.fury.io/js/quasar-cli\"><img src=\"https://badge.fury.io/js/quasar-cli.svg\"></a>\n\n# Quasar Framework\n> Build responsive websites, PWAs, hybrid mobile Apps (that look native!) and Electron apps using same code, powered with Vue.\n\n<a href=\"https://badge.fury.io/js/quasar-framework\"><img src=\"https://badge.fury.io/js/quasar-framework.svg\"></a>\n\n## Supporting Quasar\nQuasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).\n\n## Quickstart\n\n### Installing\n\n`$ npm install -g quasar-cli`\n\n### TODO Command overview\n\nDisplay list of commands:\n\n`$ quasar`\n\n- `init` - create app from template\n- `dev` - run dev server for your app\n- `build` - build for production\n- `clean` - clean build assets\n- `new` - create app assets (component, pages, layouts, store module)\n- `serve` - start a live reload HTTP server on a folder (like `/dist`)\n\n### Help\n\n`$ quasar [command name] --help`\n\n<!--\n### Create App\n\nInitializes an App folder with a starter kit boilerplate.\n\n`$ quasar init [template name] <folder-name>`\n\nBy omitting the `template name` parameter the CLI will detect latest App template and generate the App folder with it.\n\nBy convention, templates follow the syntax `v[number]`, where `number` is 1, 2, 3…\n\nThe number designates the major version of Quasar you are using.\nCurrently, `v1` is available for Vue 1 and `v2` for Vue 2.\n\n#### Advanced options\n\nBy default, the repo [rstoenescu/quasar-templates](https://github.com/rstoenescu/quasar-templates) will be used\nas the template source, retrieving the branch of the named template.\n\nYou can substitute with your own github account, to use your custom `quasar-templates` repo:\n\n`$ quasar init [template name] @<account>` example: `$ quasar init v2 @asmith`\n\nSpecify your own specific github repo:\n\n`$ quasar init [template name] @<account/repo>` example: `$ quasar init v2 @asmith/Qtemplates`\n\nThe \"full monty\":\n\n`$ quasar init [template name] <folder-name> <account/repo>` example: `$ quasar init v2 ny-app @asmith`\n\n### Wrap application\n\nWrap with [Cordova](https://www.npmjs.com/package/cordova) (optionally with Crosswalk WebView plugin for Android Apps)\n\n`quasar wrap cordova`\n\nWrap with [electron](http://electron.atom.io/) for cross-platform desktop apps\n\n`quasar wrap electron`\n-->\n\n## Documentation\n\nHead on to the Quasar Framework official website for help on CLI commands: [http://quasar-framework.org](http://quasar-framework.org/guide/quasar-cli.html)\n\n## Community Forum\n\nHead on to the official community forum: [http://forum.quasar-framework.org](http://forum.quasar-framework.org)\n\n## Quasar Repositories\n\n* [Quasar Framework](https://github.com/rstoenescu/quasar-framework)\n* [Quasar CLI](https://github.com/rstoenescu/quasar-cli)\n* [Quasar Play App](https://github.com/rstoenescu/quasar-play)\n\n## Contributing\n\nI'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature).\n\n### Issue Reporting Guidelines\n\n**Please use the appropriate Github repo to report issues. See \"Related Components\" above.** For example, a bug related to CLI should be reported to the CLI repo, one related to build issues to Quasar Framework Templates repo and so on.\n\n- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](http://forum.quasar-framework.org).\n\n- Try to search for your issue, it may have already been fixed in the development branch or it may have a resolution.\n\n- Check if the issue is reproducible with the latest stable version of Quasar. If you are using a pre-release, please indicate the specific version you are using.\n\n- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled \"need repro\" receives no further input from the issue author for more than 5 days, it will be closed.\n\n- If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.\n\nRead more [here](http://quasar-framework.org/guide/contributing.html).\n\n## Quasar Play App\n\nInstead of using mobile emulators for testing your Quasar Apps, use this App instead. You can develop apps directly on your phone/tablet (hot reload supported!), without even installing your app.\n\nCurrently only on [Google Play](https://play.google.com/store/apps/details?id=com.quasarframework.quasarplay&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1). Requiring funding to pay fees on Apple Store and release the iOS counterpart too.\n\nCheck its repo here: [Quasar Play](https://github.com/rstoenescu/quasar-play).\n\n## License\n\nCopyright (c) 2016-present Razvan Stoenescu\n\n[MIT License](http://en.wikipedia.org/wiki/MIT_License)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/quasar-cli.git"
+  },
+  "scripts": {
+    "postinstall": "node lib/node-version-check.js"
+  },
+  "version": "0.15.14",
+  "warnings": [
+    {
+      "code": "ENOTSUP",
+      "required": {
+        "node": ">= 8.9.0",
+        "npm": ">= 5.6.0"
+      },
+      "pkgid": "quasar-cli@0.15.14"
+    }
+  ]
+}

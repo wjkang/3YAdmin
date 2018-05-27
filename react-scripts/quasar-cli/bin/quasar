@@ -1,0 +1,83 @@
+#!/usr/bin/env node
+
+const localFile = require('import-local-file')(__filename)
+if (localFile) {
+  require(localFile)
+}
+else {
+  require('../lib/node-version-check')
+
+  const
+    updateNotifier = require('update-notifier')
+    notifier = updateNotifier({
+      isGlobal: false,
+      pkg: require('../package.json'),
+      updateCheckInterval: 1000 * 60 * 60 * 24 * 14 // 2 weeks
+    }).notify()
+
+  const pe = require('pretty-error').start()
+  pe.skipPackage('regenerator-runtime')
+  pe.skipPackage('babel-runtime')
+  pe.skipNodeFiles()
+
+  // Console error unhandled promises
+  process.on('unhandledRejection', err => {
+    console.error(pe.render(err))
+  })
+
+  const commands = [
+    'init',
+    'dev',
+    'build',
+    'clean',
+    'mode',
+    'info',
+    'serve',
+    'new',
+    'help'
+  ]
+
+  let cmd = process.argv[2]
+
+  if (cmd) {
+    if (cmd.length === 1) {
+      const mapToCmd = {
+        d: 'dev',
+        b: 'build',
+        c: 'clean',
+        m: 'mode',
+        i: 'info',
+        s: 'serve',
+        n: 'new',
+        h: 'help'
+      }
+      cmd = mapToCmd[cmd]
+    }
+
+    if (commands.includes(cmd)) {
+      process.argv.splice(2, 1)
+    }
+    else {
+      if (cmd === '-v' || cmd === '--version') {
+        console.log(require('../package.json').version)
+        process.exit(0)
+      }
+
+      const warn = require('../lib/helpers/logger')('app', 'red')
+
+      warn()
+      warn(`Unknown command "${ cmd }"`)
+      if (cmd.indexOf('-') === 0) {
+        warn(`Command must come before the options`)
+      }
+
+      warn()
+      cmd = 'help'
+    }
+  }
+  else {
+    cmd = 'help'
+  }
+
+  require(`./quasar-${cmd}`)
+}
