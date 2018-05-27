@@ -325,7 +325,7 @@ module.exports = {
       inject: true,
       template: paths.appHtml,
       minify: {
-        removeComments: true,
+        removeComments: false,
         collapseWhitespace: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
