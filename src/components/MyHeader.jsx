@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
-import { Menu, Icon, Layout, Badge, Popover } from 'antd';
+import React from 'react';
+import { Menu, Icon, Layout, Badge} from 'antd';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import '@/style/header.less';
 
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-class MyHeader extends Component {
+class MyHeader extends React.Component {
     menuClick = e => {
-
         e.key === 'logout' && this.logout();
     }
     logout = () => {
@@ -57,4 +55,4 @@ const mapStateToProps = state => {
     return { name, avatar };
 };
 
-export default withRouter(connect(mapStateToProps)(MyHeader));
+export default connect(mapStateToProps)(MyHeader);

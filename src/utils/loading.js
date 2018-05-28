@@ -16,9 +16,9 @@ loading.show = function (config) {
         let ms = now - lastRequest;
         lastRequest = now;
         if (ms > 2000) {//相隔两秒的请求才重新显示loading
-            if (config.loading == "message") {
+            if (config.loading === "message") {
                 hide = message.loading('请求中...', 0);
-            } else if (config.loading == "spin") {
+            } else if (config.loading === "spin") {
                 store.dispatch(spinLoading(true));
             }
         }
@@ -28,9 +28,9 @@ loading.show = function (config) {
 
 loading.hide = function (config) {
     if (config && config.loading) {
-        if (config.loading == "message" && hide) {
+        if (config.loading === "message" && hide) {
             setTimeout(hide, 1000)
-        } else if (config.loading == "spin") {
+        } else if (config.loading === "spin") {
             setTimeout(() => {
                 store.dispatch(spinLoading(false));
             }, 1000);

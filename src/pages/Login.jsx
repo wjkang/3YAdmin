@@ -1,7 +1,5 @@
 import React from 'react';
-import { Row, Col, Form, Icon, Input, Button, Checkbox } from 'antd';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { Row, Col, Form, Icon, Input, Button } from 'antd';
 import '@/style/login.less';
 import noise from '@/utils/noise';
 import { loginByUsername } from 'api';

@@ -58,7 +58,7 @@ service.interceptors.response.use(
     } else if (error.message.indexOf("timeout")>-1) {
       message.error('网络超时!');
     }
-    else if (error == "403") {
+    else if (error === "403") {
 
     } else {
       message.error('网络错误!');

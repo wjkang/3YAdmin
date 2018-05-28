@@ -7,6 +7,8 @@ import MyHeader from '@/components/MyHeader';
 import { getToken } from '@/utils/token';
 import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
+import { updateAccessMenu } from '@/reducers/app';
+import util from '@/utils/util';
 
 
 
@@ -54,7 +56,20 @@ class App extends Component {
       isAdmin: infoRes.data.isAdmin,
       permission: [...infoRes.data.userRole, ...infoRes.data.userPermission]
     }
+    let openAccesseMenu = util.openAccesseMenu(menuRes.data);
+    let moduleList = menuRes.data.filter(item => {
+      return item.leftMemu
+    });
+    let currentModule = moduleList[0].name;
+    let moduleMenu = moduleList[0].children;
     this.props.updateUserInfo(userInfo);
+    this.props.updateAccessMenu({
+      currentModule: currentModule,
+      accessMenu: menuRes.data,
+      openAccessMenu: openAccesseMenu,
+      moduleMenu: moduleMenu,
+      moduleList: moduleList
+    });
   }
   render() {
     console.log("render");
@@ -117,6 +132,9 @@ const mapDispatchToProps = dispatch => {
   return {
     updateUserInfo: (info) => {
       dispatch(updateUserInfo(info))
+    },
+    updateAccessMenu: (accessMenu) => {
+      dispatch(updateAccessMenu(accessMenu))
     }
   }
 }
