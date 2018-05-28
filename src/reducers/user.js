@@ -40,7 +40,7 @@ export const login = (token) => {
     return { type: LOGIN_SUCCESS, token: token }
 }
 
-export const getUserInfo = (userInfo) => {
+export const updateUserInfo = (userInfo) => {
     return { type: GET_USERINFO_SUCCESS, ...userInfo }
 }
 

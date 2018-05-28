@@ -29,7 +29,7 @@ class Login extends React.Component {
                 const password = values.password;
                 try {
                     let res = await loginByUsername(userName, password);
-                    const data = res.data.data;
+                    const data = res.data;
                     setToken(data.accessToken);
                 }
                 catch (e) {
