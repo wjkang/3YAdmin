@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Icon, Layout, Badge} from 'antd';
 import { connect } from 'react-redux';
 import '@/style/header.less';
+import ModuleMenu from './ModuleMenu';
 
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -22,7 +23,9 @@ class MyHeader extends React.Component {
                     className="trigger"
                     type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
                     onClick={this.props.toggle}
+                    style={{float: 'left' }}
                 />
+                <ModuleMenu />
                 <Menu
                     mode="horizontal"
                     style={{ lineHeight: '64px', float: 'right' }}
