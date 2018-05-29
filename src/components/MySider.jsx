@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import SiderMenu from './SiderMenu';
@@ -12,6 +13,10 @@ class MySider extends Component {
     state = {
         openKeys: [],
         selectedKey: '',
+    }
+    componentWillMount() {
+        let pathname=this.props.location.pathname;
+        
     }
     menuClick = e => {
         this.setState({
@@ -35,7 +40,7 @@ class MySider extends Component {
                 collapsible
                 collapsed={this.props.collapsed}
             >
-                <div className="logo" style={{paddingLeft:this.props.collapsed?'14px':'6px'}}><img src={logo}/><h3>React Antd Admin</h3></div>
+                <div className="logo" style={{ paddingLeft: this.props.collapsed ? '14px' : '6px' }}><img src={logo} /><h3>React Antd Admin</h3></div>
                 <SiderMenu
                     menus={this.props.menus}
                     mode="inline"
@@ -56,4 +61,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(MySider);
+export default withRouter(connect(mapStateToProps, null)(MySider));
