@@ -1,17 +1,20 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import MenuToRouter from '@/menuMapToRouter';
 
 const { SubMenu } = Menu;
 const { Item } = Menu;
 
 const renderMenuItem =
-    ({ name, title, icon, link }) =>
-        <Item
+    ({ name, title, icon }) => {
+        let link=MenuToRouter[name];
+        return <Item
             key={name}
         >
-            <span>{title}</span>
+            { link? <Link to={link}><span>{title}</span></Link> : <span>{title}</span>}
         </Item>;
+    }
 
 const renderSubMenu =
     ({ name, title, icon, link, children }) =>
