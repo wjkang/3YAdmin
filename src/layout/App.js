@@ -9,10 +9,11 @@ import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
 import { updateAccessMenu } from '@/reducers/app';
 import util from '@/utils/util';
+import AppRouters from '@/routers/AppRouters';
 
 
 
-const {Content } = Layout;
+const { Content } = Layout;
 
 class App extends Component {
   state = {
@@ -83,7 +84,7 @@ class App extends Component {
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
           </MyHeader>
           <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-            Content
+            <AppRouters />
           </Content>
         </Layout>
       </Layout>
