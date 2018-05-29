@@ -7,10 +7,10 @@ class AppRouters extends Component {
     render() {
         return (
             <Switch>
-                <Route exact path="/home" component={Home} />
+                <Route exact path="/app/home" component={Home} />
             </Switch>
         )
     }
 }
 
-export default AppRouters;
+export default AppRouters; 

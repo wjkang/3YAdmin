@@ -83,7 +83,7 @@ class App extends Component {
         <Layout>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
           </MyHeader>
-          <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+          <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />
           </Content>
         </Layout>
