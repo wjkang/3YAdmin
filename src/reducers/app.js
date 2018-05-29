@@ -33,6 +33,12 @@ export default function (state, action) {
                 moduleMenu: action.moduleMenu,
                 moduleList: action.moduleList
             }
+        case UPDATE_MODULE:
+            return {
+                ...state,
+                currentModule: action.currentModule,
+                moduleMenu: action.moduleMenu
+            }
         default:
             return state
     }
@@ -49,4 +55,8 @@ export const updateToPath = (toPath) => {
 
 export const updateAccessMenu = (data) => {
     return { type: UPDATE_ACCESSMENU, ...data }
+}
+
+export const updateModule = (module) => {
+    return { type: UPDATE_MODULE,...module }
 }

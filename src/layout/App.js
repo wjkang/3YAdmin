@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Layout, Menu, Icon, Tabs } from 'antd';
+import { Layout } from 'antd';
 import logo from '@/logo.svg';
 import './App.css';
 import MyHeader from '@/components/MyHeader';
+import MySider from '@/components/MySider';
 import { getToken } from '@/utils/token';
 import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
@@ -12,8 +13,7 @@ import util from '@/utils/util';
 
 
 
-const { Header, Sider, Content } = Layout;
-const TabPane = Tabs.TabPane;
+const {Content } = Layout;
 
 class App extends Component {
   state = {
@@ -75,44 +75,11 @@ class App extends Component {
     console.log("render");
     return (
       <Layout>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth={this.state.responsive ? 0 : undefined}
-          trigger={null}
-          collapsible
+        <MySider
+          responsive={this.state.responsive}
           collapsed={this.state.collapsed}
         >
-          <div className="logo"></div>
-          <Tabs
-            defaultActiveKey="1"
-          >
-            <TabPane tab="Tab 1" key="1"></TabPane>
-            <TabPane tab="Tab 2" key="2"></TabPane>
-            <TabPane tab="Tab 3" key="3"></TabPane>
-            <TabPane tab="Tab 4" key="4"></TabPane>
-            <TabPane tab="Tab 5" key="5"></TabPane>
-            <TabPane tab="Tab 6" key="6"></TabPane>
-            <TabPane tab="Tab 7" key="7"></TabPane>
-            <TabPane tab="Tab 8" key="8"></TabPane>
-            <TabPane tab="Tab 9" key="9"></TabPane>
-            <TabPane tab="Tab 10" key="10"></TabPane>
-            <TabPane tab="Tab 11" key="11"></TabPane>
-          </Tabs>
-          <Menu mode="inline" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Icon type="user" />
-              <span>nav 1</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="video-camera" />
-              <span>nav 2</span>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Icon type="upload" />
-              <span>nav 3</span>
-            </Menu.Item>
-          </Menu>
-        </Sider>
+        </MySider>
         <Layout>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
           </MyHeader>
