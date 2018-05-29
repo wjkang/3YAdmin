@@ -35,7 +35,7 @@ class MySider extends Component {
                 collapsible
                 collapsed={this.props.collapsed}
             >
-                <div className="logo"><logo /></div>
+                <div className="logo" style={{paddingLeft:this.props.collapsed?'14px':'6px'}}><img src={logo}/><h3>React Antd Admin</h3></div>
                 <SiderMenu
                     menus={this.props.menus}
                     mode="inline"
