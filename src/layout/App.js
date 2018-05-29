@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
-import logo from '@/logo.svg';
 import './App.css';
 import MyHeader from '@/components/MyHeader';
 import MySider from '@/components/MySider';

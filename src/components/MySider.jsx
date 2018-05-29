@@ -3,18 +3,27 @@ import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import SiderMenu from './SiderMenu';
 import '@/style/menu.less';
+import util from '@/utils/util';
+import logo from '@/logo.svg';
 
 const { Sider } = Layout;
 
 class MySider extends Component {
     state = {
-        openKey: '',
+        openKeys: [],
         selectedKey: '',
     }
-    openMenu = v => {
-        console.log(v[v.length - 1])
+    menuClick = e => {
         this.setState({
-            openKey: v[v.length - 1]
+            selectedKey: e.key
+        });
+    };
+    openMenu = v => {
+        let parentKeys = util.getParentMenusByName(this.props.openAccessMenu, v[v.length - 1]).map(item => {
+            return item.name;
+        });
+        this.setState({
+            openKeys: parentKeys
         })
     };
     render() {
@@ -26,11 +35,14 @@ class MySider extends Component {
                 collapsible
                 collapsed={this.props.collapsed}
             >
-                <div className="logo"></div>
+                <div className="logo"><logo /></div>
                 <SiderMenu
                     menus={this.props.menus}
                     mode="inline"
+                    onClick={this.menuClick}
                     onOpenChange={this.openMenu}
+                    selectedKeys={[this.state.selectedKey]}
+                    openKeys={this.state.openKeys}
                 />
             </Sider>
         )
@@ -39,7 +51,8 @@ class MySider extends Component {
 
 const mapStateToProps = state => {
     return {
-        menus: state.app.moduleMenu
+        menus: state.app.moduleMenu,
+        openAccessMenu: state.app.openAccessMenu
     }
 }
 
