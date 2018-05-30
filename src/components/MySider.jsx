@@ -14,7 +14,8 @@ const { Sider } = Layout;
 class MySider extends Component {
     state = {
         openKeys: [],
-        selectedKey: ''
+        selectedKey: '',
+        runComponentWillReceiveProps:true
     }
     componentWillReceiveProps(nextProps) {//componentWillMount,componentDidMount都未获取到openAccessMenu,因为openAccessMenu是在App的componentDidMount里异步获取的
 
@@ -32,7 +33,7 @@ class MySider extends Component {
             let parentKeys = util.getParentMenusByName(nextProps.openAccessMenu, name).map(item => {
                 return item.name;
             });
-            if (parentKeys.length > 0) {
+            if (parentKeys.length > 0&&this.state.runComponentWillReceiveProps) {
                 let currentModule = parentKeys[0];
                 let accessMenu = nextProps.accessMenu;
                 let moduleList = accessMenu.filter(item => {
@@ -51,6 +52,9 @@ class MySider extends Component {
                 selectedKey: name
             });
         }
+        this.setState({
+            runComponentWillReceiveProps:false
+        })
         console.log("MySider componentWillReceiveProps")
     }
     menuClick = e => {
