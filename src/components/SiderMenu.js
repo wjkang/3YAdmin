@@ -17,7 +17,7 @@ const renderMenuItem =
     }
 
 const renderSubMenu =
-    ({ name, title, icon, link, children }) =>
+    ({ name, title, icon, children }) =>
         <SubMenu
             key={name}
             title={
@@ -29,7 +29,7 @@ const renderSubMenu =
 
         >
             {children && children.map(
-                item => item.children && item.children.length ?
+                item => item.children && item.children.filter(s=>s.leftMemu).lenth>0 ?
                     renderSubMenu(item) : renderMenuItem(item)
             )}
         </SubMenu>;

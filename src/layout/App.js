@@ -21,14 +21,15 @@ class App extends Component {
     responsive: false
   }
   componentWillMount() {
-    this.initAppData();
-    this.getClientWidth();
+    console.log("App componentWillMount")
+  }
+  componentDidMount() {
+    this.initAppData();//数据初始化完后再触发一次render
+    //this.getClientWidth();//判断屏幕尺寸再触发一次render(不需要可去掉)
     window.onresize = () => {
       this.getClientWidth();
     }
-  }
-  componentDidMount() {
-    console.log("done");
+    console.log("App componentDidMount");
   }
   getClientWidth = () => {    // 获取当前浏览器宽度并设置responsive管理响应式
     const clientWidth = document.body.clientWidth;
@@ -50,6 +51,7 @@ class App extends Component {
       return;
     }
     let [infoRes, menuRes] = await Promise.all([getUserInfo(), getAccessMemu()]);
+    console.log("initAppData")
     let userInfo = {
       name: infoRes.data.userName,
       avatar: infoRes.data.avatarUrl,
@@ -62,7 +64,6 @@ class App extends Component {
     });
     let currentModule = moduleList[0].name;
     let moduleMenu = moduleList[0].children;
-    this.props.updateUserInfo(userInfo);
     this.props.updateAccessMenu({
       currentModule: currentModule,
       accessMenu: menuRes.data,
@@ -70,9 +71,10 @@ class App extends Component {
       moduleMenu: moduleMenu,
       moduleList: moduleList
     });
+    this.props.updateUserInfo(userInfo);
   }
   render() {
-    console.log("render");
+    console.log("App render");
     return (
       <Layout>
         <MySider

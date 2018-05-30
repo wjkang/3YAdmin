@@ -14,7 +14,7 @@ class ModuleMenu extends React.Component {
             currentModule: e.key,
             moduleMenu: moduleMenu
         });
-
+        console.log("updateModule")
     }
     render() {
         const list = [];
