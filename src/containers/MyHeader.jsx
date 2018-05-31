@@ -1,9 +1,12 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 import { Menu, Icon, Layout, Badge } from 'antd';
 import { connect } from 'react-redux';
 import '@/style/header.less';
 import ModuleMenu from '@/components/ModuleMenu';
 import { updateModule } from '@/reducers/app';
+import { logout } from 'api';
+import { removeToken } from '@/utils/token';
 
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -24,8 +27,13 @@ class MyHeader extends React.Component {
     menuClick = e => {
         e.key === 'logout' && this.logout();
     }
-    logout = () => {
-        localStorage.removeItem('user');
+    logout = async () => {
+        try {
+            await logout();
+        } catch (e) {
+
+        }
+        removeToken();
         this.props.history.push('/login')
     }
     render() {
@@ -85,4 +93,4 @@ const mapDispatchToProps = dispatch => {
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(MyHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyHeader));
