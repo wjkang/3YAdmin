@@ -48,7 +48,7 @@ class Login extends React.Component {
         }
     }
     componentDidMount() {
-        noise.Init();
+        //noise.Init();
     }
     render() {
         const { getFieldDecorator } = this.props.form;

@@ -86,6 +86,13 @@ class MySiderContainer extends Component {
             });
         }
     }
+    setOpenKeys = (collapsed) => {
+        if (!collapsed) {
+            this.setState({
+                openKeys: [],
+            });
+        }
+    }
     menuClick = e => {
         this.setState({
             selectedKey: e.key

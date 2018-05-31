@@ -48,13 +48,13 @@ class MyHeader extends React.Component {
                         </div>
                     </li>
                 </ul>
-                
                 <ModuleMenu
                     style={{ lineHeight: '64px', float: 'left' }}
                     moduleList={this.props.moduleList}
                     updateModule={this.updateModule}
                     currentModule={this.props.currentModule}
                 />
+                
                 <Menu
                     mode="horizontal"
                     style={{ lineHeight: '64px', float: 'right' }}
@@ -76,7 +76,13 @@ class MyHeader extends React.Component {
                         </MenuItemGroup>
                     </SubMenu>
                 </Menu>
-
+                <ul className="top-nav" style={{ lineHeight: '65px', float: 'right' }}>
+                    <li>
+                        <a className="item" href="https://github.com/ant-design/ant-design/" target={"_blank"}>
+                            <Icon type="github" />
+                        </a>
+                    </li>
+                </ul>
             </Header>
         )
     }

@@ -45,6 +45,7 @@ class App extends Component {
     });
   }
   toggle = () => {
+    this.refs['MySider'].wrappedInstance.setOpenKeys(this.state.collapsed);//https://github.com/ant-design/ant-design/issues/8911
     this.setState({
       collapsed: !this.state.collapsed,
     });
