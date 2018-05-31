@@ -1,5 +1,5 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Menu, Icon, Layout, Badge } from 'antd';
 import { connect } from 'react-redux';
 import '@/style/header.less';
@@ -39,13 +39,19 @@ class MyHeader extends React.Component {
     render() {
         return (
             <Header style={{ background: '#fff', padding: 0, height: 65 }}>
-                <Icon
-                    className="trigger"
-                    type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-                    onClick={this.props.toggle}
-                    style={{ float: 'left' }}
-                />
+                <ul className="top-nav" style={{ lineHeight: '65px', float: 'left' }}>
+                    <li>
+                        <div className="item">
+                            <Icon
+                                type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                onClick={this.props.toggle}
+                            />
+                        </div>
+                    </li>
+                </ul>
+                
                 <ModuleMenu
+                    style={{ lineHeight: '64px', float: 'left' }}
                     moduleList={this.props.moduleList}
                     updateModule={this.updateModule}
                     currentModule={this.props.currentModule}
