@@ -41,10 +41,9 @@ class MyHeader extends React.Component {
             <Header style={{ background: '#fff', padding: 0, height: 65 }}>
                 <ul className="top-nav" style={{ lineHeight: '65px', float: 'left' }}>
                     <li>
-                        <div className="item">
+                        <div className="item" onClick={this.props.toggle}>
                             <Icon
                                 type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={this.props.toggle}
                             />
                         </div>
                     </li>
