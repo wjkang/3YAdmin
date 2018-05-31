@@ -1,14 +1,26 @@
 import React from 'react';
-import { Menu, Icon, Layout, Badge} from 'antd';
+import { Menu, Icon, Layout, Badge } from 'antd';
 import { connect } from 'react-redux';
 import '@/style/header.less';
-import ModuleMenu from './ModuleMenu';
+import ModuleMenu from '@/components/ModuleMenu';
+import { updateModule } from '@/reducers/app';
 
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class MyHeader extends React.Component {
+    updateModule = (e) => {
+        let accesseMenu = this.props.accessMenu;
+        let moduleList = accesseMenu.filter(item => {
+            return item.leftMemu && item.name === e.key
+        });
+        let moduleMenu = moduleList[0].children;
+        this.props.updateModule({
+            currentModule: e.key,
+            moduleMenu: moduleMenu
+        });
+    }
     menuClick = e => {
         e.key === 'logout' && this.logout();
     }
@@ -23,9 +35,13 @@ class MyHeader extends React.Component {
                     className="trigger"
                     type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
                     onClick={this.props.toggle}
-                    style={{float: 'left' }}
+                    style={{ float: 'left' }}
                 />
-                <ModuleMenu />
+                <ModuleMenu
+                    moduleList={this.props.moduleList}
+                    updateModule={this.updateModule}
+                    currentModule={this.props.currentModule}
+                />
                 <Menu
                     mode="horizontal"
                     style={{ lineHeight: '64px', float: 'right' }}
@@ -47,15 +63,26 @@ class MyHeader extends React.Component {
                         </MenuItemGroup>
                     </SubMenu>
                 </Menu>
-               
+
             </Header>
         )
     }
 }
 
 const mapStateToProps = state => {
-    const { name, avatar } = state.user;
-    return { name, avatar };
+    return {
+        name: state.user.name,
+        avatar: state.user.avatar,
+        currentModule: state.app.currentModule,
+        moduleList: state.app.moduleList,
+        accessMenu: state.app.accessMenu
+    }
 };
-
-export default connect(mapStateToProps)(MyHeader);
+const mapDispatchToProps = dispatch => {
+    return {
+        updateModule: (module) => {
+            dispatch(updateModule(module));
+        }
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(MyHeader);

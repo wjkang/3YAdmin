@@ -5,7 +5,7 @@ import store from './store';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import PageRouters from '@/routers/PageRouters';
-import MySpin from '@/components/MySpin';
+import MySpin from '@/containers/MySpin';
 
 ReactDOM.render(
     <Provider store={store}>
