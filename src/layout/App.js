@@ -31,6 +31,11 @@ class App extends Component {
     }
     console.log("App componentDidMount");
   }
+  componentWillUpdate(nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.initChildData(nextProps)
+    }
+  }
   getClientWidth = () => {    // 获取当前浏览器宽度并设置responsive管理响应式
     const clientWidth = document.body.clientWidth;
     this.setState({
@@ -51,7 +56,7 @@ class App extends Component {
       return;
     }
     let [infoRes, menuRes] = await Promise.all([getUserInfo(), getAccessMemu()]);
-    console.log("initAppData")
+    console.log("initAppData start")
     let userInfo = {
       name: infoRes.data.userName,
       avatar: infoRes.data.avatarUrl,
@@ -72,12 +77,18 @@ class App extends Component {
       moduleList: moduleList
     });
     this.props.updateUserInfo(userInfo);
+    this.initChildData(this.props);
+    console.log("initAppData end")
+  }
+  initChildData(props) {
+    this.refs['MySider'].wrappedInstance.initMenu(props.location.pathname);
   }
   render() {
     console.log("App render");
     return (
       <Layout>
         <MySider
+          ref={'MySider'}
           responsive={this.state.responsive}
           collapsed={this.state.collapsed}
         >
