@@ -1,0 +1,36 @@
+.container{
+    display: block;
+    text-align: center;
+    margin-top: 12%;
+  }
+  .four1{
+  animation: swing ease-in-out 1.5s infinite alternate;
+      display: inline-block;
+  }
+  .zero{
+    animation: swing2 ease-in-out 1.5s infinite alternate;
+    display: inline-block;
+  }
+  .four2{
+  animation: swing3 ease-in-out 1.5s infinite alternate;
+      display: inline-block;
+  }
+  
+  @keyframes swing {
+      0% { transform: rotate(3deg); }
+      100% { transform: rotate(-3deg); }
+  }
+  
+  @keyframes swing2 {
+      0% { transform: rotate(-3deg); }
+      100% { transform: rotate(3deg); }
+  }
+  @keyframes swing3 {
+      0% { transform: rotate(-3deg); }
+      100% { transform: rotate(8deg); }
+  }
+  h1{
+    font-family: 'Fjalla One';
+    text-align: center; 
+    color: #666;
+  }
