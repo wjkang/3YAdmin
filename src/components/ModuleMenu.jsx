@@ -16,7 +16,7 @@ class ModuleMenu extends React.Component {
                 onClick={this.props.updateModule}
                 selectedKeys={[this.props.currentModule]}
                 mode="horizontal"
-                {...this.props}
+                style={this.props.style}
             >
                 {list}
             </Menu>

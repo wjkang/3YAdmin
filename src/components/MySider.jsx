@@ -23,7 +23,7 @@ class MySider extends Component {
                     onClick={this.props.menuClick}
                     onOpenChange={this.props.openMenu}
                     selectedKeys={[this.props.selectedKey]}
-                    openKeys={this.props.openKeys}
+                    openKeys={this.props.collapsed?[]:this.props.openKeys}//不加这个判断，收缩菜单的时候有BUG https://github.com/ant-design/ant-design/issues/8587
                 />
             </Sider>
         )
