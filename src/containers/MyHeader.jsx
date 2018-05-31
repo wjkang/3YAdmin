@@ -13,6 +13,36 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class MyHeader extends React.Component {
+    state={
+        fullScreen:false
+    }
+    componentDidMount(){
+        let isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+        isFullscreen = !!isFullscreen;
+        document.addEventListener('fullscreenchange', () => {
+            this.setState(
+                {fullScreen:!this.state.fullScreen}
+            );
+        });
+        document.addEventListener('mozfullscreenchange', () => {
+            this.setState(
+                {fullScreen:!this.state.fullScreen}
+            );
+        });
+        document.addEventListener('webkitfullscreenchange', () => {
+            this.setState(
+                {fullScreen:!this.state.fullScreen}
+            );
+        });
+        document.addEventListener('msfullscreenchange', () => {
+            this.setState(
+                {fullScreen:!this.state.fullScreen}
+            );
+        });
+        this.setState(
+            {fullScreen:isFullscreen}
+        );
+    }
     updateModule = (e) => {
         let accesseMenu = this.props.accessMenu;
         let moduleList = accesseMenu.filter(item => {

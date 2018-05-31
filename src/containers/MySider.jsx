@@ -78,12 +78,16 @@ class MySiderContainer extends Component {
                     moduleMenu: moduleMenu
                 });
             }
-            this.setState({
-                openKeys: parentKeys
-            });
+            if (!this.props.collapsed) {//菜单收缩状态，回退或前进显示菜单 BUG
+                this.setState({
+                    openKeys: parentKeys
+                });
+            }
+
             this.setState({
                 selectedKey: name
             });
+
         }
     }
     setOpenKeys = (collapsed) => {
