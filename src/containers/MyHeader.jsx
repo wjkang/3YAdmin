@@ -7,42 +7,13 @@ import ModuleMenu from '@/components/ModuleMenu';
 import { updateModule } from '@/reducers/app';
 import { logout } from 'api';
 import { removeToken } from '@/utils/token';
+import FullScreen from '@/components/FullScreen';
 
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class MyHeader extends React.Component {
-    state = {
-        fullScreen: false
-    }
-    componentDidMount() {
-        let isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
-        isFullscreen = !!isFullscreen;
-        document.addEventListener('fullscreenchange', () => {
-            this.setState(
-                { fullScreen: !this.state.fullScreen }
-            );
-        });
-        document.addEventListener('mozfullscreenchange', () => {
-            this.setState(
-                { fullScreen: !this.state.fullScreen }
-            );
-        });
-        document.addEventListener('webkitfullscreenchange', () => {
-            this.setState(
-                { fullScreen: !this.state.fullScreen }
-            );
-        });
-        document.addEventListener('msfullscreenchange', () => {
-            this.setState(
-                { fullScreen: !this.state.fullScreen }
-            );
-        });
-        this.setState(
-            { fullScreen: isFullscreen }
-        );
-    }
     updateModule = (e) => {
         let accesseMenu = this.props.accessMenu;
         let moduleList = accesseMenu.filter(item => {
@@ -56,7 +27,6 @@ class MyHeader extends React.Component {
     }
     menuClick = e => {
         e.key === 'logout' && this.logout();
-        e.key === 'full' && this.handleFullscreen();
     }
     logout = async () => {
         try {
@@ -66,30 +36,6 @@ class MyHeader extends React.Component {
         }
         removeToken();
         this.props.history.push('/login')
-    }
-    handleFullscreen() {
-        let main = document.body;
-        if (this.state.fullScreen) {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        } else {
-            if (main.requestFullscreen) {
-                main.requestFullscreen();
-            } else if (main.mozRequestFullScreen) {
-                main.mozRequestFullScreen();
-            } else if (main.webkitRequestFullScreen) {
-                main.webkitRequestFullScreen();
-            } else if (main.msRequestFullscreen) {
-                main.msRequestFullscreen();
-            }
-        }
     }
     render() {
         return (
@@ -116,7 +62,7 @@ class MyHeader extends React.Component {
                     onClick={this.menuClick}
                 >
                     <Menu.Item key="full">
-                        <Icon type={this.state.fullScreen?'shrink':'arrows-alt'} />
+                        <FullScreen />
                     </Menu.Item>
                     <Menu.Item key="1">
                         <Badge count={25} overflowCount={10} style={{ marginLeft: 10 }}>
