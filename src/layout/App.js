@@ -99,7 +99,7 @@ class App extends Component {
         <Layout>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
           </MyHeader>
-          <MyBreadcrumb style={{padding:10,background:'rgb(255, 255, 255)'}} />
+          <MyBreadcrumb style={{padding:'10px 10px 10px 17px',background:'rgb(255, 255, 255)'}} />
           <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />
           </Content>
