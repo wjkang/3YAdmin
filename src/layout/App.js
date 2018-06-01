@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import './App.css';
 import MyHeader from '@/containers/MyHeader';
 import MySider from '@/containers/MySider';
+import MyBreadcrumb from '@/components/MyBreadcrumb';
 import { getToken } from '@/utils/token';
 import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
@@ -98,6 +99,7 @@ class App extends Component {
         <Layout>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
           </MyHeader>
+          <MyBreadcrumb style={{padding:10,background:'rgb(255, 255, 255)'}} />
           <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />
           </Content>
