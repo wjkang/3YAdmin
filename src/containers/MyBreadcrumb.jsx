@@ -27,10 +27,11 @@ class MyBreadcrumb extends React.Component {
                     name: p.name
                 });
             }
+            this.setState({
+                map: newMap
+            })
         }
-        this.setState({
-            map: newMap
-        })
+
     }
     render() {
         return (
