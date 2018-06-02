@@ -5,6 +5,7 @@ import './App.css';
 import MyHeader from '@/containers/MyHeader';
 import MySider from '@/containers/MySider';
 import MyBreadcrumb from '@/containers/MyBreadcrumb';
+import MyNavTabs from '@/containers/MyNavTabs';
 import { getToken } from '@/utils/token';
 import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
@@ -99,6 +100,7 @@ class App extends Component {
         <Layout>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
           </MyHeader>
+          <MyNavTabs />
           <MyBreadcrumb style={{padding:'10px 10px 10px 17px',background:'rgb(247, 247, 247)'}}  />
           <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />

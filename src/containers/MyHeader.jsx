@@ -39,7 +39,7 @@ class MyHeader extends React.Component {
     }
     render() {
         return (
-            <Header style={{ background: '#fff', padding: 0, height: 65 }}>
+            <Header style={{ background: '#fff', padding: 0, height: 66,position:'relative' }}>
                 <ul className="top-nav" style={{ lineHeight: '65px', float: 'left',marginLeft:10 }}>
                     <li>
                         <div className="item" onClick={this.props.toggle}>
