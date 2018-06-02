@@ -98,10 +98,12 @@ class App extends Component {
         >
         </MySider>
         <Layout>
-          <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
-          </MyHeader>
-          <MyNavTabs />
-          <MyBreadcrumb style={{padding:'10px 10px 10px 17px',background:'rgb(247, 247, 247)'}}  />
+          <div className="fixed-header">
+            <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
+            </MyHeader>
+            <MyNavTabs />
+          </div>
+          <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(247, 247, 247)' }} />
           <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />
           </Content>

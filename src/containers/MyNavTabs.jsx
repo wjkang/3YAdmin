@@ -86,29 +86,13 @@ class MyNavTabs extends React.Component {
         <Tabs
           hideAdd
           activeKey={this.state.currentPage}
-          tabBarStyle={{ background: 'white', padding: 10, margin: 0, }}
+          tabBarStyle={{ background: 'white', padding: 10, margin: 0,border:'none' }}
           type="editable-card"
           onEdit={this.onEdit}
           onTabClick={this.onTabClick}
         >
           {this.state.openPages.map(page => <TabPane tab={page.title} closable={page.closable} key={page.name}></TabPane>)}
-          {/* <TabPane closable={true} tab="Tab 1" key="1"></TabPane>
-          <TabPane closable={true} tab="Tab 2" key="2"></TabPane>
-          <TabPane closable={true} tab="Tab 3" key="3"></TabPane>
-          <TabPane closable={true} tab="Tab 4" key="4"></TabPane>
-          <TabPane closable={true} tab="Tab 5" key="5"></TabPane>
-          <TabPane closable={true} tab="Tab 6" key="6"></TabPane>
-          <TabPane closable={true} tab="Tab 7" key="7"></TabPane>
-          <TabPane closable={true} tab="Tab 8" key="8"></TabPane>
-          <TabPane closable={true} tab="Tab 9" key="9"></TabPane>
-          <TabPane closable={true} tab="Tab 10" key="10"></TabPane>
-          <TabPane closable={true} tab="Tab 11" key="11"></TabPane>
-          <TabPane closable={true} tab="Tab 12" key="16"></TabPane>
-          <TabPane closable={true} tab="Tab 22" key="25"></TabPane>
-          <TabPane closable={true} tab="Tab 32" key="34"></TabPane>
-          <TabPane closable={true} tab="Tab 42" key="43"></TabPane>
-          <TabPane closable={true} tab="Tab 52" key="52"></TabPane>
-          <TabPane closable={true} tab="Tab 62" key="61"></TabPane> */}
+          
         </Tabs>
       </div>
     );
