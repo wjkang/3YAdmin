@@ -45,7 +45,6 @@
 
 .ant-layout-sider {
     background: #ffffff;
-    box-shadow: rgba(0, 21, 41, 0.35) 2px 0px 6px;
 }
 
 .ant-tabs-card>.ant-tabs-bar .ant-tabs-tab {
@@ -70,4 +69,12 @@
 
 .ant-tabs-card>.ant-tabs-bar .ant-tabs-tab-active i {
     display: inline-block !important;
+}
+.ant-menu-inline .ant-menu-item::after{
+    right: 100%!important;
+    left: 0.5px!important;
+}
+.ant-menu-horizontal > .ant-menu-item-selected{
+    border-bottom: none!important;
+    border-top: 2px solid #1890ff!important;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Menu, Icon, Layout, Badge } from 'antd';
+import { Menu, Icon, Layout, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import '@/style/header.less';
 import ModuleMenu from '@/components/ModuleMenu';
@@ -8,6 +8,7 @@ import { updateModule } from '@/reducers/app';
 import { logout } from 'api';
 import { removeToken } from '@/utils/token';
 import FullScreen from '@/components/FullScreen';
+import SearchInput from '@/components/SearchInput';
 
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -39,51 +40,63 @@ class MyHeader extends React.Component {
     }
     render() {
         return (
-            <Header style={{ background: '#fff', padding: 0, height: 66,position:'relative' }}>
-                <ul className="top-nav" style={{ lineHeight: '65px', float: 'left',marginLeft:10 }}>
-                    <li>
-                        <div className="item" onClick={this.props.toggle}>
-                            <Icon
-                                type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            />
-                        </div>
-                    </li>
-                </ul>
-                <ModuleMenu
-                    style={{ lineHeight: '64px', float: 'left' }}
-                    moduleList={this.props.moduleList}
-                    updateModule={this.updateModule}
-                    currentModule={this.props.currentModule}
-                />
-
-                <Menu
-                    mode="horizontal"
-                    style={{ lineHeight: '64px', float: 'right' }}
-                    onClick={this.menuClick}
-                >
-                    <Menu.Item key="full">
-                        <FullScreen />
-                    </Menu.Item>
-                    {/* <Menu.Item key="1">
+            <Header style={{ background: '#fff', padding: 0, height: 66, position: 'fixed', width: '100%',zIndex:9 }}>
+                <Row>
+                    <Col span={1}>
+                        <ul className="top-nav" style={{ lineHeight: '65px', marginLeft: 10 }}>
+                            <li>
+                                <div className="item" onClick={this.props.toggle}>
+                                    <Icon
+                                        type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                    />
+                                </div>
+                            </li>
+                        </ul>
+                    </Col>
+                    <Col span={5}>
+                        <ModuleMenu
+                            style={{ lineHeight: '64px' }}
+                            moduleList={this.props.moduleList}
+                            updateModule={this.updateModule}
+                            currentModule={this.props.currentModule}
+                        />
+                    </Col>
+                    <Col span={6}>
+                        <SearchInput style={{ display: 'inline-block', margin: '0px 100px', width: '40%' }} />
+                    </Col>
+                    <Col span={6}>
+                        <Menu
+                            mode="horizontal"
+                            style={{ lineHeight: '64px' }}
+                            onClick={this.menuClick}
+                        >
+                            <Menu.Item key="full">
+                                <FullScreen />
+                            </Menu.Item>
+                            {/* <Menu.Item key="1">
                         <Badge count={25} overflowCount={10} style={{ marginLeft: 10 }}>
                             <Icon type="notification" />
                         </Badge>
                     </Menu.Item> */}
-                    <SubMenu title={<span className="avatar"><img src={this.props.avatar} alt="头像" /><i className="on bottom b-white" /></span>}>
-                        <MenuItemGroup title="用户中心">
-                            <Menu.Item key="setting:1">你好 - {this.props.name}</Menu.Item>
-                            <Menu.Item key="setting:2"><Icon type="user" />个人信息</Menu.Item>
-                            <Menu.Item key="logout"><span onClick={this.logout}><Icon type="logout" />退出登录</span></Menu.Item>
-                        </MenuItemGroup>
-                    </SubMenu>
-                </Menu>
-                <ul className="top-nav" style={{ lineHeight: '65px', float: 'right' }}>
-                    <li>
-                        <a className="item" href="https://github.com/ant-design/ant-design/" target={"_blank"}>
-                            <Icon type="github" />
-                        </a>
-                    </li>
-                </ul>
+                            <SubMenu title={<span className="avatar"><img src={this.props.avatar} alt="头像" /><i className="on bottom b-white" /></span>}>
+                                <MenuItemGroup title="用户中心">
+                                    <Menu.Item key="setting:1">你好 - {this.props.name}</Menu.Item>
+                                    <Menu.Item key="setting:2"><Icon type="user" />个人信息</Menu.Item>
+                                    <Menu.Item key="logout"><span onClick={this.logout}><Icon type="logout" />退出登录</span></Menu.Item>
+                                </MenuItemGroup>
+                            </SubMenu>
+                        </Menu>
+                    </Col>
+                    <Col span={6}>
+                        <ul className="top-nav" style={{ lineHeight: '65px' }}>
+                            <li>
+                                <a className="item" href="https://github.com/ant-design/ant-design/" target={"_blank"}>
+                                    <Icon type="github" />
+                                </a>
+                            </li>
+                        </ul>
+                    </Col>
+                </Row>
             </Header>
         )
     }

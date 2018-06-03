@@ -6,8 +6,8 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <Row>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                <Row gutter={24}>
+                    <Col xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             style={{ width: 300 }}
                             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
@@ -21,7 +21,7 @@ class Home extends React.Component {
                         </Card>
 
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                    <Col  xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             hoverable
                             style={{ width: 240 }}
@@ -33,7 +33,7 @@ class Home extends React.Component {
                             />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                    <Col  xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             hoverable
                             style={{ width: 240 }}
@@ -45,7 +45,7 @@ class Home extends React.Component {
                             />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                    <Col  xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             style={{ width: 300 }}
                             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
@@ -60,7 +60,7 @@ class Home extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                    <Col  xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             hoverable
                             style={{ width: 240 }}
@@ -72,7 +72,7 @@ class Home extends React.Component {
                             />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                    <Col  xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             style={{ width: 300 }}
                             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
@@ -86,7 +86,7 @@ class Home extends React.Component {
                         </Card>
 
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                    <Col  xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             hoverable
                             style={{ width: 240 }}
@@ -98,7 +98,7 @@ class Home extends React.Component {
                             />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+                    <Col  xs={24} sm={12} md={12} lg={8} xl={6}>
                         <Card
                             style={{ width: 300 }}
                             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}

@@ -4,28 +4,30 @@ import { Input, Icon } from 'antd';
 class SearchInput extends React.Component {
     state = {
         value: '',
-        prefix: 'search'
+        focus:false
     }
     onChangeValue = (e) => {
         this.setState({ value: e.target.value });
     }
     onFocus = (e) => {
-        this.setState({ prefix: 'arrow-left' })
+        this.setState({ focus: true })
     }
     onBlur = (e) => {
-        this.setState({ prefix: 'search' })
+        this.setState({ focus: false })
     }
     render() {
         const { value } = this.state;
         return (
-            <Input
-                placeholder="Search Input"
-                prefix={<Icon type={this.state.prefix} style={{ color: 'rgba(0,0,0,.25)' }} />}
-                value={value}
-                onChange={this.onChangeValue}
-                onFocus={this.onFocus}
-                onBlur={this.onBlur}
-            />
+            <div style={this.props.style}>
+                <Input
+                    placeholder="Search"
+                    prefix={<Icon type={this.state.focus?'arrow-left':'search'} style={{ color:!this.state.focus?'rgba(0,0,0,.25)':'#1890ff' }} />}
+                    value={value}
+                    onChange={this.onChangeValue}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                />
+            </div>
         );
     }
 }

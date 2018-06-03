@@ -7,7 +7,12 @@ import util from '@/utils/util';
 
 class MyBreadcrumb extends React.Component {
     state = {
-        map: []
+        map: [{
+            name: "home",
+            title: "首页",
+            icon: "home",
+            path: "/app/home"
+        }]
     }
     componentWillReceiveProps(nextProps) {
         let newMap = [
