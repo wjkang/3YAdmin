@@ -82,7 +82,7 @@ class MyNavTabs extends React.Component {
   }
   render() {
     return (
-      <div style={{marginTop:195}}>
+      <div style={this.props.style}>
         <Tabs
           hideAdd
           activeKey={this.state.currentPage}

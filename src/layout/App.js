@@ -21,14 +21,15 @@ const { Content } = Layout;
 class App extends Component {
   state = {
     collapsed: false,
-    responsive: false
+    responsive: false,
+    navTabTop:65
   }
   componentWillMount() {
     console.log("App componentWillMount")
   }
   componentDidMount() {
     this.initAppData();//数据初始化完后再触发一次render
-    //this.getClientWidth();//判断屏幕尺寸再触发一次render(不需要可去掉)
+    this.getClientWidth();//判断屏幕尺寸再触发一次render(不需要可去掉)
     window.onresize = () => {
       this.getClientWidth();
     }
@@ -45,6 +46,24 @@ class App extends Component {
       responsive: clientWidth <= 992,
       collapsed: clientWidth <= 992
     });
+    if(clientWidth<576){
+      this.setState({
+        navTabTop: 193
+      });
+      return;
+    }
+    if(clientWidth<768){
+      this.setState({
+        navTabTop: 129
+      });
+      return;
+    }
+    if(clientWidth>=768){
+      this.setState({
+        navTabTop: 65
+      });
+      return;
+    }
   }
   toggle = () => {
     this.refs['MySider'].wrappedInstance.setOpenKeys(this.state.collapsed);//https://github.com/ant-design/ant-design/issues/8911
@@ -100,8 +119,8 @@ class App extends Component {
         <Layout>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
           </MyHeader>
-          <MyNavTabs />
-          <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(247, 247, 247)' }} />
+          <MyNavTabs style={{top:this.state.navTabTop,position:'fixed',zIndex:9,width:'100%'}}/>
+          <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(250, 250, 250)',marginTop:this.state.navTabTop+59 }} />
           <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />
           </Content>

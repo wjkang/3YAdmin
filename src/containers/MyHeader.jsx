@@ -41,8 +41,8 @@ class MyHeader extends React.Component {
     render() {
         return (
             <Header style={{ background: '#fff', padding: 0, height: 'auto', position: 'fixed', width: '100%',zIndex:9 }}>
-                <Row type="flex" justify="space-between">
-                    <Col xs={6} sm={6} md={12} lg={8} xl={6}>
+                <Row type="flex" justify="start">
+                    <Col xs={6} sm={6} md={2} lg={2} xl={1}>
                         <ul className="top-nav" style={{ lineHeight: '65px', marginLeft: 10 }}>
                             <li>
                                 <div className="item" onClick={this.props.toggle}>
@@ -53,7 +53,7 @@ class MyHeader extends React.Component {
                             </li>
                         </ul>
                     </Col>
-                    <Col xs={18} sm={18} md={12} lg={8} xl={6}>
+                    <Col xs={18} sm={18} md={8} lg={8} xl={5}>
                         <ModuleMenu
                             style={{ lineHeight: '64px' }}
                             moduleList={this.props.moduleList}
@@ -61,10 +61,19 @@ class MyHeader extends React.Component {
                             currentModule={this.props.currentModule}
                         />
                     </Col>
-                    <Col xs={24} sm={12} md={12} lg={8} xl={6}>
+                    <Col xs={24} sm={12} md={6} lg={4} xl={10} style={{textAlign:'center'}}>
                         <SearchInput style={{ display: 'inline-block',padding:'0px 20px', width: '100%' }} />
                     </Col>
-                    <Col xs={16} sm={8} md={12} lg={8} xl={6}>
+                    <Col xs={8} sm={4} md={2} lg={2} xl={2} style={{textAlign:'right'}}>
+                        <ul className="top-nav" style={{ lineHeight: '65px' }}>
+                            <li>
+                                <a className="item" href="https://github.com/ant-design/ant-design/" target={"_blank"}>
+                                    <Icon type="github" />
+                                </a>
+                            </li>
+                        </ul>
+                    </Col>
+                    <Col xs={16} sm={8} md={6} lg={4} xl={6}>
                         <Menu
                             mode="horizontal"
                             style={{ lineHeight: '64px' }}
@@ -86,15 +95,6 @@ class MyHeader extends React.Component {
                                 </MenuItemGroup>
                             </SubMenu>
                         </Menu>
-                    </Col>
-                    <Col xs={8} sm={4} md={12} lg={8} xl={6}>
-                        <ul className="top-nav" style={{ lineHeight: '65px' }}>
-                            <li>
-                                <a className="item" href="https://github.com/ant-design/ant-design/" target={"_blank"}>
-                                    <Icon type="github" />
-                                </a>
-                            </li>
-                        </ul>
                     </Col>
                 </Row>
             </Header>
