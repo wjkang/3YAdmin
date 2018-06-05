@@ -22,7 +22,8 @@ class App extends Component {
   state = {
     collapsed: false,
     responsive: false,
-    navTabTop:65
+    navTabShow: true,
+    navTabTop: 65
   }
   componentWillMount() {
     console.log("App componentWillMount")
@@ -46,19 +47,19 @@ class App extends Component {
       responsive: clientWidth <= 992,
       collapsed: clientWidth <= 992
     });
-    if(clientWidth<576){
+    if (clientWidth < 576) {
       this.setState({
         navTabTop: 193
       });
       return;
     }
-    if(clientWidth<768){
+    if (clientWidth < 768) {
       this.setState({
         navTabTop: 129
       });
       return;
     }
-    if(clientWidth>=768){
+    if (clientWidth >= 768) {
       this.setState({
         navTabTop: 65
       });
@@ -70,6 +71,9 @@ class App extends Component {
     this.setState({
       collapsed: !this.state.collapsed,
     });
+  }
+  toggleNavTab = () => {
+    this.setState({ navTabShow: !this.state.navTabShow });
   }
   initAppData = async () => { //获取用户信息,菜单,权限列表(整个应用就一种layout布局,App就是相当母版页,不必在AuthrizedRoute里每次路由跳转的时候判断是否需要获取,是否登录也在此处判断)
     //没有登录，跳转到登录界面，并记下当前路径
@@ -117,10 +121,10 @@ class App extends Component {
         >
         </MySider>
         <Layout>
-          <MyHeader collapsed={this.state.collapsed} toggle={this.toggle}>
+          <MyHeader collapsed={this.state.collapsed} toggle={this.toggle} toggleNavTab={this.toggleNavTab} navTabshow={this.state.navTabShow}>
           </MyHeader>
-          <MyNavTabs style={{top:this.state.navTabTop,position:'fixed',zIndex:9,width:'100%'}}/>
-          <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(250, 250, 250)',marginTop:this.state.navTabTop+59 }} />
+          <MyNavTabs style={{ top: this.state.navTabTop, position: 'fixed', zIndex: 9, width: '100%',display:this.state.navTabShow?'block':'none' }} show={this.state.navTabShow}/>
+          <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(250, 250, 250)', marginTop: this.state.navTabTop + 59+(this.state.navTabShow?0:-59) }} />
           <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />
           </Content>

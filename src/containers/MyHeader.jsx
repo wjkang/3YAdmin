@@ -28,6 +28,7 @@ class MyHeader extends React.Component {
     }
     menuClick = e => {
         e.key === 'logout' && this.logout();
+        e.key === 'navTab' && this.props.toggleNavTab && this.props.toggleNavTab();
     }
     logout = async () => {
         try {
@@ -40,7 +41,7 @@ class MyHeader extends React.Component {
     }
     render() {
         return (
-            <Header style={{ background: '#fff', padding: 0, height: 'auto', position: 'fixed', width: '100%',zIndex:9 }}>
+            <Header style={{ background: '#fff', padding: 0, height: 'auto', position: 'fixed', width: '100%', zIndex: 9 }}>
                 <Row type="flex" justify="start">
                     <Col xs={6} sm={6} md={2} lg={2} xl={1}>
                         <ul className="top-nav" style={{ lineHeight: '65px', marginLeft: 10 }}>
@@ -53,7 +54,7 @@ class MyHeader extends React.Component {
                             </li>
                         </ul>
                     </Col>
-                    <Col xs={18} sm={18} md={8} lg={8} xl={5}>
+                    <Col xs={18} sm={18} md={8} lg={6} xl={5}>
                         <ModuleMenu
                             style={{ lineHeight: '64px' }}
                             moduleList={this.props.moduleList}
@@ -61,10 +62,10 @@ class MyHeader extends React.Component {
                             currentModule={this.props.currentModule}
                         />
                     </Col>
-                    <Col xs={24} sm={12} md={6} lg={4} xl={10} style={{textAlign:'center'}}>
-                        <SearchInput style={{ display: 'inline-block',padding:'0px 20px', width: '100%' }} />
+                    <Col xs={24} sm={12} md={5} lg={5} xl={9} style={{ textAlign: 'center' }}>
+                        <SearchInput style={{ display: 'inline-block', padding: '0px 20px', width: '100%' }} />
                     </Col>
-                    <Col xs={8} sm={4} md={2} lg={2} xl={2} style={{textAlign:'right'}}>
+                    <Col xs={8} sm={4} md={2} lg={1} xl={2} style={{ textAlign: 'right' }}>
                         <ul className="top-nav" style={{ lineHeight: '65px' }}>
                             <li>
                                 <a className="item" href="https://github.com/ant-design/ant-design/" target={"_blank"}>
@@ -73,7 +74,7 @@ class MyHeader extends React.Component {
                             </li>
                         </ul>
                     </Col>
-                    <Col xs={16} sm={8} md={6} lg={4} xl={6}>
+                    <Col xs={16} sm={8} md={7} lg={6} xl={7}>
                         <Menu
                             mode="horizontal"
                             style={{ lineHeight: '64px' }}
@@ -82,11 +83,9 @@ class MyHeader extends React.Component {
                             <Menu.Item key="full">
                                 <FullScreen />
                             </Menu.Item>
-                            {/* <Menu.Item key="1">
-                        <Badge count={25} overflowCount={10} style={{ marginLeft: 10 }}>
-                            <Icon type="notification" />
-                        </Badge>
-                    </Menu.Item> */}
+                            <Menu.Item key="navTab">
+                                <Icon type={this.props.navTabshow?'arrow-up':'arrow-down'} style={{ fontSize: 16 }} />
+                            </Menu.Item>
                             <SubMenu title={<span className="avatar"><img src={this.props.avatar} alt="头像" /><i className="on bottom b-white" /></span>}>
                                 <MenuItemGroup title="用户中心">
                                     <Menu.Item key="setting:1">你好 - {this.props.name}</Menu.Item>

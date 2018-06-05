@@ -19,6 +19,9 @@ class MyNavTabs extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     console.log("MyNavTabs componentWillReceiveProps")
+    if(!nextProps.show){
+      return;
+    }
     let name = Object.keys(MenuToRouter).find(key => MenuToRouter[key] === nextProps.location.pathname);
     if (name) {
       if (this.state.openPages.some(s => s.name === name)) {
