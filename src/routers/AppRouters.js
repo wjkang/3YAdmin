@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import AuthorizedRoute from '@/containers/AuthorizedRoute';
 
 import Home from '@/pages/Home';
 import Menu from '@/pages/Menu';
@@ -10,9 +11,9 @@ class AppRouters extends Component {
         return (
             <Switch>
                 <Route exact path="/app/home" component={Home} />
-                <Route exact path="/app/system/menu" component={Menu} />
-                <Route exact path="/app/user/index" component={Menu} />
-                <Route exact path="/app/cms/article" component={Menu} />
+                <AuthorizedRoute exact path="/app/system/menu" component={Menu} />
+                <AuthorizedRoute exact path="/app/user/index" component={Menu} />
+                <AuthorizedRoute exact path="/app/cms/article" component={Menu} />
                 <Route component={Page404} />
             </Switch>
         )
