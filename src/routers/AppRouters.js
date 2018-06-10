@@ -4,6 +4,7 @@ import AuthorizedRoute from '@/containers/AuthorizedRoute';
 
 import Home from '@/pages/Home';
 import Menu from '@/pages/Menu';
+import Function from '@/pages/Function';
 import Page404 from '@/pages/Page404';
 
 class AppRouters extends Component {
@@ -12,6 +13,7 @@ class AppRouters extends Component {
             <Switch>
                 <Route exact path="/app/home" component={Home} />
                 <AuthorizedRoute exact path="/app/system/menu" component={Menu} />
+                <AuthorizedRoute exact path="/app/permission/function" component={Function} />
                 <AuthorizedRoute exact path="/app/user/index" component={Menu} />
                 <AuthorizedRoute exact path="/app/cms/article" component={Menu} />
                 <Route component={Page404} />

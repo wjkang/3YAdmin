@@ -78,3 +78,8 @@
     border-bottom: none!important;
     border-top: 2px solid #1890ff!important;
 }
+.ant-advanced-search-form {
+    padding: 24px;
+    background: #fafafa;
+    border-radius: 6px;
+  }

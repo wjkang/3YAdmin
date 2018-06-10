@@ -50,7 +50,7 @@ export function delUser(id) {
     url: '/user/del',
     method: 'delete',
     params: id,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -59,7 +59,7 @@ export function delUsers(ids) {
     url: '/user/batchdel',
     method: 'delete',
     params: ids,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -68,7 +68,7 @@ export function saveUser(data) {
     url: '/user/save',
     method: 'post',
     data: data,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -77,7 +77,7 @@ export function editRoleUser(data) {
     url: '/user/editroleuser',
     method: 'post',
     data: data,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -103,7 +103,7 @@ export function saveMenu(menu) {
     url: '/menu/savemenu',
     method: 'post',
     data: menu,
-    loading: "hourglass",
+    loading: "message",
     permission: ["menu_edit"]
   })
 }
@@ -147,7 +147,7 @@ export function delFunction(id) {
     url: '/function/del',
     method: 'delete',
     params: id,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -156,7 +156,7 @@ export function delFunctions(ids) {
     url: '/function/batchdel',
     method: 'delete',
     params: ids,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -165,7 +165,7 @@ export function saveFunction(data) {
     url: '/function/save',
     method: 'post',
     data: data,
-    loading: 'hourglass'
+    loading: 'message'
   })
 }
 
@@ -183,7 +183,7 @@ export function delRole(id) {
     url: '/role/del',
     method: 'delete',
     params: id,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -192,7 +192,7 @@ export function delRoles(ids) {
     url: '/role/batchdel',
     method: 'delete',
     params: ids,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -201,7 +201,7 @@ export function saveRole(data) {
     url: '/role/save',
     method: 'post',
     data: data,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -210,7 +210,7 @@ export function savePermission(data) {
     url: '/role/savepermission',
     method: 'post',
     data: data,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -219,7 +219,7 @@ export function resetDb() {
   return request({
     url: '/resetdb',
     method: 'post',
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -245,7 +245,7 @@ export function getPost(id) {
   return request({
     url: '/post/' + id,
     method: 'get',
-    loading: "hourglass"
+    loading: "message"
   })
 }
 
@@ -254,7 +254,7 @@ export function savePost(post) {
     url: '/post/save',
     method: 'post',
     data: post,
-    loading: "hourglass"
+    loading: "message"
   })
 }
 

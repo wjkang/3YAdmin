@@ -6,7 +6,7 @@ import { message } from 'antd';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === 'production'?'http://69.171.69.13:3000':'http://localhost:3000', // api的base_url
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://69.171.69.13:3000' : 'http://localhost:3000', // api的base_url
   timeout: 20000 // request timeout
 })
 
@@ -36,7 +36,7 @@ service.interceptors.response.use(
     const res = response.data;
     if (res.statusCode !== 200) {
       message.error(res.msg);
-      return Promise.reject('error');
+      return Promise.reject(res.msg);
     } else {
 
       return response.data;
@@ -50,12 +50,12 @@ service.interceptors.response.use(
         message.error('登陆信息已过期,请重新登陆!');
       }
       setTimeout(() => {
-        
+
       }, 1000)
 
     } else if (error.response && error.response.status === 500) {
       message.error('系统错误!');
-    } else if (error.message.indexOf("timeout")>-1) {
+    } else if (error.message.indexOf("timeout") > -1) {
       message.error('网络超时!');
     }
     else if (error === "403") {

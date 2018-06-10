@@ -83,13 +83,17 @@ class App extends Component {
       return;
     }
     let [infoRes, menuRes] = await Promise.all([getUserInfo(), getAccessMemu()]);
-    console.log("initAppData start")
+    console.log("initAppData start");
+    let permission = [...infoRes.data.userRole, ...infoRes.data.userPermission];
+    let isAdmin = infoRes.data.isAdmin;
     let userInfo = {
       name: infoRes.data.userName,
       avatar: infoRes.data.avatarUrl,
-      isAdmin: infoRes.data.isAdmin,
-      permission: [...infoRes.data.userRole, ...infoRes.data.userPermission]
+      isAdmin: isAdmin,
+      permission: permission
     }
+    localStorage.setItem("permission", JSON.stringify(permission));
+    localStorage.setItem("isAdmin", isAdmin);
     let openAccesseMenu = util.openAccesseMenu(menuRes.data);
     let moduleList = menuRes.data.filter(item => {
       return item.leftMemu
@@ -123,8 +127,8 @@ class App extends Component {
         <Layout>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle} toggleNavTab={this.toggleNavTab} navTabshow={this.state.navTabShow}>
           </MyHeader>
-          <MyNavTabs style={{ top: this.state.navTabTop, position: 'fixed', zIndex: 9, width: '100%',display:this.state.navTabShow?'block':'none' }} show={this.state.navTabShow}/>
-          <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(250, 250, 250)', marginTop: this.state.navTabTop + 59+(this.state.navTabShow?0:-59) }} />
+          <MyNavTabs style={{ top: this.state.navTabTop, position: 'fixed', zIndex: 9, width: '100%', display: this.state.navTabShow ? 'block' : 'none' }} show={this.state.navTabShow} />
+          <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(250, 250, 250)', marginTop: this.state.navTabTop + 59 + (this.state.navTabShow ? 0 : -59) }} />
           <Content style={{ padding: 24, background: '#fff' }}>
             <AppRouters />
           </Content>
