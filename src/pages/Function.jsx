@@ -80,7 +80,7 @@ class Function extends React.Component {
     }
 
     // To generate mock Form.Item
-    getFields() {
+    getSearchFields() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 8 },
@@ -106,7 +106,6 @@ class Function extends React.Component {
         return children;
     }
     fetch = async (query = {}) => {
-        console.log('query:', query);
         this.setState({ loading: true });
         let dataRes = await getFunctionPagedList(query);
         let data = dataRes.data;
@@ -120,7 +119,9 @@ class Function extends React.Component {
     }
     handleTableChange = (pagination, filters, sorter) => {
         const pager = { ...this.state.pagination };
+        console.log(pagination);
         pager.current = pagination.current;
+        pager.pageSize=pagination.pageSize;
         this.setState({
             pagination: pager,
         });
@@ -147,7 +148,7 @@ class Function extends React.Component {
                     className="ant-advanced-search-form"
                     onSubmit={this.handleSearch}
                 >
-                    <Row gutter={24}>{this.getFields()}</Row>
+                    <Row gutter={24}>{this.getSearchFields()}</Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'center' }}>
                             <span style={{ display: this.state.expand ? 'inline' : 'none' }}>
