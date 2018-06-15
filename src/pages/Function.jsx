@@ -6,6 +6,17 @@ import {
     delFunctions,
     saveFunction
 } from 'api';
+import Ajv from "ajv";
+import {
+    schemaTypeFactory,
+    schemaFieldFactory,
+    schemaKeysFactory,
+    schemaKeyWordFactory,
+    getSchemaId,
+    getDataKeys,
+    ResolveLib,
+    MergeLib
+} from 'fx-schema-form-core';
 
 const columns = [{
     title: '模块名称',
@@ -45,6 +56,66 @@ const columns = [{
         </div>
     }
 }];
+const schema= {
+    type: "object",
+    $id: "design",
+    required: ["name", "dsModelIds"],
+    properties: {
+        name: {
+            type: "string",
+            title: "面板名称"
+        },
+        description: {
+            type: "string",
+            title: "面板详情"
+        },
+        appType: {
+            type: "string",
+            title: "应用类型"
+        },
+        dsModelIds: {
+            type: "array",
+            items: {
+                type: "number"
+            }
+        },
+        dsModelData: {
+            type: "object",
+            properties: {
+                data: {
+                    type: "object"
+                },
+                ids: {
+                    type: "object"
+                }
+            }
+        },
+        infoOptions: {
+            type: "array",
+            items: {
+                type: "object",
+                properties: {
+                    label: {
+                        type: "string"
+                    },
+                    data: {
+                        type: "object"
+                    },
+                    infoOptions: {
+                        $ref: "design#/properties/infoOptions"
+                    }
+                }
+            }
+        }
+    }
+};
+let ajv = new Ajv({
+    extendRefs: true,
+    missingRefs: true
+});
+let resolve = new ResolveLib(ajv,schema);
+console.log(getDataKeys("test#/properties/names/items",true));
+
 
 class Function extends React.Component {
     state = {
