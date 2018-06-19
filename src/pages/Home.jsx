@@ -4,6 +4,7 @@ const { Meta } = Card;
 
 class Home extends React.Component {
     render() {
+        console.log("Home render")
         return (
             <div>
                 <Row gutter={24}>

@@ -14,20 +14,23 @@ class MyNavTabs extends React.Component {
       name: "home",
       title: "首页",
       path: "/app/home",
-      closable: false
+      closable: false,
+      content: this.props.content
     }]
   }
   componentWillReceiveProps(nextProps) {
     console.log("MyNavTabs componentWillReceiveProps")
-    if(!nextProps.show){
+    if (!nextProps.show) {
       return;
     }
     let name = Object.keys(MenuToRouter).find(key => MenuToRouter[key] === nextProps.location.pathname);
     if (name) {
       if (this.state.openPages.some(s => s.name === name)) {
-        this.setState({
-          currentPage: name
-        });
+        if (this.state.currentPage !== name) {
+          this.setState({
+            currentPage: name
+          });
+        }
       } else {
         let menu = util.getMenuByName(name, nextProps.accessMenu);
         if (menu.name) {
@@ -36,7 +39,8 @@ class MyNavTabs extends React.Component {
             name: menu.name,
             title: menu.title,
             path: MenuToRouter[menu.name],
-            closable: true
+            closable: true,
+            content: nextProps.content
           });
           this.setState({
             openPages: openPages,
@@ -44,7 +48,7 @@ class MyNavTabs extends React.Component {
           });
         }
       }
-    } else if (nextProps.location.pathname === "/app/home") {
+    } else if (nextProps.location.pathname === "/app/home" && this.state.currentPage !== 'home') {
       this.setState({
         currentPage: "home"
       })
@@ -80,7 +84,7 @@ class MyNavTabs extends React.Component {
         currentPage: activeKey
       }
     );
-    let path=this.state.openPages.filter(s=>s.name===activeKey)[0].path;
+    let path = this.state.openPages.filter(s => s.name === activeKey)[0].path;
     this.props.history.push(path);
   }
   render() {
@@ -89,13 +93,13 @@ class MyNavTabs extends React.Component {
         <Tabs
           hideAdd
           activeKey={this.state.currentPage}
-          tabBarStyle={{ background: 'white', padding: 10, margin: 0,border:'none' }}
+          tabBarStyle={{ background: 'white', padding: 10, margin: 0, border: 'none' }}
           type="editable-card"
           onEdit={this.onEdit}
           onTabClick={this.onTabClick}
         >
-          {this.state.openPages.map(page => <TabPane tab={page.title} closable={page.closable} key={page.name}></TabPane>)}
-          
+          {this.state.openPages.map(page => <TabPane tab={page.title} closable={page.closable} key={page.name}>{page.content}</TabPane>)}
+
         </Tabs>
       </div>
     );
