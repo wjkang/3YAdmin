@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { Tabs } from 'antd';
 import { withRouter } from 'react-router-dom';
 import MenuToRouter from '@/menuMapToRouter';
+import menuMapToComponent from '@/menuMapToComponent';
 import util from '@/utils/util';
+import Home from '@/pages/Home';
+import Menu from '@/pages/Menu';
+import Function from '@/pages/Function';
 
 const TabPane = Tabs.TabPane;
 
@@ -15,7 +19,7 @@ class MyNavTabs extends React.Component {
       title: "首页",
       path: "/app/home",
       closable: false,
-      content: this.props.content
+      content: React.cloneElement(this.props.content)
     }]
   }
   componentWillReceiveProps(nextProps) {
@@ -39,8 +43,7 @@ class MyNavTabs extends React.Component {
             name: menu.name,
             title: menu.title,
             path: MenuToRouter[menu.name],
-            closable: true,
-            content: nextProps.content
+            closable: true
           });
           this.setState({
             openPages: openPages,
@@ -55,6 +58,12 @@ class MyNavTabs extends React.Component {
     }
   }
   onTabClick = (activeKey) => {
+    // if (activeKey !== this.state.currentPage) {
+    //   this.setState({
+    //     currentPage: activeKey
+    //   });
+    //   return;
+    // }
     if (activeKey !== this.state.currentPage && activeKey === 'home') {
       this.props.history.push('/app/home');
       return;
@@ -98,7 +107,14 @@ class MyNavTabs extends React.Component {
           onEdit={this.onEdit}
           onTabClick={this.onTabClick}
         >
-          {this.state.openPages.map(page => <TabPane tab={page.title} closable={page.closable} key={page.name}>{page.content}</TabPane>)}
+          {this.state.openPages.map(page => {
+            const Page=menuMapToComponent[page.name]?menuMapToComponent[page.name]:menuMapToComponent["page404"];
+            return <TabPane forceRender tab={page.title} closable={page.closable} key={page.name}>
+              <Page />
+              {console.log(page.content)}
+            </TabPane>
+          }
+          )}
 
         </Tabs>
       </div>

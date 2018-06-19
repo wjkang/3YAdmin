@@ -16,10 +16,13 @@ import AppRouters from '@/routers/AppRouters';
 
 
 
+
+
 const { Content } = Layout;
 
 class NavTabWraper extends Component {
     render() {
+        console.log("NavTabWraper render")
         return (
             <MyNavTabs style={{ top: this.props.navTabTop, position: 'fixed', zIndex: 9, width: '100%', display: this.props.navTabShow ? 'block' : 'none' }} show={this.props.navTabShow} content={this.props.children} />
         );
