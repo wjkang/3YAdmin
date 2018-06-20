@@ -6,7 +6,7 @@ import Home from '@/pages/Home';
 import Menu from '@/pages/Menu';
 import Function from '@/pages/Function';
 import Page404 from '@/pages/Page404';
-
+//此处配置只对App layout有效
 export default () => (
     <Switch>
         <Route exact path="/app/home" component={Home} />

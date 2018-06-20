@@ -34,27 +34,27 @@ const columns = [{
         return <div>
             <a
                 href="javascript:;"
-                onClick={() => this.edit(record)}
+                onClick={this.edit}
 
             >
                 编辑
             </a>
             <Divider type="vertical" />
-            <Popconfirm title="确定删除?" onConfirm={() => this.onDelete(record.key)}>
+            <Popconfirm title="确定删除?" onConfirm={this.onDelete}>
                 <a href="javascript:;">删除</a>
             </Popconfirm>
         </div>
     }
 }];
 
-class Function extends React.Component {
+class Function extends React.PureComponent {
     state = {
         filter: {
             module: "",
             name: "",
             code: ""
         },
-        expand: false,
+        expand: true,
         pagedList: [],
         pagination: {
             current: 1,
@@ -104,6 +104,7 @@ class Function extends React.Component {
                 </Col>
             );
         }
+        console.log("getSearchFields")
         return children;
     }
     fetch = async (query = {}) => {
@@ -133,6 +134,9 @@ class Function extends React.Component {
             filter: this.state.filter
         };
         this.fetch(query);
+    }
+    edit=()=>{
+        alert(1212);
     }
     componentDidMount() {
         this.fetch({

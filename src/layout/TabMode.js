@@ -11,7 +11,6 @@ import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
 import { updateAccessMenu } from '@/reducers/app';
 import util from '@/utils/util';
-import AppRouters from '@/routers/AppRouters';
 
 
 
@@ -130,8 +129,8 @@ class TabMode extends Component {
                     <MyHeader collapsed={this.state.collapsed} toggle={this.toggle} toggleNavTab={this.toggleNavTab} navTabshow={this.state.navTabShow}>
                     </MyHeader>
                     {/* <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(250, 250, 250)', marginTop: this.state.navTabTop + 59 + (this.state.navTabShow ? 0 : -59) }} /> */}
-                    <Content style={{ padding: 24,paddingTop:0, background: '#fff' }}>
-                    <MyNavTabs style={{ marginTop: this.state.navTabTop,width: '100%', display: this.state.navTabShow ? 'block' : 'none' }} show={this.state.navTabShow}/>
+                    <Content style={{ padding: 24, paddingTop: 0, background: '#fff' }}>
+                        <MyNavTabs style={{ marginTop: this.state.navTabTop, width: '100%', display: this.state.navTabShow ? 'block' : 'none' }} show={this.state.navTabShow} />
                     </Content>
                 </Layout>
             </Layout>
