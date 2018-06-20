@@ -116,7 +116,6 @@ class Menu extends React.Component {
         this.props.form.resetFields();
     }
     render() {
-
         const renderMenu = (menuList) => menuList.map(
             menu =>
                 <TreeNode title={menu.title} key={menu.id}>

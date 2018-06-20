@@ -6,7 +6,7 @@ import { message } from 'antd';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://69.171.69.13:3000' : 'http://localhost:3000', // api的base_url
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000':'http://69.171.69.13:3000' , // api的base_url
   timeout: 20000 // request timeout
 })
 

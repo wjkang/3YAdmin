@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { Tabs } from 'antd';
 import { withRouter } from 'react-router-dom';
 import MenuToRouter from '@/menuMapToRouter';
+import MenuMapToComponent from '@/menuMapToComponent';
 import util from '@/utils/util';
+import Home from '@/pages/Home';
+import Menu from '@/pages/Menu';
+import Function from '@/pages/Function';
 
 const TabPane = Tabs.TabPane;
 
@@ -14,7 +18,8 @@ class MyNavTabs extends React.Component {
       name: "home",
       title: "首页",
       path: "/app/home",
-      closable: false
+      closable: false,
+      content: MenuMapToComponent["home"]
     }]
   }
   componentWillReceiveProps(nextProps) {
@@ -46,13 +51,19 @@ class MyNavTabs extends React.Component {
           });
         }
       }
-    } else if (nextProps.location.pathname === "/app/home"&& this.state.currentPage !== 'home') {
+    } else if (nextProps.location.pathname === "/app/home" && this.state.currentPage !== 'home') {
       this.setState({
         currentPage: "home"
       })
     }
   }
   onTabClick = (activeKey) => {
+    // if (activeKey !== this.state.currentPage) {
+    //   this.setState({
+    //     currentPage: activeKey
+    //   });
+    //   return;
+    // }
     if (activeKey !== this.state.currentPage && activeKey === 'home') {
       this.props.history.push('/app/home');
       return;
@@ -91,12 +102,18 @@ class MyNavTabs extends React.Component {
         <Tabs
           hideAdd
           activeKey={this.state.currentPage}
-          tabBarStyle={{ background: 'white', padding: 10, margin: 0, border: 'none' }}
+          tabBarStyle={{ background: 'white',width:'100%', padding: 10, margin: 0,position:'fixed',zIndex:99, border: 'none' }}
           type="editable-card"
           onEdit={this.onEdit}
           onTabClick={this.onTabClick}
         >
-          {this.state.openPages.map(page => <TabPane tab={page.title} closable={page.closable} key={page.name}></TabPane>)}
+          {this.state.openPages.map(page => {
+            const Page=MenuMapToComponent[page.name]?MenuMapToComponent[page.name]:MenuMapToComponent["page404"];
+            return <TabPane forceRender tab={page.title} closable={page.closable} key={page.name}>
+              <Page />
+            </TabPane>
+          }
+          )}
 
         </Tabs>
       </div>

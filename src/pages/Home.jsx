@@ -3,9 +3,6 @@ import { Card, Icon, Avatar, Row, Col } from 'antd';
 const { Meta } = Card;
 
 class Home extends React.Component {
-    componentDidMount(){
-        console.log("Home componentDidMount")
-    }
     render() {
         console.log("Home render")
         return (

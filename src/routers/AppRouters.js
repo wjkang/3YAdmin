@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AuthorizedRoute from '@/containers/AuthorizedRoute';
 
@@ -10,10 +10,10 @@ import Page404 from '@/pages/Page404';
 export default () => (
     <Switch>
         <Route exact path="/app/home" component={Home} />
-        <Route exact path="/app/system/menu" component={Menu} />
-        <Route exact path="/app/permission/function" component={Function} />
-        <Route exact path="/app/user/index" component={Menu} />
-        <Route exact path="/app/cms/article" component={Menu} />
+        <AuthorizedRoute exact path="/app/system/menu" component={Menu} />
+        <AuthorizedRoute exact path="/app/permission/function" component={Function} />
+        <AuthorizedRoute exact path="/app/user/index" component={Menu} />
+        <AuthorizedRoute exact path="/app/cms/article" component={Menu} />
         <Route component={Page404} />
     </Switch>
 

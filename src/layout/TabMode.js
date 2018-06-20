@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
-import './App.css';
+import './TabMode.css';
 import MyHeader from '@/containers/MyHeader';
 import MySider from '@/containers/MySider';
 import MyBreadcrumb from '@/containers/MyBreadcrumb';
-import MyNavTabs from '@/containers/MyNavTabs';
+import MyNavTabs from '@/containers/MyNavTabsR';
 import { getToken } from '@/utils/token';
 import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
@@ -19,15 +19,6 @@ import AppRouters from '@/routers/AppRouters';
 
 
 const { Content } = Layout;
-
-class NavTabWraper extends Component {
-    render() {
-        console.log("NavTabWraper render")
-        return (
-            <MyNavTabs style={{ top: this.props.navTabTop, position: 'fixed', zIndex: 9, width: '100%', display: this.props.navTabShow ? 'block' : 'none' }} show={this.props.navTabShow} content={this.props.children} />
-        );
-    }
-};
 
 class TabMode extends Component {
     state = {
@@ -139,10 +130,8 @@ class TabMode extends Component {
                     <MyHeader collapsed={this.state.collapsed} toggle={this.toggle} toggleNavTab={this.toggleNavTab} navTabshow={this.state.navTabShow}>
                     </MyHeader>
                     {/* <MyBreadcrumb style={{ padding: '10px 10px 10px 17px', background: 'rgb(250, 250, 250)', marginTop: this.state.navTabTop + 59 + (this.state.navTabShow ? 0 : -59) }} /> */}
-                    <Content style={{ padding: 24, background: '#fff' }}>
-                        <NavTabWraper navTabTop={this.state.navTabTop} navTabShow={this.state.navTabShow} >
-                            <AppRouters />
-                        </NavTabWraper>
+                    <Content style={{ padding: 24,paddingTop:0, background: '#fff' }}>
+                    <MyNavTabs style={{ marginTop: this.state.navTabTop,width: '100%', display: this.state.navTabShow ? 'block' : 'none' }} show={this.state.navTabShow}/>
                     </Content>
                 </Layout>
             </Layout>

@@ -120,7 +120,6 @@ class Function extends React.Component {
     }
     handleTableChange = (pagination, filters, sorter) => {
         const pager = { ...this.state.pagination };
-        console.log(pagination);
         pager.current = pagination.current;
         pager.pageSize=pagination.pageSize;
         this.setState({
