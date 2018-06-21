@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Tree, Form, Input, Button, Switch, InputNumber, message, Tag, Icon, Table, Popconfirm, Divider } from 'antd';
+import { Row, Col, Input, Button, Switch, InputNumber, message, Tag, Icon, Table, Popconfirm, Divider } from 'antd';
 import {
     getFunctionPagedList,
     delFunction,
@@ -63,6 +63,10 @@ class Function extends React.PureComponent {
             showQuickJumper: true,
             showSizeChanger: true,
         },
+        sorter: {
+            field: '',
+            order: ''
+        },
         loading: false
     };
     fetch = async (query = {}) => {
@@ -83,6 +87,10 @@ class Function extends React.PureComponent {
         pager.pageSize = pagination.pageSize;
         this.setState({
             pagination: pager,
+            sorter: {
+                field: sorter.field,
+                order: sorter.order
+            }
         });
         let query = {
             pageIndex: pager.current,
@@ -92,6 +100,27 @@ class Function extends React.PureComponent {
             filter: this.state.filter
         };
         this.fetch(query);
+    }
+    handleSearch = (filter) => {
+        const pager = { ...this.state.pagination };
+        pager.current = 1;//查询回到第一页
+        this.setState({
+            filter: filter,
+            pagination: pager
+        });
+        let query = {
+            pageIndex: this.state.pagination.current,
+            pageSize: this.state.pagination.pageSize,
+            sortBy: this.state.sorter.field,
+            descending: this.state.order === 'descend',
+            filter: filter
+        };
+        this.fetch(query);
+    }
+    handleReset = () => {
+        this.setState({
+            filter: {}
+        });
     }
     edit = () => {
         alert(1212);
@@ -104,9 +133,10 @@ class Function extends React.PureComponent {
         });
     }
     render() {
+        console.log("Function render")
         return (
             <div>
-                <SearchForm schema={schema.schema} uiSchema={schema.uiSchema} handleSubmit={this.handleSearch}/>
+                <SearchForm schema={schema.schema} uiSchema={schema.uiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
                 <Table columns={columns}
                     rowKey={record => record.id}
                     dataSource={this.state.pagedList}
@@ -119,5 +149,5 @@ class Function extends React.PureComponent {
     }
 }
 
-export default Form.create()(Function);
+export default Function;
 

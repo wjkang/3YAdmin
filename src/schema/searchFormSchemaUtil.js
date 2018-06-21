@@ -16,8 +16,8 @@ import {
 
 const FormItem = Form.Item;
 
-// 暂存的schema callback
-const SchemaMap = new Map();
+// 暂存的JsxGenerator
+const JsxGeneratorMap = new Map();
 // 暂存表单组件, key是schema 的$id, value是对应的react组件
 const FormMap = new Map();
 
@@ -33,33 +33,35 @@ const SchemaUtils = {
         }
     },
     createForm(id, schema, uiSchema) {
+        console.log("createForm")
         const util = this;
         // 只能用传统的ES5的写法, 函数式(无状态)组件应该也可以, 但是需要生命周期相关方法
         const tmpComponent = createClass({
             componentWillMount() {
                 console.log("tmpComponent componentWillMount");
                 // 组件初始化时读取schema
-                if (SchemaMap.has(id)) {
-                    this.schemaCallback = SchemaMap.get(id);
+                if (JsxGeneratorMap.has(id)) {
+                    this.generateJsx = JsxGeneratorMap.get(id);
                     return;
                 }
-                const schemaCallback = util.parse(schema, uiSchema);
+                const generateJsx = util.parse(schema, uiSchema);
 
-                SchemaMap.set(id, schemaCallback);
+                JsxGeneratorMap.set(id, generateJsx);
 
-                this.schemaCallback = schemaCallback;
+                this.generateJsx = generateJsx;
             },
             render() {
                 console.log("tmpComponent render");
                 const style = this.props.style;
-                // render的时候传入getFieldDecorator, 生成最终的jsx元素
-                return this.schemaCallback(this.props.form.getFieldDecorator,style);
+                // getFieldDecorator一层层往下传递
+                return this.generateJsx(this.props.form.getFieldDecorator,style);
             },
         });
         // 注意要再用antd的create()方法包装下
         return Form.create()(tmpComponent);
     },
     parse(schema, uiSchema) {
+        console.log("parse schema")
         let cols = [];
         let schemaProperties = schema["properties"];
         const util = this;

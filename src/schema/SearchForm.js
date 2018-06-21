@@ -12,8 +12,7 @@ class SearchForm extends React.PureComponent {
    */
   handleSubmit = (e) => {
     e.preventDefault();
-    // this.formComponent是通过ref方式获取到的一个react组件
-    const obj = this.formComponent.getFieldsValue();
+    const obj = this.formRef.props.form.getFieldsValue();
 
     // 还是要交给上层组件处理
     this.props.handleSubmit(obj);
@@ -25,7 +24,8 @@ class SearchForm extends React.PureComponent {
    */
   handleReset = (e) => {
     e.preventDefault();
-    this.formComponent.resetFields();
+    this.formRef.props.form.resetFields();
+    this.props.handleReset();
   };
 
   toggle = () => {
@@ -42,13 +42,14 @@ class SearchForm extends React.PureComponent {
 
 
     // 表单的前面是一堆输入框, 最后一行是按钮
+    //使用wrappedComponentRef https://github.com/react-component/form#note-use-wrappedcomponentref-instead-of-withref-after-rc-form140
     return (
       <div>
-        <FormComponent style={{display: this.state.expand ? 'inline' : 'none'}} ref={(form) => { this.formComponent = form; }} />
+        <FormComponent style={{display: this.state.expand ? 'inline' : 'none'}} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
         <Row>
           <Col span={24} style={{ textAlign: 'center' }}>
             <span style={{ display: this.state.expand ? 'inline' : 'none' }}>
-              <Button type="primary" htmlType="submit">查询</Button>
+              <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
                 清空
                         </Button>
