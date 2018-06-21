@@ -1,7 +1,7 @@
 import React from 'react';
 import '@/style/page403.less';
 
-class Page403 extends React.Component {
+class Page403 extends React.PureComponent {
     render() {
         return (
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import './TabMode.css';
@@ -19,15 +19,12 @@ import util from '@/utils/util';
 
 const { Content } = Layout;
 
-class TabMode extends Component {
+class TabMode extends React.PureComponent {
     state = {
         collapsed: false,
         responsive: false,
         navTabShow: true,
         navTabTop: 65
-    }
-    componentWillMount() {
-        console.log("App componentWillMount")
     }
     componentDidMount() {
         this.initAppData();//数据初始化完后再触发一次render
@@ -35,7 +32,6 @@ class TabMode extends Component {
         window.onresize = () => {
             this.getClientWidth();
         }
-        console.log("App componentDidMount");
     }
     componentWillUpdate(nextProps) {
         if (this.props.location.pathname !== nextProps.location.pathname) {
@@ -84,7 +80,6 @@ class TabMode extends Component {
             return;
         }
         let [infoRes, menuRes] = await Promise.all([getUserInfo(), getAccessMemu()]);
-        console.log("initAppData start");
         let permission = [...infoRes.data.userRole, ...infoRes.data.userPermission];
         let isAdmin = infoRes.data.isAdmin;
         let userInfo = {
@@ -110,7 +105,6 @@ class TabMode extends Component {
         });
         this.props.updateUserInfo(userInfo);
         this.initChildData(this.props);
-        console.log("initAppData end")
     }
     initChildData(props) {
         this.refs['MySider'].wrappedInstance.initMenu(props.location.pathname);

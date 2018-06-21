@@ -25,16 +25,12 @@ class App extends Component {
     navTabShow: true,
     navTabTop: 65
   }
-  componentWillMount() {
-    console.log("App componentWillMount")
-  }
   componentDidMount() {
     this.initAppData();//数据初始化完后再触发一次render
     this.getClientWidth();//判断屏幕尺寸再触发一次render(不需要可去掉)
     window.onresize = () => {
       this.getClientWidth();
     }
-    console.log("App componentDidMount");
   }
   componentWillUpdate(nextProps) {
     if (this.props.location.pathname !== nextProps.location.pathname) {
@@ -83,7 +79,6 @@ class App extends Component {
       return;
     }
     let [infoRes, menuRes] = await Promise.all([getUserInfo(), getAccessMemu()]);
-    console.log("initAppData start");
     let permission = [...infoRes.data.userRole, ...infoRes.data.userPermission];
     let isAdmin = infoRes.data.isAdmin;
     let userInfo = {
@@ -109,7 +104,6 @@ class App extends Component {
     });
     this.props.updateUserInfo(userInfo);
     this.initChildData(this.props);
-    console.log("initAppData end")
   }
   initChildData(props) {
     this.refs['MySider'].wrappedInstance.initMenu(props.location.pathname);

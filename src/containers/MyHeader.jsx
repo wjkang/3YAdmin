@@ -14,7 +14,7 @@ const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-class MyHeader extends React.Component {
+class MyHeader extends React.PureComponent {
     updateModule = (e) => {
         let accesseMenu = this.props.accessMenu;
         let moduleList = accesseMenu.filter(item => {
@@ -40,6 +40,7 @@ class MyHeader extends React.Component {
         this.props.history.push('/login')
     }
     render() {
+        console.log("MyHeader render")
         return (
             <Header style={{ background: '#fff', padding: 0, height: 'auto', position: 'fixed', width: '100%', zIndex: 9 }}>
                 <Row type="flex" justify="start">

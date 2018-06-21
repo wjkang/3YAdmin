@@ -2,7 +2,7 @@ import React from 'react';
 import { Spin } from 'antd';
 import { connect } from 'react-redux';
 
-class MySpin extends React.Component {
+class MySpin extends React.PureComponent {
     render() {
         const PageRouters = this.props.pageRouters;
         return (

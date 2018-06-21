@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Icon, Avatar, Row, Col } from 'antd';
 const { Meta } = Card;
 
-class Home extends React.Component {
+class Home extends React.PureComponent {
     render() {
         console.log("Home render")
         return (

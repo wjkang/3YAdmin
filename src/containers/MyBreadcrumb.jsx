@@ -5,7 +5,7 @@ import { Breadcrumb, Icon } from 'antd';
 import MenuToRouter from '@/menuMapToRouter';
 import util from '@/utils/util';
 
-class MyBreadcrumb extends React.Component {
+class MyBreadcrumb extends React.PureComponent {
     state = {
         map: [{
             name: "home",
@@ -39,6 +39,7 @@ class MyBreadcrumb extends React.Component {
 
     }
     render() {
+        console.log("MyBreadcrumb render")
         return (
             <Breadcrumb style={this.props.style}>
                 {this.state.map.map(

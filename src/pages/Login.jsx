@@ -7,7 +7,7 @@ import { setToken, getToken } from '@/utils/token'
 
 const FormItem = Form.Item;
 
-class Login extends React.Component {
+class Login extends React.PureComponent {
     state = {
         loading: false
     }

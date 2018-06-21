@@ -11,7 +11,7 @@ import Function from '@/pages/Function';
 
 const TabPane = Tabs.TabPane;
 
-class MyNavTabs extends React.Component {
+class MyNavTabs extends React.PureComponent {
   state = {
     currentPage: '',
     openPages: [{
@@ -23,7 +23,6 @@ class MyNavTabs extends React.Component {
     }]
   }
   componentWillReceiveProps(nextProps) {
-    console.log("MyNavTabs componentWillReceiveProps")
     if (!nextProps.show) {
       return;
     }
@@ -97,6 +96,7 @@ class MyNavTabs extends React.Component {
     this.props.history.push(path);
   }
   render() {
+    console.log("MyNavTabs render")
     return (
       <div style={this.props.style}>
         <Tabs

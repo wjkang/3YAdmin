@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
 import SiderMenu from './SiderMenu';
 import '@/style/menu.less';
@@ -6,7 +6,7 @@ import logo from '@/logo.svg';
 
 const { Sider } = Layout;
 
-class MySider extends Component {
+class MySider extends React.PureComponent {
     render() {
         return (
             <Sider

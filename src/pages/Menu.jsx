@@ -6,7 +6,7 @@ const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 
 
-class Menu extends React.Component {
+class Menu extends React.PureComponent {
     state = {
         menuList: [],
         tempMenu: {

@@ -1,30 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { updateModule } from '@/reducers/app';
 import MySider from '@/components/MySider';
 import MenuToRouter from '@/menuMapToRouter';
 import util from '@/utils/util';
 
-class MySiderContainer extends Component {
+class MySiderContainer extends React.PureComponent {
     state = {
         openKeys: [],
         selectedKey: ''
     }
-    componentWillMount() {
-        console.log("MySider componentWillMount")
-    }
-    componentDidMount() {
-
-        console.log("MySider componentDidMount")
-    }
-    componentWillUpdate() {
-        console.log("MySider componentWillUpdate")
-    }
-    componentDidUpdate() {
-        console.log("MySider componentDidUpdate")
-    }
     componentWillReceiveProps(nextProps) {//componentWillMount,componentDidMount都未获取到openAccessMenu,因为openAccessMenu是在App的componentDidMount里异步获取的
-        console.log("MySider componentWillReceiveProps")
         //刷新页面会触发三次，第一次为store初始化,第二次为openAccessMenu更新，第三次为MySider render导致App render,然后又再次触发(App render导致其子组件的componentWillReceiveProps会触发，但是不会死循环)
         // if (nextProps.openAccessMenu.length === 0) {//store初始化触发的忽略掉
         //     return;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu } from 'antd';
 
-class ModuleMenu extends React.Component {
+class ModuleMenu extends React.PureComponent {
     render() {
         const list = [];
         for (let item of this.props.moduleList) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from 'antd';
 
-class FullScreen extends React.Component {
+class FullScreen extends React.PureComponent {
     state = {
         fullScreen: false
     }

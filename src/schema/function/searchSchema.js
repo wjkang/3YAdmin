@@ -1,37 +1,21 @@
 export default {
-    "title": "A registration form",
-    "description": "A simple form example.",
+    "$id": "function-search-schema",
+    "title": "function-search-schema",
+    "description": "function-search-schema.",
     "type": "object",
-    "required": [
-        "firstName",
-        "lastName"
-    ],
+    "required": [],
     "properties": {
-        "firstName": {
+        "module": {
             "type": "string",
-            "title": "First name"
+            "title": "模块名称"
         },
-        "lastName": {
+        "name": {
             "type": "string",
-            "title": "Last name"
+            "title": "功能名称"
         },
-        "age": {
-            "type": "integer",
-            "title": "Age"
-        },
-        "bio": {
+        "code": {
             "type": "string",
-            "title": "Bio"
-        },
-        "password": {
-            "type": "string",
-            "title": "Password",
-            "minLength": 3
-        },
-        "telephone": {
-            "type": "string",
-            "title": "Telephone",
-            "minLength": 10
+            "title": "功能编码"
         }
     }
 }

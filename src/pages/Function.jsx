@@ -6,7 +6,8 @@ import {
     delFunctions,
     saveFunction
 } from 'api';
-
+import SearchForm from '@/schema/SearchForm';
+import schema from '@/schema/function';
 
 const columns = [{
     title: '模块名称',
@@ -23,13 +24,13 @@ const columns = [{
 {
     title: '功能编码',
     dataIndex: 'code',
-    width:'30%',
+    width: '30%',
     sorter: true
 },
 {
     title: '操作',
     dataIndex: 'id',
-    width:'10%',
+    width: '10%',
     render: (text, record) => {
         return <div>
             <a
@@ -64,49 +65,6 @@ class Function extends React.PureComponent {
         },
         loading: false
     };
-    handleSearch = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            console.log('Received values of form: ', values);
-        });
-    }
-
-    handleReset = () => {
-        this.props.form.resetFields();
-    }
-
-    toggle = () => {
-        const { expand } = this.state;
-        this.setState({ expand: !expand });
-    }
-
-    // To generate mock Form.Item
-    getSearchFields() {
-        const { getFieldDecorator } = this.props.form;
-        const formItemLayout = {
-            labelCol: { span: 8 },
-            wrapperCol: { span: 16 },
-        };
-        const children = [];
-        for (let i = 0; i < 3; i++) {
-            children.push(
-                <Col xs={24} sm={24} md={12} lg={6} xl={6} key={i} style={{ display: this.state.expand ? 'block' : 'none' }}>
-                    <Form.Item {...formItemLayout} label={`Field ${i}`}>
-                        {getFieldDecorator(`field-${i}`, {
-                            rules: [{
-                                required: true,
-                                message: 'Input something!',
-                            }],
-                        })(
-                            <Input placeholder="placeholder" />
-                        )}
-                    </Form.Item>
-                </Col>
-            );
-        }
-        console.log("getSearchFields")
-        return children;
-    }
     fetch = async (query = {}) => {
         this.setState({ loading: true });
         let dataRes = await getFunctionPagedList(query);
@@ -122,7 +80,7 @@ class Function extends React.PureComponent {
     handleTableChange = (pagination, filters, sorter) => {
         const pager = { ...this.state.pagination };
         pager.current = pagination.current;
-        pager.pageSize=pagination.pageSize;
+        pager.pageSize = pagination.pageSize;
         this.setState({
             pagination: pager,
         });
@@ -135,7 +93,7 @@ class Function extends React.PureComponent {
         };
         this.fetch(query);
     }
-    edit=()=>{
+    edit = () => {
         alert(1212);
     }
     componentDidMount() {
@@ -148,25 +106,7 @@ class Function extends React.PureComponent {
     render() {
         return (
             <div>
-                <Form
-                    className="ant-advanced-search-form"
-                    onSubmit={this.handleSearch}
-                >
-                    <Row gutter={24}>{this.getSearchFields()}</Row>
-                    <Row>
-                        <Col span={24} style={{ textAlign: 'center' }}>
-                            <span style={{ display: this.state.expand ? 'inline' : 'none' }}>
-                                <Button type="primary" htmlType="submit">查询</Button>
-                                <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                                    清空
-                        </Button>
-                            </span>
-                            <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-                                {this.state.expand ? '收起查询' : '展开查询'} <Icon type={this.state.expand ? 'up' : 'down'} />
-                            </a>
-                        </Col>
-                    </Row>
-                </Form>
+                <SearchForm schema={schema.schema} uiSchema={schema.uiSchema} handleSubmit={this.handleSearch}/>
                 <Table columns={columns}
                     rowKey={record => record.id}
                     dataSource={this.state.pagedList}

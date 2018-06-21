@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Icon } from 'antd';
 
-class SearchInput extends React.Component {
+class SearchInput extends React.PureComponent {
     state = {
         value: '',
         focus:false
