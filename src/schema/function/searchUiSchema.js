@@ -21,7 +21,8 @@ export default {
         "ui:widget": "input",
         "ui:options": {
             "type": "text",
-            "placeholder": "编码模糊查询"
+            "placeholder": "编码模糊查询",
+            "addonAfter":'<Icon type="setting" />'
         },
         "ui:title": "模块编码",
         "ui:description": ""

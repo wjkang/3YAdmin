@@ -1,10 +1,10 @@
 import React from 'react';
-import { Row, Col, Input, Button, Switch, InputNumber, message, Tag, Icon, Table, Popconfirm, Divider } from 'antd';
+import { Table, Popconfirm, Divider } from 'antd';
 import {
     getFunctionPagedList,
-    delFunction,
-    delFunctions,
-    saveFunction
+    // delFunction,
+    // delFunctions,
+    // saveFunction
 } from 'api';
 import SearchForm from '@/schema/SearchForm';
 import schema from '@/schema/function';
