@@ -1,6 +1,10 @@
 import searchSchema from './searchSchema';
 import searchUiSchema from './searchUiSchema';
+import editSchema from './editSchema';
+import editUiSchema from './editUiSchema';
 export default {
-    schema: searchSchema,
-    uiSchema: searchUiSchema
+    searchSchema,
+    searchUiSchema,
+    editSchema,
+    editUiSchema
 }

@@ -7,6 +7,7 @@ import {
     // saveFunction
 } from 'api';
 import SearchForm from '@/schema/SearchForm';
+import CommonForm from '@/schema/CommonForm';
 import schema from '@/schema/function';
 import PermissionContainer from 'permission';
 
@@ -68,6 +69,9 @@ class Function extends React.PureComponent {
             </div>
         }
     }]
+    editFormData = {
+        moduleId:[4,5,6]
+    }
     fetch = async (query = {}) => {
         this.setState({ loading: true });
         let dataRes = await getFunctionPagedList(query);
@@ -144,7 +148,9 @@ class Function extends React.PureComponent {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
-                <SearchForm schema={schema.schema} uiSchema={schema.uiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
+                <SearchForm schema={schema.searchSchema} uiSchema={schema.searchUiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
+                <Divider />
+                <CommonForm schema={schema.editSchema} uiSchema={schema.editUiSchema} formData={this.editFormData}/>
                 <Divider />
                 <div style={{ marginBottom: 16 }}>
                     <PermissionContainer permission={["function_edit"]}>
