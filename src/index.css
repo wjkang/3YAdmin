@@ -1,14 +1,21 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
 }
-#root{
-  height: 100%;
+
+#root {
+    height: 100%;
 }
-#root>.ant-spin-nested-loading{
-  height: 100%;
+
+#root>.ant-spin-nested-loading {
+    height: 100%;
 }
-.ant-spin-container{
-  height: 100%;
+
+.ant-spin-container {
+    height: 100%;
+}
+
+.ant-table-body {
+    overflow-x: auto!important;
 }

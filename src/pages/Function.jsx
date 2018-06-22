@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Divider } from 'antd';
+import { Table, Popconfirm, Divider, Button } from 'antd';
 import {
     getFunctionPagedList,
     // delFunction,
@@ -8,45 +8,7 @@ import {
 } from 'api';
 import SearchForm from '@/schema/SearchForm';
 import schema from '@/schema/function';
-
-const columns = [{
-    title: '模块名称',
-    dataIndex: 'module',
-    sorter: true,
-    width: '30%',
-},
-{
-    title: '功能名称',
-    dataIndex: 'name',
-    sorter: true,
-    width: '30%',
-},
-{
-    title: '功能编码',
-    dataIndex: 'code',
-    width: '30%',
-    sorter: true
-},
-{
-    title: '操作',
-    dataIndex: 'id',
-    width: '10%',
-    render: (text, record) => {
-        return <div>
-            <a
-                href="javascript:;"
-                onClick={this.edit}
-
-            >
-                编辑
-            </a>
-            <Divider type="vertical" />
-            <Popconfirm title="确定删除?" onConfirm={this.onDelete}>
-                <a href="javascript:;">删除</a>
-            </Popconfirm>
-        </div>
-    }
-}];
+import PermissionContainer from 'permission';
 
 class Function extends React.PureComponent {
     state = {
@@ -56,6 +18,7 @@ class Function extends React.PureComponent {
             code: ""
         },
         expand: true,
+        selectedRowKeys: [],
         pagedList: [],
         pagination: {
             current: 1,
@@ -68,7 +31,43 @@ class Function extends React.PureComponent {
             order: ''
         },
         loading: false
-    };
+    }
+    columns = [{
+        title: '模块名称',
+        dataIndex: 'module',
+        sorter: true
+    },
+    {
+        title: '功能名称',
+        dataIndex: 'name',
+        sorter: true
+    },
+    {
+        title: '功能编码',
+        dataIndex: 'code',
+        sorter: true
+    },
+    {
+        title: '操作',
+        dataIndex: 'id',
+        fixed: 'right',
+        width: 120,
+        render: (text, record) => {
+            return <div>
+                <a
+                    href="javascript:;"
+                    onClick={this.edit}
+
+                >
+                    编辑
+                </a>
+                <Divider type="vertical" />
+                <Popconfirm title="确定删除?" onConfirm={this.onDelete}>
+                    <a href="javascript:;">删除</a>
+                </Popconfirm>
+            </div>
+        }
+    }]
     fetch = async (query = {}) => {
         this.setState({ loading: true });
         let dataRes = await getFunctionPagedList(query);
@@ -122,6 +121,9 @@ class Function extends React.PureComponent {
             filter: {}
         });
     }
+    onSelectChange = (selectedRowKeys) => {
+        this.setState({ selectedRowKeys });
+    }
     edit = () => {
         alert(1212);
     }
@@ -134,15 +136,48 @@ class Function extends React.PureComponent {
     }
     render() {
         console.log("Function render")
+        const { selectedRowKeys } = this.state;
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange,
+        };
+        const hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
                 <SearchForm schema={schema.schema} uiSchema={schema.uiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
-                <Table columns={columns}
+                <Divider />
+                <div style={{ marginBottom: 16 }}>
+                    <PermissionContainer permission={["function_edit"]}>
+                        <Button
+                            type="primary"
+                            icon="plus-square-o"
+                        >
+                            新增
+                    </Button>
+                    </PermissionContainer>
+                    <Divider type="vertical" />
+                    <PermissionContainer permission={["function_del"]}>
+                        <Popconfirm title="确定删除?" onConfirm={this.onDelete}>
+                            <Button
+                                type="danger"
+                                disabled={!hasSelected}
+                                icon="delete"
+                            >
+                                删除
+                        </Button>
+                        </Popconfirm>
+                    </PermissionContainer>
+                </div>
+                <Table
+                    rowSelection={rowSelection}
+                    columns={this.columns}
                     rowKey={record => record.id}
                     dataSource={this.state.pagedList}
                     pagination={this.state.pagination}
                     loading={this.state.loading}
                     onChange={this.handleTableChange}
+                    scroll={{ x: 768 }}
+                    bordered
                 />
             </div>
         );
