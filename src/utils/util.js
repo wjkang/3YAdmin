@@ -26,6 +26,26 @@ util.getMenuByName = function (name, menulist) {
     return menu;
 }
 
+util.getTreeEleByPropertyValue = function (value, property, list) {
+    let ele = {};
+    let forFn = function (value, property, list) {
+        for (var item of list) {
+            if (item[property] === value) {
+                ele = item;
+            } else {
+                if (item.children && item.children.length > 0) {
+                    forFn(value, property, item.children)
+                }
+            }
+            if (ele[property]) {
+                break;
+            }
+        }
+    }
+    forFn(value, property, list);
+    return ele;
+}
+
 util.oneOf = function (ele, targetArr) {
     if (targetArr.indexOf(ele) >= 0) {
         return true;

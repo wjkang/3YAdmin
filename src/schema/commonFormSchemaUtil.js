@@ -14,6 +14,7 @@ import {
     Cascader
 } from 'antd';
 import * as api from 'api';
+import remoteDataUtil from './CommonFormRemoteDataUtil';
 
 const FormItem = Form.Item;
 
@@ -56,12 +57,16 @@ const SchemaUtils = {
             },
             async componentDidMount() {
                 if (UiSchemaMap.has(id)) {
+                    //jsx结构已经构建并缓存
                     return;
                 }
 
-                await util.getRemoteData(uiSchema);
+                util.mergeSchema(schema, uiSchema);
+
+                await util.getRemoteData(id, uiSchema);
 
                 UiSchemaMap.set(id, true);
+
 
                 const generateJsx = util.parse(id, schema, uiSchema);
 
@@ -76,15 +81,52 @@ const SchemaUtils = {
             },
             render() {
                 console.log("tmpCommonForm render");
-                const formData = this.props.formData;
-                // getFieldDecorator一层层往下传递
-                return this.generateJsx ? this.generateJsx(this.props.form.getFieldDecorator,formData) : null;
+                let formData = this.props.formData;
+                formData=formData||{}
+                // getFieldDecorator一层层往下传递(高阶函数的使用)
+                return this.generateJsx ? this.generateJsx(this.props.form.getFieldDecorator, formData) : null;
             },
         });
         // 注意要再用antd的create()方法包装下
         return Form.create()(tmpComponent);
     },
-    async getRemoteData(uiSchema) {
+    mergeSchema(schema, uiSchema) {
+        Object.keys(uiSchema).forEach(function (key) {
+            let schemaProperty = schema["properties"][key];
+            let uiSchemaProperty = uiSchema[key];
+            uiSchemaProperty.key = key;
+            if (uiSchemaProperty["ui:rules"] === undefined) {
+                uiSchemaProperty["ui:rules"] = []
+            }
+            if (uiSchemaProperty["ui:formItemConfig"] === undefined) {
+                uiSchemaProperty["ui:formItemConfig"] = {}
+            }
+            //merge description 
+            if (uiSchemaProperty["ui:formItemConfig"]["extra"] === undefined) {
+                uiSchemaProperty["ui:formItemConfig"]["extra"] = uiSchemaProperty["ui:description"]
+            }
+            if (uiSchemaProperty["ui:formItemConfig"]["extra"] === undefined) {
+                uiSchemaProperty["ui:formItemConfig"]["extra"] = schemaProperty["description"];
+            }
+            //merge title
+            if (uiSchemaProperty["ui:formItemConfig"]["label"] === undefined) {
+                uiSchemaProperty["ui:formItemConfig"]["label"] = uiSchemaProperty["ui:title"]
+            }
+            if (uiSchemaProperty["ui:formItemConfig"]["label"] === undefined) {
+                uiSchemaProperty["ui:formItemConfig"]["label"] = schemaProperty["title"];
+            }
+            //config labelCol 
+            if (uiSchemaProperty["ui:formItemConfig"]["labelCol"] === undefined) {
+                uiSchemaProperty["ui:formItemConfig"]["labelCol"] = { span: 8 };
+            }
+            //config wrapperCol 
+            if (uiSchemaProperty["ui:formItemConfig"]["wrapperCol"] === undefined) {
+                uiSchemaProperty["ui:formItemConfig"]["wrapperCol"] = { span: 16 };
+            }
+
+        })
+    },
+    async getRemoteData(id, uiSchema) {
         console.log("getRemoteData")
         const util = this;
         let calls = [];
@@ -93,25 +135,25 @@ const SchemaUtils = {
             if (field["ui:remoteConfig"]) {
                 switch (field["ui:widget"]) {
                     case 'select':
-                        calls.push(util.getCascaderRemoteData(field));
+                        calls.push(util.getCascaderRemoteData(id, field));
                         break;
                     case 'radio':
-                        calls.push(util.getCascaderRemoteData(field));
+                        calls.push(util.getCascaderRemoteData(id, field));
                         break;
                     case 'checkbox':
-                        calls.push(util.getCascaderRemoteData(field));
+                        calls.push(util.getCascaderRemoteData(id, field));
                         break;
                     case 'multiSelect':
-                        calls.push(util.getCascaderRemoteData(field));
+                        calls.push(util.getCascaderRemoteData(id, field));
                         break;
                     case 'between':
-                        calls.push(util.getCascaderRemoteData(field));
+                        calls.push(util.getCascaderRemoteData(id, field));
                         break;
                     case 'cascader':
-                        calls.push(util.getCascaderRemoteData(field));
+                        calls.push(util.getCascaderRemoteData(id, field));
                         break;
                     default:
-                        calls.push(util.getCascaderRemoteData(field));
+                        calls.push(util.getCascaderRemoteData(id, field));
                 }
             }
         });
@@ -122,87 +164,105 @@ const SchemaUtils = {
     },
     parse(id, schema, uiSchema) {
         console.log("parse CommonForm schema")
-        let cols = [];
+        let items = [];
         let schemaProperties = schema["properties"];
         const util = this;
         Object.keys(uiSchema).forEach(function (key) {
             let field = uiSchema[key];
-            field.key = key;
             const schemaProperty = schemaProperties[key];
-            // 注意, 每个字段transform之后, 返回的也都是一个回调函数, 所以cols其实是一个回调函数的集合
+            // 注意, 每个字段transform之后, 返回的也都是一个回调函数, 所以items其实是一个回调函数的集合
             switch (field["ui:widget"]) {
                 case 'select':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    items.push(util.transformNormal(field, schemaProperty));
                     break;
                 case 'radio':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    items.push(util.transformNormal(field, schemaProperty));
                     break;
                 case 'checkbox':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    items.push(util.transformNormal(field, schemaProperty));
                     break;
                 case 'multiSelect':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    items.push(util.transformNormal(field, schemaProperty));
                     break;
                 case 'between':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    items.push(util.transformNormal(field, schemaProperty));
                     break;
                 case 'cascader':
-                    cols.push(util.transformCascader(field, schemaProperty));
+                    items.push(util.transformCascader(field, schemaProperty));
                     break;
                 default:
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    items.push(util.transformNormal(field, schemaProperty));
             }
         });
 
         return (getFieldDecorator, formData) => {
-            const formCols = [];
-            for (const col of cols) {
-                formCols.push(col(getFieldDecorator, formData));
+            const formItems = [];
+            for (const item of items) {
+                formItems.push(item(getFieldDecorator, formData));
             }
             return (<Form>
-                {formCols}
+                {formItems}
             </Form>);
         };
     },
-    getCascaderRemoteData(field) {
+    getCascaderRemoteData(id, field) {
         const { apiKey, hand } = field["ui:remoteConfig"];
         return new Promise(function (resolve, reject) {
             api[apiKey]().then(res => {
                 let data = res.data;
                 data = field["ui:remoteConfig"]["hand"](data);
                 field["ui:options"]["options"] = data;
+                remoteDataUtil.addData(id + "_" + field.key, data)
                 resolve(data);
             });
         });
     },
     transformNormal(field, schemaProperty) {
-        switch (field["ui:dataType"]) {
+        switch (field["ui:widget"]) {
             case 'int':
-                return this.formItemWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
+                return this.formItemWrapper((getFieldDecorator, formData) => getFieldDecorator(field.key, { initialValue: formData[field.key] })(
                     <InputNumber size="default" max={field.max} min={field.min} placeholder={field.placeholder} />
                 ), field);
             case 'float':
-                return this.formItemWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
+                return this.formItemWrapper((getFieldDecorator, formData) => getFieldDecorator(field.key, { initialValue: formData[field.key] })(
                     <InputNumber step={0.01} size="default" max={field.max} min={field.min} placeholder={field.placeholder} />
                 ), field);
             case 'datetime':
-                return this.formItemWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
+                return this.formItemWrapper((getFieldDecorator, formData) => getFieldDecorator(field.key, { initialValue: formData[field.key] })(
                     <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder={field.placeholder || '请选择日期'} />
                 ), field);
+            case 'input.textarea':
+                return this.formItemWrapper(
+                    (getFieldDecorator, formData) =>
+                        getFieldDecorator(field.key,
+                            {
+                                initialValue: formData[field.key],
+                                rules: [...field["ui:rules"]]
+                            })(<Input.TextArea {...field["ui:options"]} />),
+                    field);
             default:  // 默认就是普通的输入框
-                return this.formItemWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
-                    <Input {...field["ui:options"]} />
-                ), field);
+                return this.formItemWrapper(
+                    (getFieldDecorator, formData) =>
+                        getFieldDecorator(field.key,
+                            {
+                                initialValue: formData[field.key],
+                                rules: [...field["ui:rules"]]
+                            })(<Input {...field["ui:options"]} />),
+                    field);
         }
     },
     transformCascader(field, schemaProperty) {
-        return this.formItemWrapper((getFieldDecorator, formData) => getFieldDecorator(field.key, { initialValue: formData[field.key] })(
-            <Cascader {...field["ui:options"]} />
-        ), field);
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key],
+                    rules: [...field["ui:rules"]]
+                })(<Cascader {...field["ui:options"]} />),//函数作为参数传递
+            field);
     },
     formItemWrapper(formItem, field) {
         return (getFieldDecorator, formData) => (
-            <FormItem key={field.key} label={field["ui:title"]} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+            <FormItem key={field.key} {...field["ui:formItemConfig"]}>
                 {formItem(getFieldDecorator, formData)}
             </FormItem>
         );

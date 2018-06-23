@@ -1,15 +1,17 @@
 import React from 'react';
-import { Table, Popconfirm, Divider, Button } from 'antd';
+import { Table, Popconfirm, Divider, Button, Modal, notification } from 'antd';
 import {
     getFunctionPagedList,
-    // delFunction,
-    // delFunctions,
-    // saveFunction
+    delFunction,
+    delFunctions,
+    saveFunction
 } from 'api';
 import SearchForm from '@/schema/SearchForm';
 import CommonForm from '@/schema/CommonForm';
 import schema from '@/schema/function';
 import PermissionContainer from 'permission';
+import commonFormRemoteDataUtil from '@/schema/CommonFormRemoteDataUtil';
+import util from '@/utils/util';
 
 class Function extends React.PureComponent {
     state = {
@@ -26,12 +28,14 @@ class Function extends React.PureComponent {
             pageSize: 10,
             showQuickJumper: true,
             showSizeChanger: true,
+            showTotal:total => `Total ${total} items`
         },
         sorter: {
             field: '',
             order: ''
         },
-        loading: false
+        loading: false,
+        editModalVisible: false
     }
     columns = [{
         title: '模块名称',
@@ -57,20 +61,20 @@ class Function extends React.PureComponent {
             return <div>
                 <a
                     href="javascript:;"
-                    onClick={this.edit}
+                    onClick={() => this.editFunction(record)}
 
                 >
                     编辑
                 </a>
                 <Divider type="vertical" />
-                <Popconfirm title="确定删除?" onConfirm={this.onDelete}>
+                <Popconfirm title="确定删除?" onConfirm={() => this.delFunction(record.id)}>
                     <a href="javascript:;">删除</a>
                 </Popconfirm>
             </div>
         }
     }]
     editFormData = {
-        moduleId:[4,5,6]
+
     }
     fetch = async (query = {}) => {
         this.setState({ loading: true });
@@ -128,8 +132,70 @@ class Function extends React.PureComponent {
     onSelectChange = (selectedRowKeys) => {
         this.setState({ selectedRowKeys });
     }
-    edit = () => {
-        alert(1212);
+    delFunction = async (id) => {
+        try {
+            await delFunction({ id: id });
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '删除成功',
+            });
+        } catch (e) {
+
+        }
+    }
+    batchDelFunction = async () => {
+        try {
+            await delFunctions({
+                ids: JSON.stringify(
+                    this.state.selectedRowKeys.map(s => {
+                        return s;
+                    })
+                )
+            });
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '删除成功',
+            });
+        } catch (e) {
+
+        }
+    }
+    addFunction = () => {
+        this.setState({
+            editModalVisible: true
+        })
+    }
+    editFunction = (record) => {
+        console.log(record)
+    }
+    saveFunction = async (data) => {
+        let formData = { ...this.editFormData, ...data }
+        let menuList = commonFormRemoteDataUtil.getData(schema.editSchema["$id"] + "_moduleId");
+        formData.moduleId = formData.moduleId[formData.moduleId.length - 1]
+        let menu = util.getTreeEleByPropertyValue(formData.moduleId, "id", menuList);
+        formData.module = menu.title;
+        try {
+            await saveFunction(formData);
+
+            this.setState({
+                editModalVisible: false
+            });
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '保存成功',
+            });
+        }
+        catch (e) {
+
+        }
+    }
+    editModalOnOk = () => {
+        this.editFunctionForm.handleSubmit();
+    }
+    editModalOnCancel = () => {
+        this.setState({
+            editModalVisible: false
+        });
     }
     componentDidMount() {
         this.fetch({
@@ -150,20 +216,19 @@ class Function extends React.PureComponent {
             <div>
                 <SearchForm schema={schema.searchSchema} uiSchema={schema.searchUiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
                 <Divider />
-                <CommonForm schema={schema.editSchema} uiSchema={schema.editUiSchema} formData={this.editFormData}/>
-                <Divider />
                 <div style={{ marginBottom: 16 }}>
                     <PermissionContainer permission={["function_edit"]}>
                         <Button
                             type="primary"
                             icon="plus-square-o"
+                            onClick={this.addFunction}
                         >
                             新增
                     </Button>
                     </PermissionContainer>
                     <Divider type="vertical" />
                     <PermissionContainer permission={["function_del"]}>
-                        <Popconfirm title="确定删除?" onConfirm={this.onDelete}>
+                        <Popconfirm title="确定删除?" onConfirm={this.batchDelFunction}>
                             <Button
                                 type="danger"
                                 disabled={!hasSelected}
@@ -184,6 +249,29 @@ class Function extends React.PureComponent {
                     onChange={this.handleTableChange}
                     scroll={{ x: 768 }}
                     bordered
+                />
+                <Modal
+                    visible={this.state.editModalVisible}
+                    cancelText="关闭"
+                    okText="提交"
+                    title={this.editFormData.id ? '编辑功能' : '新增功能'}
+                    onCancel={this.editModalOnCancel}
+                    onOk={this.editModalOnOk}
+                    destroyOnClose
+                >
+                    <CommonForm
+                        ref={(instance) => { this.editFunctionForm = instance; }}
+                        schema={schema.editSchema}
+                        uiSchema={schema.editUiSchema}
+                        formData={this.editFormData}
+                        handleSubmit={this.saveFunction}
+                    />
+                </Modal>
+                {/* 隐藏组件,做数据初始化 */}
+                <CommonForm
+                    schema={schema.editSchema}
+                    uiSchema={schema.editUiSchema}
+                    style={{ display: 'none' }}
                 />
             </div>
         );

@@ -2,12 +2,14 @@ import React from 'react';
 import { Row, Col, Button, Icon } from 'antd';
 import commonFormSchemaUtil from './commonFormSchemaUtil';
 class CommonForm extends React.PureComponent {
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const obj = this.formRef.props.form.getFieldsValue();
-
-        // 还是要交给上层组件处理
-        this.props.handleSubmit(obj);
+    handleSubmit = () => {
+        this.formRef.props.form.validateFields((err, values) => {
+            if (!err) {
+                // 还是要交给上层组件处理
+                this.props.handleSubmit(values);
+            }
+        });
+        //const obj = this.formRef.props.form.getFieldsValue();
     }
     handleReset = (e) => {
         e.preventDefault();
@@ -15,12 +17,12 @@ class CommonForm extends React.PureComponent {
     }
     render() {
         console.log("CommonForm render");
-        const { schema, uiSchema, formData } = this.props;
+        const { schema, uiSchema, formData,style } = this.props;
         // 根据当前的schema, 获取对应的表单组件
         const FormComponent = commonFormSchemaUtil.getForm(schema, uiSchema);
 
         return (
-            <div>
+            <div style={style}>
                 <FormComponent formData={formData} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
             </div>
         );
