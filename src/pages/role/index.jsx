@@ -247,7 +247,7 @@ class Role extends React.PureComponent {
                 />
                 <EditRoleModal
                     visible={this.state.editModalVisible}
-                    title={this.editFormData.id ? '编辑功能' : '新增功能'}
+                    title={this.editFormData.id ? '编辑' : '新增'}
                     onCancel={this.editModalOnCancel}
                     destroyOnClose
 
