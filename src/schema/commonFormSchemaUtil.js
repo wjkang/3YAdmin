@@ -48,7 +48,7 @@ const SchemaUtils = {
                 };
             },
             componentWillMount() {
-                console.log("CommonForm componentWillMount");
+                console.log("tmpCommonForm componentWillMount");
                 // 组件初始化时读取generator
                 if (JsxGeneratorMap.has(id)) {
                     this.generateJsx = JsxGeneratorMap.get(id);

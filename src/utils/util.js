@@ -68,6 +68,22 @@ util.getParentMenusByName = function (openAccesseMenu, name) {
     return temp;
 };
 
+util.getTreeEleWithParent = function (id, list) {
+    let temp = [];
+    let forFn = function (id, list) {
+        for (var item of list) {
+            if (item.id == id) {
+                let newItem = { ...item }
+                temp.push(newItem);
+                forFn(item.parentId, list);
+            }
+        }
+    };
+    forFn(id, list);
+    temp.reverse()
+    return temp;
+};
+
 util.handleTitle = function (vm, item) {
     return item.title;
 };
@@ -87,6 +103,22 @@ util.openAccesseMenu = function (accesseMenu) {
     forFn(accesseMenu, '');
     return openAccesseMenu;
 }
+
+util.openTreeData = (data) => {
+    let openAccesseMenu = [];
+    let forFn = function (data) {
+        for (var item of data) {
+            openAccesseMenu.push({ ...item })
+            if (item.children && item.children.length > 0) {
+                forFn(item.children)
+            }
+        }
+    }
+    forFn(data);
+    return openAccesseMenu;
+}
+
+
 
 
 
