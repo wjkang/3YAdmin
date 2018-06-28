@@ -1,7 +1,7 @@
 export default {
     "$id": "role-edit-schema",
-    "title": "role-search-schema",
-    "description": "role-search-schema.",
+    "title": "role-edit-schema",
+    "description": "role-edit-schema.",
     "type": "object",
     "required": ["name", "code"],//可传给后端判断，暂时不使用此处配置检验前端表单,前端表单校验规则配置在uiSchema
     "properties": {

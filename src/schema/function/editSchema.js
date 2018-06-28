@@ -1,7 +1,7 @@
 export default {
     "$id": "function-edit-schema",
-    "title": "function-search-schema",
-    "description": "function-search-schema.",
+    "title": "function-edit-schema",
+    "description": "function-edit-schema.",
     "type": "object",
     "required": ["moduleId", "name", "code"],//可传给后端判断，暂时不使用此处配置检验前端表单,前端表单校验规则配置在uiSchema
     "properties": {
