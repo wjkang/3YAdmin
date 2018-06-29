@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Button, Icon } from 'antd';
-import commonFormSchemaUtil from './commonFormSchemaUtil';
+import commonFormSchemaUtil from './commonFormSchemaUtilPlus';
 class CommonForm extends React.PureComponent {
     handleSubmit = () => {
         this.formRef.props.form.validateFields((err, values) => {

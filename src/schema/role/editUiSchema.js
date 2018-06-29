@@ -3,7 +3,11 @@ export default {
         "ui:widget": "input",
         "ui:options": {
             "type": "text",
-            "placeholder": ""
+            "placeholder": "",
+            "onBlur": (e) => {
+                const value = e.target.value;
+                console.log(value)
+            }
         },
         "ui:rules": [
             { required: true, message: '请输入角色名称' },
@@ -16,7 +20,11 @@ export default {
             //"extra":"121212",//未设置取ui:description
             "labelCol": { span: 6 },
             "wrapperCol": { span: 16 }
-        }//Form.Item 配置
+        },//Form.Item 配置
+        "ui:onBlur": (e) => {
+            const value = e.target.value;
+            console.log(value)
+        }
     },
     "code": {
         "ui:widget": "input",
@@ -57,6 +65,16 @@ export default {
             //"extra":"121212",//未设置取ui:description
             "labelCol": { span: 6 },
             "wrapperCol": { span: 16 }
-        }//Form.Item 配置
+        },//Form.Item 配置
+        "ui:required": [
+            {
+                "name": "name",
+                "message": "请先填写角色名称"
+            },
+            {
+                "name": "code",
+                "message": "请先填写角色编码"
+            }
+        ]
     }
 }
