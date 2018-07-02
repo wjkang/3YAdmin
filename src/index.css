@@ -4,6 +4,10 @@ body {
     font-family: sans-serif;
 }
 
+.clear-both {
+    clear: both;
+}
+
 #root {
     height: 100%;
 }
@@ -16,6 +20,10 @@ body {
     height: 100%;
 }
 
+.ant-spin {
+    z-index: 1001 !important;
+}
+
 .ant-table-body {
-    overflow-x: auto!important;
+    overflow-x: auto !important;
 }
