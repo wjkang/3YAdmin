@@ -58,7 +58,7 @@ class EditModal extends React.PureComponent {
             roleId: roleId
         }).then(moduleFunctionsRes => {
             let menuFunctionList = this.buildMenuListAndFunctions(moduleFunctionsRes.data.menuFunctions)
-            console.log(menuFunctionList)
+            let rolePermissions = moduleFunctionsRes.data.roleFunctions.map(s => s.functionId);
             this.setState({
                 moduleFunctions: moduleFunctionsRes.data.menuFunctions,
                 roleFunctions: moduleFunctionsRes.data.roleFunctions
