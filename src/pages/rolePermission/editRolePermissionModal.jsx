@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Tree } from 'antd';
 import { getMenuFunctions } from 'api';
+import { SIGSTOP } from 'constants';
 
 const TreeNode = Tree.TreeNode;
 
@@ -17,8 +18,33 @@ class EditModal extends React.PureComponent {
     onOk = () => {
 
     }
-    buildMenuListAndFunctions=()=>{
-
+    buildMenuListAndFunctions = (menuList) => {
+        let fn = (list) => {
+            for (let menu of list) {
+                let children = menuList.filter(s => s.parentId == menu.id);
+                let permissionChildren = menu.functions.map(s => {
+                    s.isPermissionChild = true;
+                    return s;
+                });
+                if (children && children.length > 0) {
+                    fn(children)
+                }
+                menu.children = [...children, ...permissionChildren];
+            }
+        }
+        let topMenus = menuList.filter(s => s.parentId == 0);
+        for (let menu of topMenus) {
+            let children = menuList.filter(s => s.parentId == menu.id);
+            let permissionChildren = menu.functions.map(s => {
+                s.isPermissionChild = true;
+                return s;
+            });
+            if (children && children.length > 0) {
+                fn(children)
+            }
+            menu.children = [...children, ...permissionChildren];
+        }
+        return topMenus;
     }
     componentWillReceiveProps(nextProps) {
         console.log(121212)
@@ -31,6 +57,8 @@ class EditModal extends React.PureComponent {
             menuId: 0,
             roleId: roleId
         }).then(moduleFunctionsRes => {
+            let menuFunctionList = this.buildMenuListAndFunctions(moduleFunctionsRes.data.menuFunctions)
+            console.log(menuFunctionList)
             this.setState({
                 moduleFunctions: moduleFunctionsRes.data.menuFunctions,
                 roleFunctions: moduleFunctionsRes.data.roleFunctions
