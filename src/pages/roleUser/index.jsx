@@ -1,10 +1,7 @@
 import React from 'react';
-import { Table, Popconfirm, Divider, Button, notification, Modal } from 'antd';
+import { Table, Popconfirm, Divider, Button, notification, Modal,Tag } from 'antd';
 import {
-    getRolePagedList,
-    delRole,
-    delRoles,
-    saveRole
+    getRolePagedList
 } from 'api';
 import SearchForm from '@/schema/SearchForm';
 import schema from '@/schema/roleUser';
@@ -16,7 +13,6 @@ class RoleUser extends React.PureComponent {
             code: "",
         },
         searchFormExpand: true,
-        tableSelectedRowKeys: [],
         tablePagedList: [],
         tablePagination: {
             current: 1,
@@ -52,15 +48,11 @@ class RoleUser extends React.PureComponent {
                 return <div>
                     <a
                         href="javascript:;"
-                        onClick={() => this.editRole(record)}
+                        onClick={() => this.editRoleUser(record)}
 
                     >
-                        编辑
+                        用户列表
                 </a>
-                    <Divider type="vertical" />
-                    <Popconfirm title="确定删除?" onConfirm={() => this.delRole(record.id)}>
-                        <a href="javascript:;">删除</a>
-                    </Popconfirm>
                 </div>
             }
         }]
@@ -108,78 +100,16 @@ class RoleUser extends React.PureComponent {
         };
         this.fetch(query);
     }
-    onSelectChange = (selectedRowKeys) => {
-        this.setState({ tableSelectedRowKeys: selectedRowKeys });
-    }
-    addRole = () => {
-        this.editFormData = {}
-        this.setState({
-            editModalVisible: true
-        })
-    }
-    batchDelRole = async () => {
-        try {
-            await delRoles({
-                ids: JSON.stringify(
-                    this.state.tableSelectedRowKeys.map(s => {
-                        return s;
-                    })
-                )
-            });
-            this.setState({
-                tableSelectedRowKeys: []
-            })
-            notification.success({
-                placement: 'bottomLeft bottomRight',
-                message: '删除成功',
-            });
-        } catch (e) {
-
-        }
-        this.refresh()
-    }
-    editRole = (record) => {
+    editRoleUser = (record) => {
         this.editFormData = { ...record };
         this.setState({
             editModalVisible: true
         })
     }
-    delRole = async (id) => {
-        try {
-            await delRole({ id: id });
-            notification.success({
-                placement: 'bottomLeft bottomRight',
-                message: '删除成功',
-            });
-        } catch (e) {
-
-        }
-        this.refresh()
-    }
     editModalOnCancel = () => {
         this.setState({
             editModalVisible: false
         });
-    }
-    editModalOnOk = () => {
-        this.editContent.onOk()
-    }
-    saveRole = async (data) => {
-        let formData = { ...this.editFormData, ...data }
-        try {
-            await saveRole(formData);
-            this.setState({
-                editModalVisible: false
-            });
-            notification.success({
-                placement: 'bottomLeft bottomRight',
-                message: '保存成功',
-            });
-        }
-        catch (e) {
-
-        }
-        this.refresh()
     }
     refresh = () => {
         let query = {
@@ -208,37 +138,11 @@ class RoleUser extends React.PureComponent {
     }
     render() {
         console.log("RoleUser render")
-        const { tableSelectedRowKeys } = this.state;
-        const rowSelection = {
-            selectedRowKeys: tableSelectedRowKeys,
-            onChange: this.onSelectChange,
-        };
-        const hasSelected = tableSelectedRowKeys.length > 0;
         return (
             <div>
                 <SearchForm schema={schema.searchSchema} uiSchema={schema.searchUiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
                 <Divider />
-                <div style={{ marginBottom: 16 }}>
-                    <Button
-                        type="primary"
-                        icon="plus-square-o"
-                        onClick={this.addRole}
-                    >
-                        新增
-                    </Button>
-                    <Divider type="vertical" />
-                    <Popconfirm title="确定删除?" onConfirm={this.batchDelRole}>
-                        <Button
-                            type="danger"
-                            disabled={!hasSelected}
-                            icon="delete"
-                        >
-                            删除
-                        </Button>
-                    </Popconfirm>
-                </div>
                 <Table
-                    rowSelection={rowSelection}
                     columns={this.columns}
                     rowKey={record => record.id}
                     dataSource={this.state.tablePagedList}
@@ -250,17 +154,14 @@ class RoleUser extends React.PureComponent {
                 />
                 <Modal
                     visible={this.state.editModalVisible}
+                    width={1000}
                     cancelText="关闭"
                     okText="提交"
-                    title={this.editFormData.id ? '编辑' : '新增'}
+                    title={<span>编辑角色&nbsp;&nbsp;<Tag color="#2db7f5">{this.editFormData.name}</Tag>&nbsp;下用户</span>}
                     onCancel={this.editModalOnCancel}
-                    onOk={this.editModalOnOk}
                     destroyOnClose
                 >
-                    <EditRoleUserModalContent
-                        ref={(instance) => { this.editContent = instance; }}
-                        handFormSubmit={this.saveRole}
-                    />
+                    <EditRoleUserModalContent />
                 </Modal>
             </div>
         );

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal, Tree } from 'antd';
 import { getMenuFunctions } from 'api';
-import { SIGSTOP } from 'constants';
 
 const TreeNode = Tree.TreeNode;
 
