@@ -3,7 +3,7 @@ export default {
     function: "/app/permission/function",
     role: "/app/permission/role",
     rolepermission: "/app/permission/rolepermission",
-    roleuser: "",
+    roleuser: "/app/permission/roleuser",
     userrole: "",
     department: "",
     position: "",
