@@ -9,7 +9,7 @@ import schema from '@/schema/role';
 import EditRolePermissionModal from './editRolePermissionModal';
 import '@/style/role-permission.less';
 
-class Role extends React.PureComponent {
+class RolePermission extends React.PureComponent {
     state = {
         tableFilter: {
             name: "",
@@ -121,21 +121,20 @@ class Role extends React.PureComponent {
         });
     }
     saveRolePermission = async (data) => {
-        let formData = { ...this.editFormData, ...data }
+        let formData = {...data }
         try {
             await savePermission(formData);
-            this.setState({
-                editModalVisible: false
-            });
             notification.success({
                 placement: 'bottomLeft bottomRight',
                 message: '保存成功',
+            });
+            this.setState({
+                editModalVisible: false
             });
         }
         catch (e) {
 
         }
-        this.refresh()
     }
     refresh = () => {
         let query = {
@@ -191,4 +190,4 @@ class Role extends React.PureComponent {
     }
 }
 
-export default Role;
+export default RolePermission;

@@ -8,15 +8,30 @@ const TreeNode = Tree.TreeNode;
 class EditModal extends React.PureComponent {
     state = {
         id: '',
-        menuList: [],
-        roleFunctions: []
+        menuFunctionList: []
     }
     defaultCheckKeys = []
+    checkedKeys = [];
     onCancel = () => {
         this.props.onCancel();
+        this.setState({
+            menuFunctionList: []
+        });
+        this.defaultCheckKeys = []
+        this.checkedKeys = []
     }
-    onOk = () => {
-
+    onOk =async () => {
+        let data = {
+            roleId: this.props.formData.id,
+            permissions: this.checkedKeys,
+            moduleId: 0
+        };
+        await this.props.handFormSubmit(data);
+        this.setState({
+            menuFunctionList: []
+        });
+        this.defaultCheckKeys = []
+        this.checkedKeys = []
     }
     buildMenuListAndFunctions = (menuList) => {
         let fn = (list) => {
@@ -46,6 +61,9 @@ class EditModal extends React.PureComponent {
         }
         return topMenus;
     }
+    onCheck = (checkedKeys, info) => {
+        this.checkedKeys = checkedKeys.filter(s => s.indexOf("menu") < 0);
+    }
     componentWillReceiveProps(nextProps) {
         console.log(121212)
         if (!nextProps.visible) {
@@ -59,13 +77,46 @@ class EditModal extends React.PureComponent {
         }).then(moduleFunctionsRes => {
             let menuFunctionList = this.buildMenuListAndFunctions(moduleFunctionsRes.data.menuFunctions)
             let rolePermissions = moduleFunctionsRes.data.roleFunctions.map(s => s.functionId);
+            this.defaultCheckKeys = rolePermissions;
+            this.checkedKeys = rolePermissions;
             this.setState({
-                moduleFunctions: moduleFunctionsRes.data.menuFunctions,
-                roleFunctions: moduleFunctionsRes.data.roleFunctions
+                menuFunctionList: menuFunctionList
             });
         });
     }
+    renderTreeNode = (menuFunctionList) => {
+        let list = [];
+        for (let item of menuFunctionList) {
+            if (item.children && item.children.length > 0) {
+                if (item.isPermissionChild) {
+                    list.push(<TreeNode className="permission-tree-node" title={item.name} key={item.id}>{this.renderTreeNode(item.children)}</TreeNode>);
+                } else {
+                    list.push(<TreeNode className="clear-both" title={<span style={{ color: 'rgb(181, 185, 189)' }}>{item.title}</span>} key={'menu' + item.id}>{this.renderTreeNode(item.children)}</TreeNode>);
+                }
+            } else {
+                if (item.isPermissionChild) {
+                    list.push(<TreeNode className="permission-tree-node" title={item.name} key={item.id}></TreeNode>);
+                } else {
+                    list.push(<TreeNode className="clear-both" title={<span style={{ color: 'rgb(181, 185, 189)' }}>{item.title}</span>} key={'menu' + item.id}></TreeNode>);
+                }
+            }
+        }
+        return list;
+    }
+    renderTree = () => {
+        return <Tree
+            checkable
+            multiple
+            defaultExpandAll
+            defaultCheckedKeys={this.defaultCheckKeys}
+            onCheck={this.onCheck}
+            selectable={false}
+        >
+            {this.renderTreeNode(this.state.menuFunctionList)}
+        </Tree>
+    }
     render() {
+        console.log("render");
         return (
             <Modal
                 width={800}
@@ -77,107 +128,7 @@ class EditModal extends React.PureComponent {
                 onOk={this.onOk}
                 destroyOnClose
             >
-                <Tree
-                    checkable
-                    defaultExpandAll
-                    defaultCheckedKeys={["0-0-0-0-3"]}
-                >
-                    <TreeNode title="parent 1" key="0-0">
-                        <TreeNode title="parent 1-0" key="0-0-0">
-                            <TreeNode title="leaf" key="0-0-0-0">
-                                <TreeNode
-                                    className="permission-tree-node"
-                                    title="leaf"
-                                    key="0-0-0-0-1"
-                                />
-                                <TreeNode
-                                    className="permission-tree-node"
-                                    title="234343434"
-                                    key="0-0-0-0-2"
-                                />
-                                <TreeNode
-                                    className="permission-tree-node"
-                                    title="fgfgfgff"
-                                    key="0-0-0-0-3"
-                                />
-                                <TreeNode
-                                    className="permission-tree-node"
-                                    title="leaf"
-                                    key="0-0-0-0-4"
-                                />
-                                <TreeNode
-                                    className="permission-tree-node"
-                                    title="fgfgfgfgggggg"
-                                    key="0-0-0-0-5"
-                                />
-                                <TreeNode
-                                    className="permission-tree-node"
-                                    title="leaf"
-                                    key="0-0-0-0-6"
-                                />
-                                <TreeNode
-                                    className="permission-tree-node"
-                                    title="fgfgfg"
-                                    key="0-0-0-0-7"
-                                />
-                            </TreeNode>
-                            <TreeNode className="permission-tree-node" title="leaf" key="0-0-0-1" />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="234343434"
-                                key="0-0-0-2"
-                            />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="fgfgfgff"
-                                key="0-0-0-3"
-                            />
-                            <TreeNode className="permission-tree-node" title="leaf" key="0-0-0-4" />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="fgfgfgfgggggg"
-                                key="0-0-0-5"
-                            />
-                            <TreeNode className="permission-tree-node" title="leaf" key="0-0-0-6" />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="fgfgfg"
-                                key="0-0-0-7"
-                            />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="leafgfgfgfgf"
-                                key="0-0-0-8"
-                            />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="fgfgfg"
-                                key="0-0-0-9"
-                            />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="fgfgfgfg"
-                                key="0-0-0-10"
-                            />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="fgfgfgfg"
-                                key="0-0-0-11"
-                            />
-                            <TreeNode
-                                className="permission-tree-node"
-                                title="fgfgfgfgfg"
-                                key="0-0-0-12"
-                            />
-                        </TreeNode>
-                        <TreeNode className="clear-both" title="parent 1-1" key="0-0-1">
-                            <TreeNode
-                                title={<span style={{ color: "#1890ff" }}>sss</span>}
-                                key="0-0-4-0"
-                            />
-                        </TreeNode>
-                    </TreeNode>
-                </Tree>
+                {this.state.menuFunctionList.length > 0 ? this.renderTree() : null}
             </Modal >
         )
     }
