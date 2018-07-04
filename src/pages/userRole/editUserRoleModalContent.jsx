@@ -1,16 +1,18 @@
 import React from 'react';
-import { Table, Divider, Modal, Tag, Button } from 'antd';
+import { Table, Divider, notification, Badge } from 'antd';
 import {
-    getUserPagedList
+    editRoleUser,
+    getRolePagedList
 } from 'api';
 import SearchForm from '@/schema/SearchForm';
-import schema from '@/schema/userRole';
-import EditUserRoleModalContent from './editUserRoleModalContent';
-class UserRole extends React.PureComponent {
+import schema from '@/schema/role';
+class EditUserRoleModalContent extends React.PureComponent {
     state = {
         tableFilter: {
             name: "",
-            email: "",
+            code: "",
+            userId: this.props.formData.id
+
         },
         searchFormExpand: true,
         tablePagedList: [],
@@ -25,51 +27,58 @@ class UserRole extends React.PureComponent {
             field: '',
             order: ''
         },
-        tableLoading: false,
-        editModalVisible: false
+        tableLoading: false
     }
     columns = [
         {
-            title: '账号名称',
+            title: '角色名称',
             dataIndex: 'name',
             sorter: true
         },
         {
-            title: '用户名称',
-            dataIndex: 'trueName',
+            title: '角色编码',
+            dataIndex: 'code',
             sorter: true
         },
         {
-            title: '用户邮箱',
-            dataIndex: 'email',
-            sorter: true
-        },
-        {
-            title: 'phone',
-            dataIndex: 'phone',
-            sorter: true
+            title: '添加状态',
+            dataIndex: 'isAdd',
+            align: 'center',
+            render: (text, record) => {
+                return (
+                    record.isAdd == 1 ? <Badge status="success" /> : <Badge status="error" />
+                )
+            }
         },
         {
             title: '操作',
             dataIndex: 'id',
+            align: 'center',
             fixed: 'right',
             width: 120,
             render: (text, record) => {
-                return <div>
-                    <a
-                        href="javascript:;"
-                        onClick={() => this.editUserRole(record)}
+                return (
+                    record.isAdd == 1 ?
+                        <a
+                            href="javascript:;"
+                            onClick={() => this.modifyRoleUser(record, 0)}
+                            style={{ color: '#f5222d' }}
+                        >
+                            移除
+                        </a>
+                        :
+                        <a
+                            href="javascript:;"
+                            onClick={() => this.modifyRoleUser(record, 1)}
 
-                    >
-                        角色列表
-                </a>
-                </div>
+                        >
+                            添加
+                        </a>
+                )
             }
         }]
-    editFormData = {
-
-    }
     handleSearch = (filter) => {
+        filter.userId = this.props.formData.id;
         const pager = { ...this.state.tablePagination };
         pager.current = 1;
         this.setState({
@@ -87,7 +96,9 @@ class UserRole extends React.PureComponent {
     }
     handleReset = () => {
         this.setState({
-            tableFilter: {}
+            tableFilter: {
+                userId: this.props.formData.id
+            }
         });
     }
     handleTableChange = (pagination, filters, sorter) => {
@@ -110,16 +121,25 @@ class UserRole extends React.PureComponent {
         };
         this.fetch(query);
     }
-    editUserRole = (record) => {
-        this.editFormData = { ...record };
-        this.setState({
-            editModalVisible: true
-        })
-    }
-    editModalOnCancel = () => {
-        this.setState({
-            editModalVisible: false
+    modifyRoleUser = async (record, action) => {
+        await editRoleUser({
+            userId: this.props.formData.id,
+            roleId: record.id,
+            action: action
         });
+        if (action == 1) {
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '添加成功',
+            });
+        } else {
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '移除成功',
+            });
+        }
+        this.refresh();
+
     }
     refresh = () => {
         let query = {
@@ -133,7 +153,7 @@ class UserRole extends React.PureComponent {
     }
     fetch = async (query = {}) => {
         this.setState({ tableLoading: true });
-        let dataRes = await getUserPagedList(query);
+        let dataRes = await getRolePagedList(query);
         let data = dataRes.data;
         const pagination = { ...this.state.tablePagination };
         pagination.total = data.totalCount;
@@ -147,7 +167,6 @@ class UserRole extends React.PureComponent {
         this.refresh()
     }
     render() {
-        console.log("UserRole render")
         return (
             <div>
                 <SearchForm schema={schema.searchSchema} uiSchema={schema.searchUiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
@@ -162,21 +181,9 @@ class UserRole extends React.PureComponent {
                     scroll={{ x: 768 }}
                     bordered
                 />
-                <Modal
-                    visible={this.state.editModalVisible}
-                    width={1000}
-                    title={<span>编辑用户&nbsp;&nbsp;<Tag color="#2db7f5">{this.editFormData.name}</Tag>&nbsp;所属角色</span>}
-                    onCancel={this.editModalOnCancel}
-                    footer={[
-                        <Button key="back" onClick={this.editModalOnCancel}>关闭</Button>,
-                    ]}
-                    destroyOnClose
-                >
-                    <EditUserRoleModalContent formData={this.editFormData} />
-                </Modal>
             </div>
-        );
+        )
     }
 }
 
-export default UserRole;
+export default EditUserRoleModalContent;

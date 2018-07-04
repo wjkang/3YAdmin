@@ -4,6 +4,7 @@ import Function from '@/pages/Function';
 import Role from '@/pages/role';
 import RolePermission from '@/pages/rolePermission';
 import RoleUser from '@/pages/roleUser';
+import UserRole from '@/pages/userRole';
 import User from '@/pages/user';
 import Page404 from '@/pages/Page404';
 export default {
@@ -13,6 +14,7 @@ export default {
     "role":Role,
     "rolepermission":RolePermission,
     "roleuser":RoleUser,
+    "userrole":UserRole,
     "user_index":User,
     "page404":Page404
 }

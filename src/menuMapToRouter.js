@@ -4,7 +4,7 @@ export default {
     role: "/app/permission/role",
     rolepermission: "/app/permission/rolepermission",
     roleuser: "/app/permission/roleuser",
-    userrole: "",
+    userrole: "/app/permission/userrole",
     department: "",
     position: "",
     用户管理: "",
