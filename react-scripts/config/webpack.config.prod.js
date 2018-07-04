@@ -20,7 +20,8 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
-const UglifyJSPlugin=require('uglifyjs-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const AutoDllPlugin = require('autodll-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -120,7 +121,7 @@ module.exports = {
       'react-native': 'react-native-web',
       '@': paths.appSrc,
       'api': paths.appSrc + '/services/api',
-      'permission':paths.appSrc+'/containers/PermissionContainer'
+      'permission': paths.appSrc + '/containers/PermissionContainer'
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -314,8 +315,9 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['main', 'manifest']
+      names: ['main','manifest']
     }),
+    
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -327,16 +329,16 @@ module.exports = {
       inject: true,
       template: paths.appHtml,
       minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
+        removeComments: false,
+        collapseWhitespace: false,
+        removeRedundantAttributes: false,
+        useShortDoctype: false,
+        removeEmptyAttributes: false,
+        removeStyleLinkTypeAttributes: false,
+        keepClosingSlash: false,
+        minifyJS: false,
+        minifyCSS: false,
+        minifyURLs: false,
       },
     }),
     // Makes some environment variables available to the JS code, for example:
@@ -415,6 +417,32 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new AutoDllPlugin({
+      inject: true, // will inject the DLL bundle to index.html
+      debug: true,
+      filename: '[name].[chunkhash:8].js',
+      path:'static/js/',
+      plugins: [
+        new webpack.optimize.UglifyJsPlugin(),
+        // 如果不使用本插件，react将会打development环境的包
+        new webpack.DefinePlugin({
+          'process.env': {
+            NODE_ENV: '"production"'
+          },
+        }),
+      ],
+      entry: {
+        vendor: [
+          'axios',
+          'qs',
+          "react",
+          "react-dom",
+          "react-redux",
+          "react-router-dom",
+          "redux"
+        ]
+      }
+    })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
