@@ -315,9 +315,12 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['main','manifest']
+      names: ['main', 'manifest'],
+      children: true,
+      deepChildren: true,
+      minChunks: 2
     }),
-    
+
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -329,16 +332,16 @@ module.exports = {
       inject: true,
       template: paths.appHtml,
       minify: {
-        removeComments: false,
-        collapseWhitespace: false,
-        removeRedundantAttributes: false,
-        useShortDoctype: false,
-        removeEmptyAttributes: false,
-        removeStyleLinkTypeAttributes: false,
-        keepClosingSlash: false,
-        minifyJS: false,
-        minifyCSS: false,
-        minifyURLs: false,
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
       },
     }),
     // Makes some environment variables available to the JS code, for example:
@@ -421,7 +424,7 @@ module.exports = {
       inject: true, // will inject the DLL bundle to index.html
       debug: true,
       filename: '[name].[chunkhash:8].js',
-      path:'static/js/',
+      path: 'static/js/',
       plugins: [
         new webpack.optimize.UglifyJsPlugin(),
         // 如果不使用本插件，react将会打development环境的包
@@ -435,11 +438,12 @@ module.exports = {
         vendor: [
           'axios',
           'qs',
-          "react",
-          "react-dom",
-          "react-redux",
-          "react-router-dom",
-          "redux"
+          'react',
+          'react-dom',
+          'react-redux',
+          'react-router-dom',
+          'redux',
+          'react-loadable'
         ]
       }
     })

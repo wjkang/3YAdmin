@@ -285,7 +285,7 @@ module.exports = function (cfg) {
             })
           }
           : undefined,
-        clearConsole: true
+        clearConsole: false
       })
     )
 

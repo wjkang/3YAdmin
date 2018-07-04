@@ -5,9 +5,6 @@ import { withRouter } from 'react-router-dom';
 import MenuToRouter from '@/menuMapToRouter';
 import MenuMapToComponent from '@/menuMapToComponent';
 import util from '@/utils/util';
-import Home from '@/pages/Home';
-import Menu from '@/pages/Menu';
-import Function from '@/pages/Function';
 
 const TabPane = Tabs.TabPane;
 
