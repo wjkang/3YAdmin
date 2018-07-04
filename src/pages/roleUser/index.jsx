@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Divider, Button, notification, Modal,Tag } from 'antd';
+import { Table, Divider, Modal,Tag,Button} from 'antd';
 import {
     getRolePagedList
 } from 'api';
@@ -155,13 +155,14 @@ class RoleUser extends React.PureComponent {
                 <Modal
                     visible={this.state.editModalVisible}
                     width={1000}
-                    cancelText="关闭"
-                    okText="提交"
                     title={<span>编辑角色&nbsp;&nbsp;<Tag color="#2db7f5">{this.editFormData.name}</Tag>&nbsp;下用户</span>}
                     onCancel={this.editModalOnCancel}
+                    footer={[
+                        <Button key="back" onClick={this.editModalOnCancel}>关闭</Button>,
+                      ]}
                     destroyOnClose
                 >
-                    <EditRoleUserModalContent />
+                    <EditRoleUserModalContent formData={this.editFormData}/>
                 </Modal>
             </div>
         );

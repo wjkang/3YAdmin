@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table, Divider, Button, notification } from 'antd';
+import { Table, Divider, notification, Badge } from 'antd';
 import {
+    editRoleUser,
     getUserPagedList
 } from 'api';
 import SearchForm from '@/schema/SearchForm';
@@ -19,7 +20,7 @@ class EditRoleUserModalContent extends React.PureComponent {
             email: "",
 
 
-
+            roleId: this.props.formData.id
 
         },
         searchFormExpand: true,
@@ -38,57 +39,65 @@ class EditRoleUserModalContent extends React.PureComponent {
         tableLoading: false
     }
     columns = [
-
-
         {
             title: '账号名称',
             dataIndex: 'name',
             sorter: true
         },
-
-
-
         {
             title: '用户名称',
             dataIndex: 'trueName',
             sorter: true
         },
-
-
-
         {
             title: '用户邮箱',
             dataIndex: 'email',
             sorter: true
         },
-
-
-
         {
             title: 'phone',
             dataIndex: 'phone',
             sorter: true
         },
-
-
+        {
+            title: '添加状态',
+            dataIndex: 'isAdd',
+            align: 'center',
+            render: (text, record) => {
+                return (
+                    record.isAdd == 1 ? <Badge status="success" /> : <Badge status="error" />
+                )
+            }
+        },
         {
             title: '操作',
             dataIndex: 'id',
+            align: 'center',
             fixed: 'right',
             width: 120,
             render: (text, record) => {
-                return <div>
-                    <a
-                        href="javascript:;"
-                        onClick={() => this.editUser(record)}
+                return (
+                    record.isAdd == 1 ?
+                        <a
+                            href="javascript:;"
+                            onClick={() => this.modifyRoleUser(record, 0)}
+                            style={{color:'#f5222d'}}
+                        >
+                            移除
+                        </a>
+                        :
+                        <a
+                            href="javascript:;"
+                            onClick={() => this.modifyRoleUser(record, 1)}
 
-                    >
-                        编辑
-                </a>
-                </div>
+                        >
+                            添加
+                        </a>
+                )
             }
         }]
     handleSearch = (filter) => {
+        filter.roleId = this.props.formData.id;
         const pager = { ...this.state.tablePagination };
         pager.current = 1;
         this.setState({
@@ -106,7 +115,9 @@ class EditRoleUserModalContent extends React.PureComponent {
     }
     handleReset = () => {
         this.setState({
-            tableFilter: {}
+            tableFilter: {
+                roleId: this.props.formData.id
+            }
         });
     }
     handleTableChange = (pagination, filters, sorter) => {
@@ -128,6 +139,26 @@ class EditRoleUserModalContent extends React.PureComponent {
             filter: this.state.tableFilter
         };
         this.fetch(query);
+    }
+    modifyRoleUser = async (record, action) => {
+        await editRoleUser({
+            roleId: this.props.formData.id,
+            userId: record.id,
+            action: action
+        });
+        if (action == 1) {
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '添加成功',
+            });
+        } else {
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '移除成功',
+            });
+        }
+        this.refresh();
+
     }
     refresh = () => {
         let query = {
