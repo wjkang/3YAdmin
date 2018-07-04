@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, Divider, notification, Tag } from 'antd';
+import { Table, Divider, notification, Tag } from 'antd';
 import {
     getRolePagedList,
     savePermission

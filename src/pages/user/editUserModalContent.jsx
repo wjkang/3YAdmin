@@ -1,5 +1,4 @@
 import React from 'react';
-import { Modal } from 'antd';
 import CommonForm from '@/schema/CommonForm';
 class EditUserModalContent extends React.PureComponent {
     onOk = () => {
