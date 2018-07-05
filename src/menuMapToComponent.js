@@ -1,15 +1,6 @@
 import Loadable from 'react-loadable';
-import 'react';
 import ContentLoader from '@/containers/MyContentLoader';
-//import Home from '@/pages/Home';
-//import Menu from '@/pages/Menu';
-//import Function from '@/pages/Function';
-//import Role from '@/pages/role';
-//import RolePermission from '@/pages/rolePermission';
-//import RoleUser from '@/pages/roleUser';
-//import UserRole from '@/pages/userRole';
-//import User from '@/pages/user';
-//import Page404 from '@/pages/Page404';
+
 const Menu = Loadable({
     loader: () => import('@/pages/Menu'),
     loading:ContentLoader

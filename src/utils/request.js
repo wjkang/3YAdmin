@@ -2,11 +2,12 @@ import axios from 'axios'
 import { getToken, removeToken } from '@/utils/token'
 import loading from '@/utils/loading'
 import permission from '@/utils/permission'
+import history from './history'
 import { message } from 'antd';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000':'http://69.171.69.13:3000' , // api的base_url
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://69.171.69.13:3000', // api的base_url
   timeout: 20000 // request timeout
 })
 
@@ -50,7 +51,7 @@ service.interceptors.response.use(
         message.error('登陆信息已过期,请重新登陆!');
       }
       setTimeout(() => {
-
+        history.push('/login')
       }, 1000)
 
     } else if (error.response && error.response.status === 500) {
@@ -59,7 +60,7 @@ service.interceptors.response.use(
       message.error('网络超时!');
     }
     else if (error === "403") {
-
+      message.error('没有权限!');
     } else {
       message.error('网络错误!');
     }
