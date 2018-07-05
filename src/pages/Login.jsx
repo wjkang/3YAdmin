@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Form, Icon, Input, Button } from 'antd';
 import '@/style/login.less';
-import noise from '@/utils/noise';
+//import noise from '@/utils/noise';
 import { loginByUsername } from 'api';
 import { setToken, getToken } from '@/utils/token'
 

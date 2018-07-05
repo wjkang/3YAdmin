@@ -4,7 +4,6 @@ import { Layout } from 'antd';
 import './TabMode.css';
 import MyHeader from '@/containers/MyHeader';
 import MySider from '@/containers/MySider';
-import MyBreadcrumb from '@/containers/MyBreadcrumb';
 import MyNavTabs from '@/containers/MyNavTabsR';
 import { getToken } from '@/utils/token';
 import { getUserInfo, getAccessMemu } from 'api';

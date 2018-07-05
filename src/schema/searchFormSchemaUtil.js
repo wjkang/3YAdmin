@@ -6,12 +6,7 @@ import {
     Row,
     Col,
     DatePicker,
-    Select,
-    Icon,
-    Radio,
-    InputNumber,
-    Checkbox,
-    Cascader
+    InputNumber
 } from 'antd';
 
 const FormItem = Form.Item;

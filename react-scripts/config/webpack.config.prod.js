@@ -155,6 +155,11 @@ module.exports = {
               baseConfig: {
                 extends: [require.resolve('eslint-config-react-app')],
               },
+              rules: {
+                "eqeqeq": "off",
+                "no-throw-literal":"off",
+                "no-script-url":"off"
+              },
               ignore: false,
               useEslintrc: false,
               // @remove-on-eject-end

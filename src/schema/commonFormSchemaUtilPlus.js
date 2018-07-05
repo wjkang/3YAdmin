@@ -3,14 +3,8 @@ import createClass from 'create-react-class';
 import {
     Form,
     Input,
-    Row,
-    Col,
     DatePicker,
-    Select,
-    Icon,
-    Radio,
     InputNumber,
-    Checkbox,
     Cascader
 } from 'antd';
 import * as api from 'api';
@@ -247,7 +241,7 @@ const SchemaUtils = {
         };
     },
     getCascaderRemoteData(id, field) {
-        const { apiKey, hand } = field["ui:remoteConfig"];
+        const { apiKey } = field["ui:remoteConfig"];
         return new Promise(function (resolve, reject) {
             api[apiKey]().then(res => {
                 let data = res.data;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Row, Col, Button, Icon } from 'antd';
 import commonFormSchemaUtil from './commonFormSchemaUtilPlus';
 class CommonForm extends React.PureComponent {
     handleSubmit = () => {

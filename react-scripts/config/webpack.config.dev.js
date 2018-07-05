@@ -107,9 +107,9 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      '@':paths.appSrc,
-      'api':paths.appSrc+'/services/api',
-      'permission':paths.appSrc+'/containers/PermissionContainer'
+      '@': paths.appSrc,
+      'api': paths.appSrc + '/services/api',
+      'permission': paths.appSrc + '/containers/PermissionContainer'
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -140,6 +140,11 @@ module.exports = {
               // @remove-on-eject-begin
               baseConfig: {
                 extends: [require.resolve('eslint-config-react-app')],
+              },
+              rules: {
+                "eqeqeq": "off",
+                "no-throw-literal":"off",
+                "no-script-url":"off"
               },
               ignore: false,
               useEslintrc: false,
@@ -219,7 +224,7 @@ module.exports = {
               {
                 loader: require.resolve('less-loader'),
                 options: {
-                  javascriptEnabled:true
+                  javascriptEnabled: true
                   //modifyVars: theme,
                 },
               },
@@ -332,7 +337,7 @@ module.exports = {
       inject: true, // will inject the DLL bundle to index.html
       debug: true,
       filename: '[name].[chunkhash:8].js',
-      path:'static/js/',
+      path: 'static/js/',
       entry: {
         vendor: [
           'axios',
