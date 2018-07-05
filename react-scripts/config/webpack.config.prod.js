@@ -448,7 +448,8 @@ module.exports = {
           'react-redux',
           'react-router-dom',
           'redux',
-          'react-loadable'
+          'react-loadable',
+          'react-content-loader'
         ]
       }
     })

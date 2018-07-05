@@ -1,5 +1,6 @@
 import Loadable from 'react-loadable';
-import React from 'react';
+import 'react';
+import ContentLoader from '@/containers/MyContentLoader';
 //import Home from '@/pages/Home';
 //import Menu from '@/pages/Menu';
 //import Function from '@/pages/Function';
@@ -11,57 +12,39 @@ import React from 'react';
 //import Page404 from '@/pages/Page404';
 const Menu = Loadable({
     loader: () => import('@/pages/Menu'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const Function = Loadable({
     loader: () => import('@/pages/Function'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const Role = Loadable({
     loader: () => import('@/pages/role'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const Home = Loadable({
     loader: () => import('@/pages/Home'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const RolePermission = Loadable({
     loader: () => import('@/pages/rolePermission'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const RoleUser = Loadable({
     loader: () => import('@/pages/roleUser'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const UserRole = Loadable({
     loader: () => import('@/pages/userRole'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const User = Loadable({
     loader: () => import('@/pages/user'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 const Page404 = Loadable({
     loader: () => import('@/pages/Page404'),
-    loading() {
-        return <div>Loading...</div>
-    }
+    loading:ContentLoader
 });
 
 export default {
