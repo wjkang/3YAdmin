@@ -11,11 +11,6 @@ import { updateUserInfo } from '@/reducers/user';
 import { updateAccessMenu } from '@/reducers/app';
 import util from '@/utils/util';
 
-
-
-
-
-
 const { Content } = Layout;
 
 class TabMode extends React.PureComponent {

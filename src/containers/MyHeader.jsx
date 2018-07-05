@@ -84,9 +84,14 @@ class MyHeader extends React.PureComponent {
                             <Menu.Item key="full">
                                 <FullScreen />
                             </Menu.Item>
-                            <Menu.Item key="navTab">
-                                <Icon type={this.props.navTabshow?'arrow-up':'arrow-down'} style={{ fontSize: 16 }} />
-                            </Menu.Item>
+                            {
+                                process.env.REACT_APP_LAYOUT_MODE !== 'tab' ?
+                                    <Menu.Item key="navTab">
+                                        <Icon type={this.props.navTabshow ? 'arrow-up' : 'arrow-down'} style={{ fontSize: 16 }} />
+                                    </Menu.Item>
+                                    :
+                                    null
+                            }
                             <SubMenu title={<span className="avatar"><img src={this.props.avatar} alt="头像" /><i className="on bottom b-white" /></span>}>
                                 <MenuItemGroup title="用户中心">
                                     <Menu.Item key="setting:1">你好 - {this.props.name}</Menu.Item>
