@@ -56,7 +56,7 @@ module.exports = {
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-dev-utils/webpackHotDevClient'),
+    require.resolve('react-dev-utils/webpackHotDevClient'),//默认开启的是这个
     // Finally, this is your app's code:
     paths.appIndexJs,
     // We include the app code last so that if there is a runtime error during
@@ -143,8 +143,8 @@ module.exports = {
               },
               rules: {
                 "eqeqeq": "off",
-                "no-throw-literal":"off",
-                "no-script-url":"off"
+                "no-throw-literal": "off",
+                "no-script-url": "off"
               },
               ignore: false,
               useEslintrc: false,
@@ -182,6 +182,7 @@ module.exports = {
               presets: [require.resolve('babel-preset-react-app')],
               plugins: [
                 ['import', [{ libraryName: 'antd', style: true }]],  // import less
+                'react-hot-loader/babel'
               ],
               // @remove-on-eject-end
               // This is a feature of `babel-loader` for webpack (not Babel itself).
