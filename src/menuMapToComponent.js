@@ -37,6 +37,10 @@ const Page404 = Loadable({
     loader: () => import('@/pages/Page404'),
     loading:ContentLoader
 });
+const Page403 = Loadable({
+    loader: () => import('@/pages/Page403'),
+    loading:ContentLoader
+});
 
 export default {
     "menu": Menu,
@@ -47,5 +51,6 @@ export default {
     "roleuser": RoleUser,
     "userrole": UserRole,
     "user_index": User,
-    "page404": Page404
+    "page404": Page404,
+    "page403":Page403
 }
