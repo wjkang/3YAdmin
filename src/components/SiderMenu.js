@@ -12,7 +12,7 @@ const renderMenuItem =
         return <Item
             key={name}
         >
-            { link? <Link to={link}><span>{title}</span></Link> : <span>{title}</span>}
+            { link? <Link to={link}><span>{icon && <Icon type="user" />}<span>{title}</span></span></Link> : <span>{icon && <Icon type="user" />}<span>{title}</span></span>}
         </Item>;
     }
 
