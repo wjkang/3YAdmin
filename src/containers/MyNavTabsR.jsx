@@ -4,7 +4,6 @@ import { Tabs } from 'antd';
 import { withRouter } from 'react-router-dom';
 import MenuToRouter from '@/menuMapToRouter';
 import MenuMapToComponent from '@/menuMapToComponent';
-import Page403 from '@/pages/Page403';
 
 const TabPane = Tabs.TabPane;
 
@@ -20,8 +19,8 @@ class MyNavTabs extends React.PureComponent {
     }]
   }
   hasPermission = true
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.show) {
+  componentWillReceiveProps(nextProps,nextState) {
+    if (!nextProps.show||nextProps.openAccessMenu.length===0) {
       return;
     }
     const pathname = nextProps.location.pathname;
@@ -72,7 +71,7 @@ class MyNavTabs extends React.PureComponent {
           }
         }
       }
-    } else if (nextProps.location.pathname === "/app/home" && this.state.currentPage !== 'home') {
+    } else if (nextProps.location.pathname === "/app/home" && nextState.currentPage !== 'home') {
       this.setState({
         currentPage: "home"
       })

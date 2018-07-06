@@ -42,7 +42,7 @@ const User = Loadable({
     loading:ContentLoader
 });
 
-//此处配置只对非Tab模式有效
+//此处配置只对非Tab模式有效,Tab模式在menuMapToComponent.js配置
 export default () => (
     <Switch>
         <Route exact path="/app/home" component={Home} />
