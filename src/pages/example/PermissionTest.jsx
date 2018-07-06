@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Row, Col, Switch, Button } from 'antd';
+import { Card, Row, Col, Switch, Button, notification } from 'antd';
 import PermissionContainer from 'permission';
 import { getTopPostByQuery } from 'api';
 
@@ -21,8 +21,18 @@ class PermissionTest extends React.PureComponent {
         })
         try {
             await getTopPostByQuery({});
+            notification.success({
+                placement: 'bottomLeft bottomRight',
+                message: '请求成功',
+            });
         } catch (e) {
-
+            if (e == '403') {
+                notification.error({
+                    placement: 'bottomLeft bottomRight',
+                    message: '请求被拦截',
+                });
+            }
+            console.log(e)
         }
         this.setState({
             loading: false
