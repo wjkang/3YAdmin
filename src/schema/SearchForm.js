@@ -45,7 +45,7 @@ class SearchForm extends React.PureComponent {
     //使用wrappedComponentRef https://github.com/react-component/form#note-use-wrappedcomponentref-instead-of-withref-after-rc-form140
     return (
       <div>
-        <FormComponent style={{ display: this.state.expand ? 'inline' : 'none' }} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
+        <FormComponent noCacheSchema={noCacheSchema} schema={schema} uiSchema={uiSchema} style={{ display: this.state.expand ? 'inline' : 'none' }} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
         <Row>
           <Col span={24} style={{ textAlign: 'center' }}>
             <span style={{ display: this.state.expand ? 'inline' : 'none' }}>

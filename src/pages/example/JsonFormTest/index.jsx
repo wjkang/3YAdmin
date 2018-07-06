@@ -15,27 +15,6 @@ class PermissionTest extends React.PureComponent {
                         </Card>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <Card style={{ width: '100%', marginTop: 20 }} title="元素级权限控制">
-
-                        </Card>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Card style={{ width: '100%', marginTop: 20 }} title="接口级权限控制">
-
-                        </Card>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Card style={{ width: '100%', marginTop: 20 }} title="菜单级权限控制">
-
-                        </Card>
-                    </Col>
-                </Row>
             </div>
         )
     }

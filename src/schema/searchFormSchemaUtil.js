@@ -23,7 +23,7 @@ const SchemaUtils = {
             return FormMap.get(id);
         } else {
             const newForm = this.createForm(id, schema, uiSchema, noCache);
-            !noCache && FormMap.set(id, newForm);//是否缓存
+            FormMap.set(id, newForm);
             return newForm;
         }
     },
@@ -48,6 +48,12 @@ const SchemaUtils = {
             render() {
                 console.log("tmpComponent render");
                 const style = this.props.style;
+                if (this.props.noCacheSchema) {
+                    //不缓存,每次纯法render,都要进行parse,不推荐
+                    const generateJsx = util.parse(this.props.schema, this.props.uiSchema);
+                    this.generateJsx = generateJsx;
+                }
+
                 // getFieldDecorator一层层往下传递
                 return this.generateJsx(this.props.form.getFieldDecorator, style);
             },
