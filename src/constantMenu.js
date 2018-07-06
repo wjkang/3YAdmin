@@ -30,13 +30,18 @@ export default [{
         },
         {
             name: 'form',
-            title: '表单',
+            title: 'JSON表单',
             icon: 'user',
             leftMemu: true,
             children: [
                 {
-                    name: 'json_form_test',
-                    title: 'JSON表单',
+                    name: 'search_form',
+                    title: 'Search Form',
+                    leftMemu: true,
+                },
+                {
+                    name: 'common_form',
+                    title: 'Common Form',
                     leftMemu: true,
                 }
             ]

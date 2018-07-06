@@ -46,8 +46,12 @@ const PermissionTest = Loadable({
     loader: () => import('@/pages/example/PermissionTest'),
     loading: ContentLoader
 });
-const JsonFormTest = Loadable({
-    loader: () => import('@/pages/example/JsonFormTest'),
+const SearchForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/SearchForm'),
+    loading: ContentLoader
+});
+const CommonForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/CommonForm'),
     loading: ContentLoader
 });
 //key为与后端返回菜单的name相对应
@@ -66,5 +70,6 @@ export default {
     "error_404": Page404,
     "error_403": Page403,
     'permission_test': PermissionTest,
-    "json_form_test": JsonFormTest
+    "search_form": SearchForm,
+    "common_form": CommonForm
 }

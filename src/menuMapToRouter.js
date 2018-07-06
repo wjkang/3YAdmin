@@ -30,7 +30,8 @@ export default {
     error_404: '/app/example/404',
     error_403: '/app/example/403',
     permission_test: '/app/example/permissiontest',
-    json_form_test: '/app/example/jsonformtest'
+    search_form: '/app/example/searchform',
+    common_form: '/app/example/commonform'
 }
 
 

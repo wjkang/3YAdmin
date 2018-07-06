@@ -50,8 +50,12 @@ const PermissionTest = Loadable({
     loader: () => import('@/pages/example/PermissionTest'),
     loading: ContentLoader
 });
-const JsonFormTest = Loadable({
-    loader: () => import('@/pages/example/JsonFormTest'),
+const SearchForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/SearchForm'),
+    loading: ContentLoader
+});
+const CommonForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/CommonForm'),
     loading: ContentLoader
 });
 
@@ -70,7 +74,8 @@ export default () => (
         <AuthorizedRoute exact path="/app/example/404" component={Page404} />
         <AuthorizedRoute exact path="/app/example/403" component={Page403} />
         <AuthorizedRoute exact path="/app/example/permissiontest" component={PermissionTest} />
-        <AuthorizedRoute exact path="/app/example/jsonformtest" component={JsonFormTest} />
+        <AuthorizedRoute exact path="/app/example/searchform" component={SearchForm} />
+        <AuthorizedRoute exact path="/app/example/commonform" component={CommonForm} />
         {/* end example */}
         <Route component={Page404} />
     </Switch>
