@@ -17,17 +17,17 @@ const JsxGeneratorMap = new Map();
 const FormMap = new Map();
 
 const SchemaUtils = {
-    getForm(schema, uiSchema) {
+    getForm(schema, uiSchema, noCache) {
         const id = schema["$id"];
         if (FormMap.has(id)) {
             return FormMap.get(id);
         } else {
-            const newForm = this.createForm(id, schema, uiSchema);
-            FormMap.set(id, newForm);
+            const newForm = this.createForm(id, schema, uiSchema, noCache);
+            !noCache && FormMap.set(id, newForm);//是否缓存
             return newForm;
         }
     },
-    createForm(id, schema, uiSchema) {
+    createForm(id, schema, uiSchema, noCache) {
         console.log("createForm")
         const util = this;
         // 只能用传统的ES5的写法, 函数式(无状态)组件应该也可以, 但是需要生命周期相关方法
@@ -41,7 +41,7 @@ const SchemaUtils = {
                 }
                 const generateJsx = util.parse(schema, uiSchema);
 
-                JsxGeneratorMap.set(id, generateJsx);
+                !noCache && JsxGeneratorMap.set(id, generateJsx);
 
                 this.generateJsx = generateJsx;
             },
@@ -49,7 +49,7 @@ const SchemaUtils = {
                 console.log("tmpComponent render");
                 const style = this.props.style;
                 // getFieldDecorator一层层往下传递
-                return this.generateJsx(this.props.form.getFieldDecorator,style);
+                return this.generateJsx(this.props.form.getFieldDecorator, style);
             },
         });
         // 注意要再用antd的create()方法包装下
@@ -89,7 +89,7 @@ const SchemaUtils = {
             }
         });
 
-        return (getFieldDecorator,style) => {
+        return (getFieldDecorator, style) => {
             const formCols = [];
             for (const col of cols) {
                 formCols.push(col(getFieldDecorator));

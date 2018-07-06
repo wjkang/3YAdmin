@@ -50,6 +50,10 @@ const PermissionTest = Loadable({
     loader: () => import('@/pages/example/PermissionTest'),
     loading: ContentLoader
 });
+const JsonFormTest = Loadable({
+    loader: () => import('@/pages/example/JsonFormTest'),
+    loading: ContentLoader
+});
 
 //此处配置只对非Tab模式有效,Tab模式在menuMapToComponent.js配置
 export default () => (
@@ -66,6 +70,7 @@ export default () => (
         <AuthorizedRoute exact path="/app/example/404" component={Page404} />
         <AuthorizedRoute exact path="/app/example/403" component={Page403} />
         <AuthorizedRoute exact path="/app/example/permissiontest" component={PermissionTest} />
+        <AuthorizedRoute exact path="/app/example/jsonformtest" component={JsonFormTest} />
         {/* end example */}
         <Route component={Page404} />
     </Switch>

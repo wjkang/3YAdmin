@@ -35,17 +35,17 @@ class SearchForm extends React.PureComponent {
 
   render() {
     console.log("SearchForm render");
-    const { schema, uiSchema } = this.props;
+    const { schema, uiSchema, noCacheSchema } = this.props;
 
     // 根据当前的schema, 获取对应的表单组件
-    const FormComponent = searchFormSchemaUtil.getForm(schema, uiSchema);
+    const FormComponent = searchFormSchemaUtil.getForm(schema, uiSchema, noCacheSchema);
 
 
     // 表单的前面是一堆输入框, 最后一行是按钮
     //使用wrappedComponentRef https://github.com/react-component/form#note-use-wrappedcomponentref-instead-of-withref-after-rc-form140
     return (
       <div>
-        <FormComponent style={{display: this.state.expand ? 'inline' : 'none'}} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
+        <FormComponent style={{ display: this.state.expand ? 'inline' : 'none' }} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
         <Row>
           <Col span={24} style={{ textAlign: 'center' }}>
             <span style={{ display: this.state.expand ? 'inline' : 'none' }}>

@@ -35,8 +35,8 @@ export default [{
             leftMemu: true,
             children: [
                 {
-                    name: 'json_form',
-                    title: 'json表单',
+                    name: 'json_form_test',
+                    title: 'JSON表单',
                     leftMemu: true,
                 }
             ]
