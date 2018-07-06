@@ -10,13 +10,13 @@ class PermissionTest extends React.PureComponent {
             <div>
                 <Row>
                     <Col>
-                        <Card style={{ width: '100%' }} title='查询表单'>
+                        <Card style={{ width: '100%' }} title='动态表单'>
                             <CommonForm />
                         </Card>
                     </Col>
                 </Row>
             </div>
-        )
+        ) 
     }
 }
 export default PermissionTest;

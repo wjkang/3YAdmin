@@ -16,13 +16,13 @@ class CommonForm extends React.PureComponent {
     }
     render() {
         console.log("CommonForm render");
-        const { schema, uiSchema, formData,style } = this.props;
+        const { noCacheSchema, schema, uiSchema, formData, style } = this.props;
         // 根据当前的schema, 获取对应的表单组件
-        const FormComponent = commonFormSchemaUtil.getForm(schema, uiSchema);
+        const FormComponent = commonFormSchemaUtil.getForm(schema, uiSchema, noCacheSchema);
 
         return (
             <div style={style}>
-                <FormComponent formData={formData} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
+                <FormComponent noCacheSchema={noCacheSchema} schema={schema} uiSchema={uiSchema} formData={formData} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
             </div>
         );
     }

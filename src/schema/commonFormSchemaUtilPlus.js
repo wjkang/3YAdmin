@@ -37,7 +37,7 @@ const SchemaUtils = {
             return newForm;
         }
     },
-    createForm(id, schema, uiSchema) {
+    createForm(id, schema, uiSchema, noCache) {
         console.log("createCommonForm")
         const util = this;
         // 只能用传统的ES5的写法, 函数式(无状态)组件应该也可以, 但是需要生命周期相关方法
@@ -80,7 +80,7 @@ const SchemaUtils = {
 
                 const generateJsx = util.parse(id, schema, uiSchema);//parse方法返回一个真正生成jsx结构的方法，调用的时候传入组件实例的index,从全局缓存获取组件实例传入(也可以直接传入组件实例)
 
-                JsxGeneratorMap.set(id, generateJsx);
+                !noCache && JsxGeneratorMap.set(id, generateJsx);
 
                 this.generateJsx = generateJsx;
 
@@ -97,6 +97,14 @@ const SchemaUtils = {
                 console.log("tmpCommonForm render");
                 let formData = this.props.formData;
                 formData = formData || {}
+                if (this.props.noCacheSchema) {
+                    util.mergeSchema(this.state.index, this.props.schema, this.props.uiSchema);
+
+                    //await util.getRemoteData(id, this.props.uiSchema);
+
+                    const generateJsx = util.parse(id, this.props.schema, this.props.uiSchema);
+                    this.generateJsx = generateJsx;
+                }
                 //组件实例key一层层往下传递
                 return this.generateJsx ? this.generateJsx(this.state.index, formData) : null;
             },
