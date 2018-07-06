@@ -41,7 +41,7 @@ const Page403 = Loadable({
     loader: () => import('@/pages/Page403'),
     loading:ContentLoader
 });
-
+//key为与后端返回菜单的name相对应
 export default {
     "menu": Menu,
     "home": Home,

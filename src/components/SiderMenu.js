@@ -29,7 +29,7 @@ const renderSubMenu =
 
         >
             {children && children.map(
-                item => item.children && item.children.filter(s=>s.leftMemu).lenth>0 ?
+                item => item.children && item.children.filter(s=>s.leftMemu).length>0 ?
                     renderSubMenu(item) : renderMenuItem(item)
             )}
         </SubMenu>;
