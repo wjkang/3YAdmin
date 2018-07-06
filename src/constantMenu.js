@@ -7,11 +7,13 @@ export default [{
         {
             name: 'permission_test',
             title: '权限测试页',
+            icon: 'user',
             leftMemu: true,
         },
         {
             name: 'error',
             title: '错误页面',
+            icon: 'user',
             leftMemu: true,
             children: [
                 {
@@ -29,6 +31,7 @@ export default [{
         {
             name: 'form',
             title: '表单',
+            icon: 'user',
             leftMemu: true,
             children: [
                 {
