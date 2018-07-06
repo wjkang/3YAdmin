@@ -26,6 +26,10 @@ export default {
     sku: "",
     userinfo: "",
     requestlog: "",
+    // example
+    error_404: '/app/example/404',
+    error_403: '/app/example/403',
+    permission_test:'/app/example/permissiontest'
 }
 
 
