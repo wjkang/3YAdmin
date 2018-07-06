@@ -43,7 +43,7 @@ const Page403 = Loadable({
 });
 // example
 const PermissionTest = Loadable({
-    loader: () => import('@/pages/permissionTest'),
+    loader: () => import('@/pages/example/PermissionTest'),
     loading: ContentLoader
 });
 //key为与后端返回菜单的name相对应

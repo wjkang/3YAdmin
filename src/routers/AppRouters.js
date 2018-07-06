@@ -47,7 +47,7 @@ const Page403 = Loadable({
     loading: ContentLoader
 });
 const PermissionTest = Loadable({
-    loader: () => import('@/pages/permissionTest'),
+    loader: () => import('@/pages/example/PermissionTest'),
     loading: ContentLoader
 });
 
