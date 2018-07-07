@@ -126,24 +126,41 @@ const uiSchema = {
         }//Form.Item 配置
     }
 }
-const formData = {
-    "name": "1212",
-    "code": "1212121",
-    "moduleId": [
-        "3942a177-a52d-494b-bcd5-c3c1aba90b02",
-        "779a4d68-9163-41ff-a9d1-19c6146ef470",
-        "6bcf5fd6-3677-45ac-aa3b-7b016ef20f71"
-    ]
-}
-class CommonFormTest extends React.PureComponent {
+class DynamicFormTest extends React.PureComponent {
     state = {
+        toggleParseSchema: true,
         schema: schema,
         uiSchema: uiSchema,
+        error: '',
         data: ''
     }
     schema = JSON.stringify(schema)
     uiSchema = JSON.stringify(uiSchema)
-
+    schemaChange = (e) => {
+        this.schema = e.target.value;
+    }
+    uiSchemaChange = (e) => {
+        this.uiSchema = e.target.value;
+    }
+    parseSchema = () => {
+        if (this.schema == '' || this.uiSchema == '') {
+            return;
+        }
+        try {
+            let schema = JSON.parse(this.schema);
+            let uiSchema = JSON.parse(this.uiSchema);
+            this.setState({
+                toggleParseSchema: !this.state.toggleParseSchema,
+                schema: schema,
+                uiSchema: uiSchema,
+                error: ''
+            })
+        } catch (e) {
+            this.setState({
+                error: e.toString()
+            });
+        }
+    }
     getFormData = (data) => {
         this.setState({
             data: JSON.stringify(data, null, 4)
@@ -164,22 +181,22 @@ class CommonFormTest extends React.PureComponent {
             <div>
                 <div>
                     <Tag color="#87d068">Schema</Tag>
-                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.schema, null, 4)} />
+                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.schema, null, 4)} onChange={this.schemaChange} />
                 </div>
                 <div style={{ marginTop: 10 }}>
                     <Tag color="#87d068">UiSchema</Tag>
-                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.uiSchema, null, 4)} />
+                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.uiSchema, null, 4)} onChange={this.uiSchemaChange} />
                 </div>
                 <div style={{ marginTop: 10 }}>
-                    <Tag color="#87d068">FormData</Tag>
-                    <TextArea rows={15} defaultValue={JSON.stringify(formData, null, 4)} />
+                    <Button type="primary" onClick={this.parseSchema}>重新解析</Button>
                 </div>
+                {this.state.error != '' ? <div>{this.state.error}</div> : null}
                 <Divider />
                 <CommonForm
                     ref={(instance) => { this.editForm = instance; }}
+                    toggleParseSchema={this.state.toggleParseSchema}
                     schema={this.state.schema}
                     uiSchema={this.state.uiSchema}
-                    formData={formData}
                     handleSubmit={this.getFormData}
                 />
                 <div style={{ marginTop: 10 }}>
@@ -191,4 +208,4 @@ class CommonFormTest extends React.PureComponent {
         )
     }
 }
-export default CommonFormTest;
+export default DynamicFormTest;

@@ -38,7 +38,7 @@ const SchemaUtils = {
         }
     },
     createForm(id, schema, uiSchema) {
-        console.log("createCommonForm")
+        console.log("createDynamicForm")
         const util = this;
         // 只能用传统的ES5的写法, 函数式(无状态)组件应该也可以, 但是需要生命周期相关方法
         const tmpComponent = createClass({
@@ -57,7 +57,7 @@ const SchemaUtils = {
                 };
             },
             componentWillMount() {
-                console.log("tmpCommonForm componentWillMount");
+                console.log("tmpDynamicForm componentWillMount");
 
                 // 组件初始化时读取generator
                 if (JsxGeneratorMap.has(id)) {
@@ -80,7 +80,7 @@ const SchemaUtils = {
 
                 const generateJsx = util.parse(id, schema, uiSchema);//parse方法返回一个真正生成jsx结构的方法，调用的时候传入组件实例的index,从全局缓存获取组件实例传入(也可以直接传入组件实例)
 
-                JsxGeneratorMap.set(id, generateJsx);
+                //JsxGeneratorMap.set(id, generateJsx);//永远不缓存
 
                 this.generateJsx = generateJsx;
 
@@ -88,6 +88,20 @@ const SchemaUtils = {
                     inited: true
                 })
 
+            },
+            async componentDidUpdate(prevProps) {
+                //antd 表单项变更都会引起组件的变更，根据props判断是否为schema变更触发的，是则重新parse
+                if (this.props.toggleParseSchema != prevProps.toggleParseSchema) {
+
+                    util.mergeSchema(this.state.index, schema, uiSchema);
+
+                    await util.getRemoteData(id, uiSchema);
+
+                    const generateJsx = util.parse(id, schema, uiSchema);
+
+                    this.generateJsx = generateJsx;
+
+                }
             },
             componentWillUnmount() {
                 FormInstanceMap.delete(this.state.index);
@@ -197,7 +211,7 @@ const SchemaUtils = {
 
     },
     parse(id, schema, uiSchema) {
-        console.log("parse CommonForm schema")
+        console.log("parse DynamicForm schema")
         let items = [];
         let schemaProperties = schema["properties"];
         const util = this;
