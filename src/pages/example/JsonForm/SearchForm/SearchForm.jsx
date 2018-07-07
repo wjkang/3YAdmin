@@ -1,7 +1,8 @@
 import React from 'react';
 import SearchForm from '@/schema/SearchForm';
-
 import { Input, Tag, Button, Divider } from 'antd';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 const { TextArea } = Input;
 const searchSchema = {
     "$id": "user-search-schema",
@@ -77,11 +78,22 @@ class SearchFormTest extends React.PureComponent {
         this.setState({
             data: JSON.stringify(data, null, 4)
         })
+        let search = queryString.stringify(data)
+        this.props.history.push({
+            path: this.props.location.pathname,
+            search: search
+        });
+        //直接查询
     }
     handleReset = () => {
         this.setState({
             data: ''
         })
+    }
+    componentDidMount() {
+        const search = this.props.location.search;
+        let data = queryString.parse(search);
+        console.log(data)
     }
     render() {
         console.log("SearchFormTest render")
@@ -101,9 +113,12 @@ class SearchFormTest extends React.PureComponent {
                 {this.state.error != '' ? <div>{this.state.error}</div> : null}
                 <Divider />
                 <SearchForm noCacheSchema={true} schema={this.state.searchSchema} uiSchema={this.state.searchUiSchema} handleSubmit={this.handleSearch} handleReset={this.handleReset} />
-                {this.state.data != '' ? <div>{this.state.data}</div> : null}
+                {this.state.data != '' ? <div>
+                    {this.state.data}
+                    <p>注意看地址栏的变化</p>
+                </div> : null}
             </div>
         )
     }
 }
-export default SearchFormTest;
+export default withRouter(SearchFormTest);
