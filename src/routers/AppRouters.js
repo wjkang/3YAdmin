@@ -50,6 +50,18 @@ const PermissionTest = Loadable({
     loader: () => import('@/pages/example/PermissionTest'),
     loading: ContentLoader
 });
+const SearchForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/SearchForm'),
+    loading: ContentLoader
+});
+const CommonForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/CommonForm'),
+    loading: ContentLoader
+});
+const DynamicForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/DynamicForm'),
+    loading: ContentLoader
+});
 
 //此处配置只对非Tab模式有效,Tab模式在menuMapToComponent.js配置
 export default () => (
@@ -66,6 +78,9 @@ export default () => (
         <AuthorizedRoute exact path="/app/example/404" component={Page404} />
         <AuthorizedRoute exact path="/app/example/403" component={Page403} />
         <AuthorizedRoute exact path="/app/example/permissiontest" component={PermissionTest} />
+        <AuthorizedRoute exact path="/app/example/searchform" component={SearchForm} />
+        <AuthorizedRoute exact path="/app/example/commonform" component={CommonForm} />
+        <AuthorizedRoute exact path="/app/example/dynamicform" component={DynamicForm} />
         {/* end example */}
         <Route component={Page404} />
     </Switch>

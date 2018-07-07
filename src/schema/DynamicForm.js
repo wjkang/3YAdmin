@@ -1,6 +1,6 @@
 import React from 'react';
-import commonFormSchemaUtil from './commonFormSchemaUtilPlus';
-class CommonForm extends React.PureComponent {
+import util from './dynamicFormSchemaUtil';
+class DynamicForm extends React.PureComponent {
     handleSubmit = () => {
         this.formRef.props.form.validateFields((err, values) => {
             if (!err) {
@@ -14,16 +14,16 @@ class CommonForm extends React.PureComponent {
         this.formRef.props.form.resetFields();
     }
     render() {
-        console.log("CommonForm render");
-        const {schema, uiSchema, formData, style} = this.props;
+        console.log("DynamicForm render");
+        const { schema, uiSchema, formData, style, toggleParseSchema } = this.props;
         // 根据当前的schema, 获取对应的表单组件
-        const FormComponent = commonFormSchemaUtil.getForm(schema, uiSchema);
+        const FormComponent = util.getForm(schema, uiSchema);
 
         return (
             <div style={style}>
-                <FormComponent formData={formData} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
+                <FormComponent toggleParseSchema={toggleParseSchema} schema={schema} uiSchema={uiSchema} formData={formData} wrappedComponentRef={(instance) => { this.formRef = instance; }} />
             </div>
         );
     }
 }
-export default CommonForm;
+export default DynamicForm;

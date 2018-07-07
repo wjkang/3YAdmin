@@ -29,7 +29,10 @@ export default {
     // example
     error_404: '/app/example/404',
     error_403: '/app/example/403',
-    permission_test:'/app/example/permissiontest'
+    permission_test: '/app/example/permissiontest',
+    search_form: '/app/example/searchform',
+    common_form: '/app/example/commonform',
+    dynamic_form:'/app/example/dynamicform'
 }
 
 
