@@ -139,6 +139,7 @@ class CommonFormTest extends React.PureComponent {
     state = {
         schema: schema,
         uiSchema: uiSchema,
+        formData: formData,
         data: ''
     }
     schema = JSON.stringify(schema)
@@ -154,8 +155,14 @@ class CommonFormTest extends React.PureComponent {
     }
     handleReset = () => {
         this.editForm.handleReset()
+
         this.setState({
-            data: ''
+            data: '',
+            formData: {
+                "name": "",
+                "code": "",
+                "moduleId": []
+            }//不重置formData，表单reset后显示的是初始设置的默认值
         })
     }
     render() {
@@ -179,7 +186,7 @@ class CommonFormTest extends React.PureComponent {
                     ref={(instance) => { this.editForm = instance; }}
                     schema={this.state.schema}
                     uiSchema={this.state.uiSchema}
-                    formData={formData}
+                    formData={this.state.formData}
                     handleSubmit={this.getFormData}
                 />
                 <div style={{ marginTop: 10 }}>

@@ -31,7 +31,8 @@ export default {
     error_403: '/app/example/403',
     permission_test: '/app/example/permissiontest',
     search_form: '/app/example/searchform',
-    common_form: '/app/example/commonform'
+    common_form: '/app/example/commonform',
+    dynamic_form:'/app/example/dynamicform'
 }
 
 

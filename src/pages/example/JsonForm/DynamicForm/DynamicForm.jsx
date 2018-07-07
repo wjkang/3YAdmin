@@ -1,5 +1,5 @@
 import React from 'react';
-import CommonForm from '@/schema/CommonForm';
+import DynamicForm from '@/schema/DynamicForm';
 
 import { Input, Tag, Button, Divider } from 'antd';
 const { TextArea } = Input;
@@ -126,33 +126,50 @@ const uiSchema = {
         }//Form.Item 配置
     }
 }
+const formData = {
+    "name": "1212",
+    "code": "1212121",
+    "moduleId": [
+        "3942a177-a52d-494b-bcd5-c3c1aba90b02",
+        "779a4d68-9163-41ff-a9d1-19c6146ef470",
+        "6bcf5fd6-3677-45ac-aa3b-7b016ef20f71"
+    ]
+}
 class DynamicFormTest extends React.PureComponent {
     state = {
         toggleParseSchema: true,
         schema: schema,
         uiSchema: uiSchema,
+        formData: formData,
         error: '',
         data: ''
     }
     schema = JSON.stringify(schema)
     uiSchema = JSON.stringify(uiSchema)
+    formData = JSON.stringify(formData)
     schemaChange = (e) => {
         this.schema = e.target.value;
     }
     uiSchemaChange = (e) => {
         this.uiSchema = e.target.value;
     }
+    formDataChange = (e) => {
+        this.formData = e.target.value;
+    }
     parseSchema = () => {
-        if (this.schema == '' || this.uiSchema == '') {
+        if (this.schema == '' || this.uiSchema == '' || this.formData == '') {
             return;
         }
         try {
             let schema = JSON.parse(this.schema);
             let uiSchema = JSON.parse(this.uiSchema);
+            let formData = JSON.parse(this.formData);
+            let toggleParseSchema = this.state.toggleParseSchema;
             this.setState({
-                toggleParseSchema: !this.state.toggleParseSchema,
+                toggleParseSchema: !toggleParseSchema,
                 schema: schema,
                 uiSchema: uiSchema,
+                formData: formData,
                 error: ''
             })
         } catch (e) {
@@ -172,7 +189,12 @@ class DynamicFormTest extends React.PureComponent {
     handleReset = () => {
         this.editForm.handleReset()
         this.setState({
-            data: ''
+            data: '',
+            formData:{
+                "name": "",
+                "code": "",
+                "moduleId": []
+            }//不重置formData，表单reset后显示的是初始设置的默认值
         })
     }
     render() {
@@ -188,15 +210,20 @@ class DynamicFormTest extends React.PureComponent {
                     <TextArea rows={15} defaultValue={JSON.stringify(this.state.uiSchema, null, 4)} onChange={this.uiSchemaChange} />
                 </div>
                 <div style={{ marginTop: 10 }}>
+                    <Tag color="#87d068">FormData</Tag>
+                    <TextArea rows={15} defaultValue={JSON.stringify(formData, null, 4)} onChange={this.formDataChange} />
+                </div>
+                <div style={{ marginTop: 10 }}>
                     <Button type="primary" onClick={this.parseSchema}>重新解析</Button>
                 </div>
                 {this.state.error != '' ? <div>{this.state.error}</div> : null}
                 <Divider />
-                <CommonForm
+                <DynamicForm
                     ref={(instance) => { this.editForm = instance; }}
                     toggleParseSchema={this.state.toggleParseSchema}
                     schema={this.state.schema}
                     uiSchema={this.state.uiSchema}
+                    formData={this.state.formData}
                     handleSubmit={this.getFormData}
                 />
                 <div style={{ marginTop: 10 }}>

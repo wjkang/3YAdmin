@@ -93,6 +93,7 @@ const SchemaUtils = {
                 //antd 表单项变更都会引起组件的变更，根据props判断是否为schema变更触发的，是则重新parse
                 if (this.props.toggleParseSchema != prevProps.toggleParseSchema) {
 
+                    console.log('reParse')
                     util.mergeSchema(this.state.index, schema, uiSchema);
 
                     await util.getRemoteData(id, uiSchema);
@@ -108,7 +109,7 @@ const SchemaUtils = {
                 console.log(FormInstanceMap.size)
             },
             render() {
-                console.log("tmpCommonForm render");
+                console.log("tmpDynamicForm render");
                 let formData = this.props.formData;
                 formData = formData || {}
                 //组件实例key一层层往下传递

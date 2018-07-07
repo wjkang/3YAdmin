@@ -54,6 +54,10 @@ const CommonForm = Loadable({
     loader: () => import('@/pages/example/JsonForm/CommonForm'),
     loading: ContentLoader
 });
+const DynamicForm = Loadable({
+    loader: () => import('@/pages/example/JsonForm/DynamicForm'),
+    loading: ContentLoader
+});
 //key为与后端返回菜单的name相对应
 export default {
     "menu": Menu,
@@ -71,5 +75,6 @@ export default {
     "error_403": Page403,
     'permission_test': PermissionTest,
     "search_form": SearchForm,
-    "common_form": CommonForm
+    "common_form": CommonForm,
+    "dynamic_form": DynamicForm
 }

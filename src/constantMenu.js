@@ -43,6 +43,11 @@ export default [{
                     name: 'common_form',
                     title: 'Common Form',
                     leftMemu: true,
+                },
+                {
+                    name: 'dynamic_form',
+                    title: 'Dynamic Form',
+                    leftMemu: true,
                 }
             ]
         }
