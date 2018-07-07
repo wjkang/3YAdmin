@@ -30,6 +30,7 @@ class TabMode extends React.PureComponent {
     }
     componentWillUpdate(nextProps) {
         if (this.props.location.pathname !== nextProps.location.pathname) {
+            //路由变更,选中菜单
             this.initChildData(nextProps)
         }
     }

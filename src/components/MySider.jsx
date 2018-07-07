@@ -20,7 +20,7 @@ class MySider extends React.PureComponent {
                 <SiderMenu
                     menus={this.props.menus}
                     mode="inline"
-                    onClick={this.props.menuClick}
+                    // onClick={this.props.menuClick}
                     onOpenChange={this.props.openMenu}
                     selectedKeys={[this.props.selectedKey]}
                     openKeys={this.props.openKeys}

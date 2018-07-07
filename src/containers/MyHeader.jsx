@@ -40,7 +40,7 @@ class MyHeader extends React.PureComponent {
         this.props.history.push('/login')
     }
     render() {
-        console.log("MyHeader render")
+        console.log("MyHeader render")//withRouter的缘故，每次点击同一个菜单，都会re-render
         return (
             <Header style={{ background: '#fff', padding: 0, height: 'auto', position: 'fixed', width: '100%', zIndex: 9 }}>
                 <Row type="flex" justify="start">
