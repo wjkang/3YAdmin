@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Tree, Form, Input, Button, Switch, InputNumber, message, Tag } from 'antd';
 import { getAllMenu, saveMenu } from 'api';
+import Icons from '@/Icons';
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
