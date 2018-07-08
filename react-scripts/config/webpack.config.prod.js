@@ -187,7 +187,7 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: [paths.appSrc],
             loader: require.resolve('babel-loader'),
             options: {
               // @remove-on-eject-begin
@@ -197,7 +197,7 @@ module.exports = {
                 ['import', [{ libraryName: 'antd', style: true }]],  // import less
               ],
               // @remove-on-eject-end
-              compact: true,
+              compact: true
             }
           },
           {
@@ -373,7 +373,7 @@ module.exports = {
         // https://github.com/facebookincubator/create-react-app/issues/2488
         ascii_only: true,
       },
-      sourceMap: shouldUseSourceMap,
+      sourceMap: shouldUseSourceMap
     }),
     new UglifyJSPlugin({
       parallel: true,
