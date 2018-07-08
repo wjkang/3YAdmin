@@ -1,11 +1,20 @@
 import React from 'react';
-import { Row, Col, Tree, Form, Input, Button, Switch, InputNumber, message, Tag } from 'antd';
+import { Row, Col, Tree, Form, Input, Button, Switch, InputNumber, message, Tag, TreeSelect, Icon } from 'antd';
 import { getAllMenu, saveMenu } from 'api';
+import Icons from '@/Icons';
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
+const SelectTreeNode = TreeSelect.TreeNode;
 
-
+const iconsTree = [];
+for (let item of Icons) {
+    let chidren = [];
+    for (let child of item.icons) {
+        chidren.push(<SelectTreeNode value={child.icon} title={<span><Icon type={child.icon} style={{ color: '#08c' }} /> &nbsp;&nbsp;{child.title}</span>} key={child.icon} />)
+    }
+    iconsTree.push(<SelectTreeNode title={item.title} key={item.title}>{chidren}</SelectTreeNode>)
+}
 class Menu extends React.PureComponent {
     state = {
         menuList: [],
@@ -54,7 +63,8 @@ class Menu extends React.PureComponent {
             functionCode: menu.functionCode,
             sort: menu.sort,
             leftMemu: menu.leftMemu,
-            isLock: menu.isLock
+            isLock: menu.isLock,
+            icon: menu.icon
         });
     }
     findMenuById = (id) => {
@@ -79,7 +89,7 @@ class Menu extends React.PureComponent {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
-                let data = { ...this.state.tempMenu, ...values };
+                let data = { id: this.state.tempMenu.id, parentId: this.state.tempMenu.parentId, ...values };
                 try {
                     await saveMenu(data);
                     message.success('提交成功');
@@ -226,6 +236,25 @@ class Menu extends React.PureComponent {
                                     <Switch />
                                 )}
                             </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="图标"
+                            >
+                                {getFieldDecorator('icon', { initialValue: '' })(
+                                    <TreeSelect
+                                        showSearch
+                                        style={{ width: 300 }}
+                                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                        placeholder="Please select"
+                                        allowClear
+                                        treeDefaultExpandAll
+
+                                    >
+                                        {iconsTree}
+                                    </TreeSelect>
+                                )}
+                            </FormItem>
+
                             <FormItem {...tailFormItemLayout}>
                                 <Button type="primary" htmlType="submit">提交</Button>
                             </FormItem>
