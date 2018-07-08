@@ -18,6 +18,14 @@ const searchSchema = {
         "email": {
             "type": "string",
             "title": "用户邮箱"
+        },
+        "int":{
+            "type":"integer",
+            "title":"整数组件"
+        },
+        "number":{
+            "type":"number",
+            "title":"浮点数组件"
         }
     }
 }
@@ -29,6 +37,24 @@ const searchUiSchema = {
             "placeholder": "账号名称查询"
         },
         "ui:title": "账号名称",
+        "ui:description": ""
+    },
+    "email": {
+        "ui:widget": "input",
+        "ui:options": {
+            "type": "text",
+            "placeholder": "用户邮箱查询"
+        },
+        "ui:title": "用户邮箱",
+        "ui:description": ""
+    },
+    "int": {
+        "ui:widget": "input",
+        "ui:options": {
+            "type": "text",
+            "placeholder": "用户邮箱查询"
+        },
+        "ui:title": "用户邮箱",
         "ui:description": ""
     },
     "email": {
