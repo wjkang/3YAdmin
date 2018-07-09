@@ -6,7 +6,11 @@ import {
     Row,
     Col,
     DatePicker,
-    InputNumber
+    InputNumber,
+    Checkbox,
+    Radio,
+    Select,
+    Switch
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -72,26 +76,32 @@ const SchemaUtils = {
             const schemaProperty = schemaProperties[key];
             // 注意, 每个字段transform之后, 返回的也都是一个回调函数, 所以cols其实是一个回调函数的集合
             switch (field["ui:widget"]) {
-                case 'select':
-                    cols.push(util.transformNormal(field, schemaProperty));
-                    break;
-                case 'radio':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                case 'inputNumber':
+                    cols.push(util.transformInputNumber(field, schemaProperty));
                     break;
                 case 'checkbox':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    cols.push(util.transformCheckbox(field, schemaProperty));
                     break;
-                case 'multiSelect':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                case 'datetime':
+                    cols.push(util.transformDatetime(field, schemaProperty));
+                    break;
+                case 'radio':
+                    cols.push(util.transformRadio(field, schemaProperty));
+                    break;
+                case 'select':
+                    cols.push(util.transformSelect(field, schemaProperty));
+                    break;
+                case 'switch':
+                    cols.push(util.transformSwitch(field, schemaProperty));
                     break;
                 case 'between':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    cols.push(util.transformInput(field, schemaProperty));
                     break;
                 case 'cascader':
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    cols.push(util.transformInput(field, schemaProperty));
                     break;
                 default:
-                    cols.push(util.transformNormal(field, schemaProperty));
+                    cols.push(util.transformInput(field, schemaProperty));
             }
         });
 
@@ -100,14 +110,16 @@ const SchemaUtils = {
             for (const col of cols) {
                 formCols.push(col(getFieldDecorator));
             }
-            return (<Form style={style}>
-                <Row gutter={24}>
-                    {formCols}
-                </Row>
-            </Form>);
+            return (
+                <Form style={style}>
+                    <Row gutter={24}>
+                        {formCols}
+                    </Row>
+                </Form>
+            );
         };
     },
-    transformNormal(field, schemaProperty) {
+    transformInput(field, schemaProperty) {
         switch (field["ui:dataType"]) {
             case 'int':
                 return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
@@ -122,14 +134,61 @@ const SchemaUtils = {
                     <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder={field.placeholder || '请选择日期'} />
                 ), field);
             default:  // 默认就是普通的输入框
-                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
+                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
                     <Input {...field["ui:options"]} />
                 ), field);
         }
     },
+    transformInputNumber(field, schemaProperty) {
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+            <InputNumber {...field["ui:options"]} />
+        ), field);
+    },
+    transformCheckbox(field, schemaProperty) {
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+            <Checkbox.Group {...field["ui:options"]} />
+        ), field);
+    },
+    transformDatetime(field, schemaProperty) {
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+            <DatePicker {...field["ui:options"]} />
+        ), field);
+    },
+    transformRadio(field, schemaProperty) {
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+            <Radio.Group {...field["ui:options"]} />
+        ), field);
+    },
+    transformSelect(field, schemaProperty) {
+        let dataOptions = field["ui:dataOptions"] || []
+        let options = [];
+        for (let o of dataOptions) {
+            options.push(<Select.Option key={o.value} value={o.value} disabled={o.disabled}>{o.title}</Select.Option>)
+        }
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+            <Select {...field["ui:options"]}>
+                {options}
+            </Select>
+        ), field);
+    },
+    transformSwitch(field, schemaProperty) {
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, {
+            initialValue: field["ui:defaultValue"],
+            valuePropName: 'checked'
+        }
+        )(
+            <Switch {...field["ui:options"]} />
+        ), field);
+    },
     colWrapper(formItem, field) {
+        let lgCol = 6;
+        let xlCol = 6;
+        if (field["ui:widget"] === 'checkbox' || field["ui:widget"] === 'radio') {
+            lgCol = 12;
+            xlCol = 12;
+        }
         return getFieldDecorator => (
-            <Col key={field.key} xs={24} sm={24} md={12} lg={6} xl={6}>
+            <Col key={field.key} xs={24} sm={24} md={12} lg={lgCol} xl={xlCol}>
                 <FormItem key={field.key} label={field["ui:title"]} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
                     {formItem(getFieldDecorator)}
                 </FormItem>

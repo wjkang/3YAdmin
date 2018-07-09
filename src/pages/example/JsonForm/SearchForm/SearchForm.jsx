@@ -19,13 +19,37 @@ const searchSchema = {
             "type": "string",
             "title": "用户邮箱"
         },
-        "int":{
-            "type":"integer",
-            "title":"整数组件"
+        "int": {
+            "type": "integer",
+            "title": "整数组件"
         },
-        "number":{
-            "type":"number",
-            "title":"浮点数组件"
+        "number": {
+            "type": "number",
+            "title": "浮点数组件"
+        },
+        "checkbox": {
+            "type": "array",
+            "title": "checkbox组件"
+        },
+        "password": {
+            "type": "string",
+            "title": "密码"
+        },
+        "datetime": {
+            "type": "string",
+            "title": "datetime组件"
+        },
+        "radio": {
+            "type": "string",
+            "title": "radio组件"
+        },
+        "select": {
+            "type": "array",
+            "title": "select组件"
+        },
+        "switch": {
+            "type": "boolean",
+            "title": "switch组件"
         }
     }
 }
@@ -49,21 +73,100 @@ const searchUiSchema = {
         "ui:description": ""
     },
     "int": {
-        "ui:widget": "input",
+        "ui:widget": "inputNumber",
         "ui:options": {
-            "type": "text",
-            "placeholder": "用户邮箱查询"
         },
-        "ui:title": "用户邮箱",
+        "ui:defaultValue": 0,
+        "ui:title": "整数组件",
         "ui:description": ""
     },
-    "email": {
+    "number": {
+        "ui:widget": "inputNumber",
+        "ui:options": {
+            "step": 0.1
+        },
+        "ui:defaultValue": 0.1,
+        "ui:title": "浮点数组件",
+        "ui:description": ""
+    },
+    "checkbox": {
+        "ui:widget": "checkbox",
+        "ui:options": {
+            "options": [
+                { label: 'Apple', value: 'AppleValue' },
+                { label: 'Pear', value: 'PearValue' },
+                { label: 'Orange', value: 'OrangeValue', disabled: false },
+            ]
+        },
+        "ui:defaultValue": ['AppleValue'],
+        "ui:title": "checkbox组件",
+        "ui:description": ""
+    },
+    "password": {
         "ui:widget": "input",
         "ui:options": {
-            "type": "text",
-            "placeholder": "用户邮箱查询"
+            "type": "password",
+            "placeholder": "密码"
         },
-        "ui:title": "用户邮箱",
+        "ui:title": "密码",
+        "ui:description": ""
+    },
+    "datetime": {
+        "ui:widget": "datetime",
+        "ui:options": {
+            "style": { width: 120 }
+        },
+        "ui:title": "datetime",
+        "ui:description": ""
+    },
+    "radio": {
+        "ui:widget": "radio",
+        "ui:options": {
+            "options": [
+                { label: 'Apple', value: 'AppleValue' },
+                { label: 'Pear', value: 'PearValue' },
+                { label: 'Orange', value: 'OrangeValue', disabled: false },
+            ]
+        },
+        "ui:defaultValue": 'AppleValue',
+        "ui:title": "radio组件",
+        "ui:description": ""
+    },
+    "select": {
+        "ui:widget": "select",
+        "ui:options": {
+            allowClear: true,
+            placeholder: '请选择',
+            showSearch: true,
+
+        },
+        "ui:dataOptions": [
+            {
+                title: 'Jack',
+                value: 'jack'
+            },
+            {
+                title: 'Lucy',
+                value: 'lucy'
+            },
+            {
+                title: 'Tom',
+                value: 'tom',
+                disabled: true
+            }
+        ],
+        "ui:defaultValue": 'lucy',
+        "ui:title": "select组件",
+        "ui:description": ""
+    },
+    "switch": {
+        "ui:widget": "switch",
+        "ui:options": {
+            checkedChildren: '激活',
+            unCheckedChildren: '锁定'
+        },
+        "ui:defaultValue": true,
+        "ui:title": "switch",
         "ui:description": ""
     }
 }
