@@ -50,6 +50,18 @@ const searchSchema = {
         "switch": {
             "type": "boolean",
             "title": "switch组件"
+        },
+        "cascader": {
+            "type": "array",
+            "title": "级联组件"
+        },
+        "betweenStart":{
+            "type":"string",
+            "title":"betweenStart"
+        },
+        "betweenEnd":{
+            "type":"string",
+            "title":"betweenEnd"
         }
     }
 }
@@ -167,6 +179,50 @@ const searchUiSchema = {
         },
         "ui:defaultValue": true,
         "ui:title": "switch",
+        "ui:description": ""
+    },
+    "cascader": {
+        "ui:widget": "cascader",
+        "ui:options": {
+            allowClear:true,
+            expandTrigger:'hover',
+            showSearch:true,
+            options: [{
+                value: 'zhejiang',
+                label: 'Zhejiang',
+                children: [{
+                    value: 'hangzhou',
+                    label: 'Hangzhou',
+                    children: [{
+                        value: 'xihu',
+                        label: 'West Lake',
+                    }],
+                }],
+            }, {
+                value: 'jiangsu',
+                label: 'Jiangsu',
+                children: [{
+                    value: 'nanjing',
+                    label: 'Nanjing',
+                    children: [{
+                        value: 'zhonghuamen',
+                        label: 'Zhong Hua Men',
+                    }],
+                }],
+            }]
+        },
+        "ui:defaultValue": ['zhejiang', 'hangzhou', 'xihu'],
+        "ui:title": "级联组件",
+        "ui:description": ""
+    },
+    "between":{
+        "ui:widget": "between",
+        "ui:type": "between",
+        "ui:options": {
+           
+        },
+        "ui:defaultValue": true,
+        "ui:title": "范围参数组件",
         "ui:description": ""
     }
 }

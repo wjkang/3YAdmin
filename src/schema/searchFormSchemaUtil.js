@@ -10,7 +10,8 @@ import {
     Checkbox,
     Radio,
     Select,
-    Switch
+    Switch,
+    Cascader
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -94,11 +95,11 @@ const SchemaUtils = {
                 case 'switch':
                     cols.push(util.transformSwitch(field, schemaProperty));
                     break;
-                case 'between':
-                    cols.push(util.transformInput(field, schemaProperty));
-                    break;
                 case 'cascader':
-                    cols.push(util.transformInput(field, schemaProperty));
+                    cols.push(util.transformCascader(field, schemaProperty));
+                    break;
+                case 'between':
+                    cols.push(util.transformBetween(field, schemaProperty));
                     break;
                 default:
                     cols.push(util.transformInput(field, schemaProperty));
@@ -120,24 +121,9 @@ const SchemaUtils = {
         };
     },
     transformInput(field, schemaProperty) {
-        switch (field["ui:dataType"]) {
-            case 'int':
-                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
-                    <InputNumber size="default" max={field.max} min={field.min} placeholder={field.placeholder} />
-                ), field);
-            case 'float':
-                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
-                    <InputNumber step={0.01} size="default" max={field.max} min={field.min} placeholder={field.placeholder} />
-                ), field);
-            case 'datetime':
-                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field.defaultValue })(
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder={field.placeholder || '请选择日期'} />
-                ), field);
-            default:  // 默认就是普通的输入框
-                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
-                    <Input {...field["ui:options"]} />
-                ), field);
-        }
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+            <Input {...field["ui:options"]} />
+        ), field);
     },
     transformInputNumber(field, schemaProperty) {
         return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
@@ -180,10 +166,28 @@ const SchemaUtils = {
             <Switch {...field["ui:options"]} />
         ), field);
     },
+    transformCascader(field, schemaProperty) {
+        return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+            <Cascader {...field["ui:options"]} />
+        ), field);
+    },
+    transformBetween(field, schemaProperty) {
+        switch (field["ui:type"]) {
+            case 'number':
+                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+                    <DatePicker {...field["ui:options"]} />
+                ), field);
+                break;
+            default:
+                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
+                    <DatePicker.RangePicker {...field["ui:options"]} />
+                ), field);
+        }
+    },
     colWrapper(formItem, field) {
         let lgCol = 6;
         let xlCol = 6;
-        if (field["ui:widget"] === 'checkbox' || field["ui:widget"] === 'radio') {
+        if (field["ui:widget"] === 'checkbox' || field["ui:widget"] === 'radio'||field["ui:widget"]==='between') {
             lgCol = 12;
             xlCol = 12;
         }
