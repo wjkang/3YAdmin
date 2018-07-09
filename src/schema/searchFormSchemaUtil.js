@@ -177,7 +177,6 @@ const SchemaUtils = {
                 return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
                     <DatePicker {...field["ui:options"]} />
                 ), field);
-                break;
             default:
                 return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
                     <DatePicker.RangePicker {...field["ui:options"]} />

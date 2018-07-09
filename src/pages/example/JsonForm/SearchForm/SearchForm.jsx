@@ -221,7 +221,6 @@ const searchUiSchema = {
         "ui:options": {
            
         },
-        "ui:defaultValue": true,
         "ui:title": "范围参数组件",
         "ui:description": ""
     }
