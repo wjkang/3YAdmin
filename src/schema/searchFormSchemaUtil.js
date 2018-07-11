@@ -172,21 +172,38 @@ const SchemaUtils = {
         ), field);
     },
     transformBetween(field, schemaProperty) {
+        let begin, end;
         switch (field["ui:type"]) {
             case 'number':
-                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
-                    <DatePicker {...field["ui:options"]} />
-                ), field);
+                begin = getFieldDecorator => {
+                    return (
+                        getFieldDecorator(`${field.key}Begin`, { initialValue: field["ui:defaultBeginValue"] })(<InputNumber {...field["ui:options"]} />)
+                    );
+                };
+                end = getFieldDecorator => {
+                    return (
+                        getFieldDecorator(`${field.key}End`, { initialValue: field["ui:defaultEndValue"] })(<InputNumber {...field["ui:options"]} />)
+                    );
+                };
+                return this.betweenColWrapper(begin, end, field);
             default:
-                return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { initialValue: field["ui:defaultValue"] })(
-                    <DatePicker.RangePicker {...field["ui:options"]} />
-                ), field);
+                begin = getFieldDecorator => {
+                    return (
+                        getFieldDecorator(`${field.key}Begin`, { initialValue: field["ui:defaultBeginValue"] })(<DatePicker {...field["ui:options"]} />)
+                    );
+                };
+                end = getFieldDecorator => {
+                    return (
+                        getFieldDecorator(`${field.key}End`, { initialValue: field["ui:defaultEndValue"] })(<DatePicker {...field["ui:options"]} />)
+                    );
+                };
+                return this.betweenColWrapper(begin, end, field);
         }
     },
     colWrapper(formItem, field) {
         let lgCol = 6;
         let xlCol = 6;
-        if (field["ui:widget"] === 'checkbox' || field["ui:widget"] === 'radio'||field["ui:widget"]==='between') {
+        if (field["ui:widget"] === 'checkbox' || field["ui:widget"] === 'radio' || field["ui:widget"] === 'between') {
             lgCol = 12;
             xlCol = 12;
         }
@@ -197,7 +214,26 @@ const SchemaUtils = {
                 </FormItem>
             </Col>
         );
+    },
+    betweenColWrapper(beginFormItem, endFormItem, field) {
+        return getFieldDecorator => (
+            <Col key={`${field.key}Begin`} xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Row>
+                    <Col xs={24} sm={24} md={16}>
+                        <FormItem key={`${field.key}Begin`} label={field["ui:title"]} labelCol={{ span: 15 }} wrapperCol={{ span: 9 }}>
+                            {beginFormItem(getFieldDecorator)}
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={8}>
+                        <FormItem key={`${field.key}End`}>
+                            {endFormItem(getFieldDecorator)}
+                        </FormItem>
+                    </Col>
+                </Row>
+            </Col>
+        );
     }
+
 }
 
 export default SchemaUtils;

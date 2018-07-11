@@ -55,13 +55,21 @@ const searchSchema = {
             "type": "array",
             "title": "级联组件"
         },
-        "betweenStart":{
-            "type":"string",
-            "title":"betweenStart"
+        "numberBetweenBegin":{
+            "type":"number",
+            "title":"numberBetweenBegin"
         },
-        "betweenEnd":{
+        "numberBetweenEnd":{
+            "type":"number",
+            "title":"numberBetweenEnd"
+        },
+        "dateBetweenBegin":{
             "type":"string",
-            "title":"betweenEnd"
+            "title":"dateBetweenBegin"
+        },
+        "dateBetweenEnd":{
+            "type":"string",
+            "title":"dateBetweenEnd"
         }
     }
 }
@@ -181,6 +189,26 @@ const searchUiSchema = {
         "ui:title": "switch",
         "ui:description": ""
     },
+    "numberBetween":{
+        "ui:widget": "between",
+        "ui:type":"number",
+        "ui:options": {
+            "step": 0.1
+        },
+        "ui:defaultBeginValue":0.1,
+        "ui:defaultEndValue":0.2,
+        "ui:title": "范围参数组件",
+        "ui:description": ""
+    },
+    "dateBetween":{
+        "ui:widget": "between",
+        "ui:type":"date",
+        "ui:options": {
+            "style": { width: 130 }
+        },
+        "ui:title": "范围参数组件",
+        "ui:description": ""
+    },
     "cascader": {
         "ui:widget": "cascader",
         "ui:options": {
@@ -213,15 +241,6 @@ const searchUiSchema = {
         },
         "ui:defaultValue": ['zhejiang', 'hangzhou', 'xihu'],
         "ui:title": "级联组件",
-        "ui:description": ""
-    },
-    "between":{
-        "ui:widget": "between",
-        "ui:type": "between",
-        "ui:options": {
-           
-        },
-        "ui:title": "范围参数组件",
         "ui:description": ""
     }
 }
