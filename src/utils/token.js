@@ -1,5 +1,5 @@
 
-const TokenKey = 'react-antd-admin'
+const TokenKey = '3YAdmin'
 
 export function getToken() {
   return localStorage.getItem(TokenKey)

@@ -182,6 +182,7 @@ class Menu extends React.PureComponent {
                             </div>
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="名称"
                             >
                                 {getFieldDecorator('name', {
@@ -194,6 +195,7 @@ class Menu extends React.PureComponent {
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="标题"
                             >
                                 {getFieldDecorator('title', {
@@ -206,6 +208,7 @@ class Menu extends React.PureComponent {
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="权限码"
                             >
                                 {getFieldDecorator('functionCode')(
@@ -214,6 +217,7 @@ class Menu extends React.PureComponent {
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
+
                                 label="排序"
                             >
                                 {getFieldDecorator('sort', { initialValue: 0 })(
@@ -222,6 +226,7 @@ class Menu extends React.PureComponent {
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
+
                                 label="是否左侧显示"
                             >
                                 {getFieldDecorator('leftMemu', { valuePropName: 'checked' })(
@@ -230,6 +235,7 @@ class Menu extends React.PureComponent {
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
+
                                 label="是否锁定"
                             >
                                 {getFieldDecorator('isLock', { valuePropName: 'checked' })(
@@ -238,6 +244,7 @@ class Menu extends React.PureComponent {
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="图标"
                             >
                                 {getFieldDecorator('icon', { initialValue: '' })(
