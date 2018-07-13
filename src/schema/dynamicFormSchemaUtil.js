@@ -8,7 +8,7 @@ import {
     Cascader
 } from 'antd';
 import * as api from 'api';
-import remoteDataUtil from './CommonFormRemoteDataUtil';
+import remoteDataUtil from './FormRemoteDataUtil';
 
 const FormItem = Form.Item;
 

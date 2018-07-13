@@ -10,7 +10,7 @@ import SearchForm from '@/schema/SearchForm';
 import CommonForm from '@/schema/CommonForm';
 import schema from '@/schema/function';
 import PermissionContainer from 'permission';
-import commonFormRemoteDataUtil from '@/schema/CommonFormRemoteDataUtil';
+import formRemoteDataUtil from '@/schema/FormRemoteDataUtil';
 import util from '@/utils/util';
 
 const style = { display: 'none' };
@@ -174,7 +174,7 @@ class Function extends React.PureComponent {
         })
     }
     editFunction = (record) => {
-        let menuList = commonFormRemoteDataUtil.getData(schema.editSchema["$id"] + "_moduleId");
+        let menuList = formRemoteDataUtil.getData(schema.editSchema["$id"] + "_moduleId");
         let openMenuList = util.openTreeData(menuList);
         let menuWithParent = util.getTreeEleWithParent(record.moduleId, openMenuList);
         let moduleId = menuWithParent.map(s => s.id);
@@ -185,7 +185,7 @@ class Function extends React.PureComponent {
     }
     saveFunction = async (data) => {
         let formData = { ...this.editFormData, ...data }
-        let menuList = commonFormRemoteDataUtil.getData(schema.editSchema["$id"] + "_moduleId");
+        let menuList = formRemoteDataUtil.getData(schema.editSchema["$id"] + "_moduleId");
         formData.moduleId = formData.moduleId[formData.moduleId.length - 1]
         let menu = util.getTreeEleByPropertyValue(formData.moduleId, "id", menuList);
         formData.module = menu.title;
