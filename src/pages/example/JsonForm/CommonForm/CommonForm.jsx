@@ -38,7 +38,56 @@ const schema = {
             "type": "string",
             "title": "功能描述",
             "maxLength": 300,
+        },
+        "int": {
+            "type": "integer",
+            "title": "整数组件"
+        },
+        "number": {
+            "type": "number",
+            "title": "浮点数组件"
+        },
+        "checkbox": {
+            "type": "array",
+            "title": "checkbox组件"
+        },
+        "password": {
+            "type": "string",
+            "title": "密码"
+        },
+        "datetime": {
+            "type": "string",
+            "title": "datetime组件"
+        },
+        "radio": {
+            "type": "string",
+            "title": "radio组件"
+        },
+        "select": {
+            "type": "array",
+            "title": "select组件"
+        },
+        "switch": {
+            "type": "boolean",
+            "title": "switch组件"
+        },
+        "numberBetweenBegin":{
+            "type":"number",
+            "title":"numberBetweenBegin"
+        },
+        "numberBetweenEnd":{
+            "type":"number",
+            "title":"numberBetweenEnd"
+        },
+        "dateBetweenBegin":{
+            "type":"string",
+            "title":"dateBetweenBegin"
+        },
+        "dateBetweenEnd":{
+            "type":"string",
+            "title":"dateBetweenEnd"
         }
+        
     }
 }
 const uiSchema = {
@@ -124,6 +173,165 @@ const uiSchema = {
             "labelCol": { span: 6 },
             "wrapperCol": { span: 16 }
         }//Form.Item 配置
+    },
+    "int": {
+        "ui:widget": "inputNumber",
+        "ui:options": {
+        },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
+        "ui:defaultValue": 0,
+        "ui:title": "整数组件",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "hasFeedback": true,
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "number": {
+        "ui:widget": "inputNumber",
+        "ui:options": {
+            "step": 0.1
+        },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
+        "ui:defaultValue": 0.1,
+        "ui:title": "浮点数组件",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "hasFeedback": true,
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "checkbox": {
+        "ui:widget": "checkbox",
+        "ui:options": {
+            "options": [
+                { label: 'Apple', value: 'AppleValue' },
+                { label: 'Pear', value: 'PearValue' },
+                { label: 'Orange', value: 'OrangeValue', disabled: false },
+            ]
+        },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
+        "ui:defaultValue": ['AppleValue'],
+        "ui:title": "checkbox组件",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "password": {
+        "ui:widget": "input",
+        "ui:options": {
+            "type": "password",
+            "placeholder": "密码"
+        },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
+        "ui:title": "密码",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "hasFeedback": true,
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "datetime": {
+        "ui:widget": "datetime",
+        "ui:options": {
+            showTime:true,
+            format:"YYYY-MM-DD HH:mm:ss"
+        },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
+        "ui:title": "datetime",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "hasFeedback": true,
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "radio": {
+        "ui:widget": "radio",
+        "ui:options": {
+            "options": [
+                { label: 'Apple', value: 'AppleValue' },
+                { label: 'Pear', value: 'PearValue' },
+                { label: 'Orange', value: 'OrangeValue', disabled: false },
+            ]
+        },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
+        "ui:defaultValue": 'AppleValue',
+        "ui:title": "radio组件",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "select": {
+        "ui:widget": "select",
+        "ui:options": {
+           
+        },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
+        "ui:dataOptions": [
+            {
+                title: 'Jack',
+                value: 'jack'
+            },
+            {
+                title: 'Lucy',
+                value: 'lucy'
+            },
+            {
+                title: 'Tom',
+                value: 'tom',
+                disabled: true
+            }
+        ],
+        "ui:defaultValue": 'lucy',
+        "ui:title": "select组件",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "hasFeedback": true,
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "switch": {
+        "ui:widget": "switch",
+        "ui:options": {
+            checkedChildren: '激活',
+            unCheckedChildren: '锁定'
+        },
+        "ui:defaultValue": true,
+        "ui:title": "switch",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "numberBetween":{
+        "ui:widget": "between",
+        "ui:type":"number",
+        "ui:options": {
+            "step": 0.1
+        },
+        "ui:defaultBeginValue":0.1,
+        "ui:defaultEndValue":0.2,
+        "ui:title": "范围参数组件",
+        "ui:description": ""
+    },
+    "dateBetween":{
+        "ui:widget": "between",
+        "ui:type":"date",
+        "ui:options": {
+            "style": { width: 130 }
+        },
+        "ui:title": "范围参数组件",
+        "ui:description": ""
     }
 }
 const formData = {
