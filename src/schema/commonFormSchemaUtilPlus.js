@@ -3,6 +3,7 @@ import createClass from 'create-react-class';
 import {
     Form,
     Input,
+    Row,
     Col,
     DatePicker,
     InputNumber,
@@ -414,32 +415,39 @@ const SchemaUtils = {
         );
     },
     betweenFormItemWrapper(beginItem, endItem, field) {
+        let isNumber=field["ui:type"]==="number";
+        let sm=isNumber?8:11;
+        let md=isNumber?6:8;
+        let lg=isNumber?5:6;
+        let xl=isNumber?3:5;
         return (getFieldDecorator, formData) => (
             <FormItem
                 key={field.key}
                 {...field["ui:formItemConfig"]}
             >
-                <Col span={11}>
-                    <FormItem
-                        key={'begin' + field.key}
-                        {...field["ui:beginFormItemConfig"]}
-                    >
-                        {beginItem(getFieldDecorator, formData)}
-                    </FormItem>
-                </Col>
-                <Col span={2}>
-                    <span style={{ display: 'inline-block', width: '100%', textAlign: 'center' }}>
-                        -
-                    </span>
-                </Col>
-                <Col span={11}>
-                    <FormItem
-                        key={'end' + field.key}
-                        {...field["ui:endFormItemConfig"]}
-                    >
-                        {endItem(getFieldDecorator, formData)}
-                    </FormItem>
-                </Col>
+                <Row>
+                    <Col xs={11} sm={sm} md={md} lg={lg} xl={xl}>
+                        <FormItem
+                            key={'begin' + field.key}
+                            {...field["ui:beginFormItemConfig"]}
+                        >
+                            {beginItem(getFieldDecorator, formData)}
+                        </FormItem>
+                    </Col>
+                    <Col span={1}>
+                        <span style={{ display: 'inline-block', width: '100%', textAlign: 'center' }}>
+                            -
+                        </span>
+                    </Col>
+                    <Col xs={11} sm={sm} md={md} lg={lg} xl={xl}>
+                        <FormItem
+                            key={'end' + field.key}
+                            {...field["ui:endFormItemConfig"]}
+                        >
+                            {endItem(getFieldDecorator, formData)}
+                        </FormItem>
+                    </Col>
+                </Row>
             </FormItem>
         )
     }

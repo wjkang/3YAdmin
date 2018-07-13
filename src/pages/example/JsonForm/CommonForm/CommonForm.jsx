@@ -322,7 +322,11 @@ const uiSchema = {
         "ui:defaultBeginValue":0.1,
         "ui:defaultEndValue":0.2,
         "ui:title": "范围参数组件",
-        "ui:description": ""
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
     },
     "dateBetween":{
         "ui:widget": "between",
@@ -331,7 +335,11 @@ const uiSchema = {
             "style": { width: 130 }
         },
         "ui:title": "范围参数组件",
-        "ui:description": ""
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
     }
 }
 const formData = {
