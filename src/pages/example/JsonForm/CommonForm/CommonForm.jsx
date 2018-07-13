@@ -319,6 +319,7 @@ const uiSchema = {
         "ui:options": {
             "step": 0.1
         },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
         "ui:defaultBeginValue":0.1,
         "ui:defaultEndValue":0.2,
         "ui:title": "范围参数组件",
@@ -334,6 +335,7 @@ const uiSchema = {
         "ui:options": {
             "style": { width: 130 }
         },
+        "ui:rules": [{ required: true, message: '不能为空!' }],
         "ui:title": "范围参数组件",
         "ui:description": "",
         "ui:formItemConfig": {
