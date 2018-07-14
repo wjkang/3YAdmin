@@ -3,8 +3,14 @@ import createClass from 'create-react-class';
 import {
     Form,
     Input,
+    Row,
+    Col,
     DatePicker,
     InputNumber,
+    Checkbox,
+    Radio,
+    Select,
+    Switch,
     Cascader
 } from 'antd';
 import * as api from 'api';
@@ -221,23 +227,29 @@ const SchemaUtils = {
             const schemaProperty = schemaProperties[key];
             // 注意, 每个字段transform之后, 返回的也都是一个回调函数, 所以items其实是一个回调函数的集合
             switch (field["ui:widget"]) {
-                case 'select':
-                    items.push(util.transformNormal(field, schemaProperty));
-                    break;
-                case 'radio':
-                    items.push(util.transformNormal(field, schemaProperty));
+                case 'inputNumber':
+                    items.push(util.transformInputNumber(field, schemaProperty));
                     break;
                 case 'checkbox':
-                    items.push(util.transformNormal(field, schemaProperty));
+                    items.push(util.transformCheckbox(field, schemaProperty));
                     break;
-                case 'multiSelect':
-                    items.push(util.transformNormal(field, schemaProperty));
+                case 'datetime':
+                    items.push(util.transformDatetime(field, schemaProperty));
                     break;
-                case 'between':
-                    items.push(util.transformNormal(field, schemaProperty));
+                case 'radio':
+                    items.push(util.transformRadio(field, schemaProperty));
+                    break;
+                case 'select':
+                    items.push(util.transformSelect(field, schemaProperty));
+                    break;
+                case 'switch':
+                    items.push(util.transformSwitch(field, schemaProperty));
                     break;
                 case 'cascader':
                     items.push(util.transformCascader(field, schemaProperty));
+                    break;
+                case 'between':
+                    items.push(util.transformBetween(field, schemaProperty));
                     break;
                 default:
                     items.push(util.transformNormal(field, schemaProperty));
@@ -267,51 +279,148 @@ const SchemaUtils = {
             });
         });
     },
+    transformInput(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]]
+                })(<Input {...field["ui:options"]} />)
+            , field);
+    },
+    transformInputNumber(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]]
+                })(<InputNumber {...field["ui:options"]} />)
+            , field);
+    },
+    transformCheckbox(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]]
+                })(<Checkbox.Group {...field["ui:options"]} />)
+            , field);
+    },
+    transformDatetime(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]]
+                })(<DatePicker {...field["ui:options"]} />)
+            , field);
+    },
+    transformRadio(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]]
+                })(<Radio.Group {...field["ui:options"]} />)
+            , field);
+    },
+    transformSelect(field, schemaProperty) {
+        let dataOptions = field["ui:dataOptions"] || []
+        let options = [];
+        for (let o of dataOptions) {
+            options.push(<Select.Option key={o.value} value={o.value} disabled={o.disabled}>{o.title}</Select.Option>)
+        }
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]]
+                })(<Select {...field["ui:options"]}>
+                    {options}
+                </Select>)
+            , field);
+    },
+    transformSwitch(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]],
+                    valuePropName: 'checked'
+                })(<Switch {...field["ui:options"]} />)
+            , field);
+    },
+    transformBetween(field, schemaProperty) {
+        let begin, end;
+        switch (field["ui:type"]) {
+            case 'number':
+                begin = (getFieldDecorator, formData) => {
+                    return (
+                        getFieldDecorator(`${field.key}Begin`, {
+                            initialValue: formData[field.key + 'Begin'] || field["ui:defaultBeginValue"],
+                            rules: [...field["ui:rules"]]
+                        })(<InputNumber {...field["ui:options"]} />)
+                    );
+                };
+                end = (getFieldDecorator, formData) => {
+                    return (
+                        getFieldDecorator(`${field.key}End`, {
+                            initialValue: formData[field.key + 'End'] || field["ui:defaultEndValue"],
+                            rules: [...field["ui:rules"]]
+                        })(<InputNumber {...field["ui:options"]} />)
+                    );
+                };
+                return this.betweenFormItemWrapper(begin, end, field);
+            default:
+                begin = (getFieldDecorator, formData) => {
+                    return (
+                        getFieldDecorator(`${field.key}Begin`, {
+                            initialValue: formData[field.key + 'Begin'] || field["ui:defaultBeginValue"],
+                            rules: [...field["ui:rules"]]
+                        })(<DatePicker {...field["ui:options"]} />)
+                    );
+                };
+                end = (getFieldDecorator, formData) => {
+                    return (
+                        getFieldDecorator(`${field.key}End`, {
+                            initialValue: formData[field.key + 'End'] || field["ui:defaultEndValue"],
+                            rules: [...field["ui:rules"]]
+                        })(<DatePicker {...field["ui:options"]} />)
+                    );
+                };
+                return this.betweenFormItemWrapper(begin, end, field);
+        }
+    },
+    transformCascader(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultEndValue"],
+                    rules: [...field["ui:rules"]]
+                })(<Cascader {...field["ui:options"]} />),//函数作为参数传递
+            field);
+    },
     transformNormal(field, schemaProperty) {
         switch (field["ui:widget"]) {
-            case 'int':
-                return this.formItemWrapper((getFieldDecorator, formData) => getFieldDecorator(field.key, { initialValue: formData[field.key] })(
-                    <InputNumber size="default" max={field.max} min={field.min} placeholder={field.placeholder} />
-                ), field);
-            case 'float':
-                return this.formItemWrapper((getFieldDecorator, formData) => getFieldDecorator(field.key, { initialValue: formData[field.key] })(
-                    <InputNumber step={0.01} size="default" max={field.max} min={field.min} placeholder={field.placeholder} />
-                ), field);
-            case 'datetime':
-                return this.formItemWrapper((getFieldDecorator, formData) => getFieldDecorator(field.key, { initialValue: formData[field.key] })(
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder={field.placeholder || '请选择日期'} />
-                ), field);
             case 'input.textarea':
                 return this.formItemWrapper(
                     (getFieldDecorator, formData) =>
                         getFieldDecorator(field.key,
                             {
-                                initialValue: formData[field.key],
+                                initialValue: formData[field.key] || field["ui:defaultEndValue"],
                                 rules: [...field["ui:rules"]]
-                            })(<Input.TextArea {...field["ui:options"]} />),
-                    field);
+                            })(<Input.TextArea {...field["ui:options"]} />)
+                    , field);
             default:  // 默认就是普通的输入框
                 return this.formItemWrapper(
                     (getFieldDecorator, formData) =>
                         getFieldDecorator(field.key,
                             {
-                                initialValue: formData[field.key],
+                                initialValue: formData[field.key] || field["ui:defaultEndValue"],
                                 rules: [...field["ui:rules"]]
-                            })(<Input {...field["ui:options"]} />),
-                    field);
+                            })(<Input {...field["ui:options"]} />)
+                    , field);
         }
-    },
-    transformCascader(field, schemaProperty) {
-        return (getFieldDecorator, formData) => (
-            <FormItem key={field.key} {...field["ui:formItemConfig"]}>
-                {getFieldDecorator(field.key, {
-                    initialValue: formData[field.key],
-                    rules: [...field["ui:rules"]]
-                })(
-                    <Cascader {...field["ui:options"]} />
-                )}
-            </FormItem>
-        );
     },
     formItemWrapper(formItem, field) {
         return (getFieldDecorator, formData) => (
@@ -319,6 +428,43 @@ const SchemaUtils = {
                 {formItem(getFieldDecorator, formData)}
             </FormItem>
         );
+    },
+    betweenFormItemWrapper(beginItem, endItem, field) {
+        let isNumber = field["ui:type"] === "number";
+        let sm = isNumber ? 8 : 11;
+        let md = isNumber ? 6 : 8;
+        let lg = isNumber ? 5 : 6;
+        let xl = isNumber ? 3 : 5;
+        return (getFieldDecorator, formData) => (
+            <FormItem
+                key={field.key}
+                {...field["ui:formItemConfig"]}
+            >
+                <Row>
+                    <Col xs={11} sm={sm} md={md} lg={lg} xl={xl}>
+                        <FormItem
+                            key={'begin' + field.key}
+                            {...field["ui:beginFormItemConfig"]}
+                        >
+                            {beginItem(getFieldDecorator, formData)}
+                        </FormItem>
+                    </Col>
+                    <Col span={1}>
+                        <span style={{ display: 'inline-block', width: '100%', textAlign: 'center' }}>
+                            -
+                        </span>
+                    </Col>
+                    <Col xs={11} sm={sm} md={md} lg={lg} xl={xl} >
+                        <FormItem
+                            key={'end' + field.key}
+                            {...field["ui:endFormItemConfig"]}
+                        >
+                            {endItem(getFieldDecorator, formData)}
+                        </FormItem>
+                    </Col>
+                </Row>
+            </FormItem>
+        )
     }
 }
 export default SchemaUtils;
