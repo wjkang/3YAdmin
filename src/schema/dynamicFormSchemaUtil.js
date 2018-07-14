@@ -59,7 +59,8 @@ const SchemaUtils = {
                 FormInstanceMap.set(id + "-" + index, this);
                 return {
                     inited: false,
-                    index: id + "-" + index
+                    index: id + "-" + index,
+                    generateJsx: null
                 };
             },
             componentWillMount() {
@@ -67,7 +68,9 @@ const SchemaUtils = {
 
                 // 组件初始化时读取generator
                 if (JsxGeneratorMap.has(id)) {
-                    this.generateJsx = JsxGeneratorMap.get(id);
+                    this.setState({
+                        generateJsx: JsxGeneratorMap.get(id)
+                    })
                     return;
                 }
             },
@@ -88,26 +91,26 @@ const SchemaUtils = {
 
                 //JsxGeneratorMap.set(id, generateJsx);//永远不缓存
 
-                this.generateJsx = generateJsx;
-
                 this.setState({
-                    inited: true
+                    inited: true,
+                    generateJsx: generateJsx
                 })
 
             },
-            async componentDidUpdate(prevProps) {
+            componentDidUpdate(prevProps) {
                 //antd 表单项变更都会引起组件的变更，根据props判断是否为schema变更触发的，是则重新parse
                 if (this.props.toggleParseSchema != prevProps.toggleParseSchema) {
 
                     console.log('reParse')
-                    util.mergeSchema(this.state.index, schema, uiSchema);
-
-                    await util.getRemoteData(id, uiSchema);
-
-                    const generateJsx = util.parse(id, schema, uiSchema);
-
-                    this.generateJsx = generateJsx;
-
+                    let propsSchema = this.props.schema;
+                    let propsUiSchema = this.props.uiSchema;
+                    util.mergeSchema(this.state.index, propsSchema, propsUiSchema);
+                    util.getRemoteData(id, propsUiSchema).then(() => {
+                        const generateJsx = util.parse(id, propsSchema, propsUiSchema);
+                        this.setState({
+                            generateJsx: generateJsx
+                        })
+                    });
                 }
             },
             componentWillUnmount() {
@@ -119,7 +122,7 @@ const SchemaUtils = {
                 let formData = this.props.formData;
                 formData = formData || {}
                 //组件实例key一层层往下传递
-                return this.generateJsx ? this.generateJsx(this.state.index, formData) : null;
+                return this.state.generateJsx ? this.state.generateJsx(this.state.index, formData) : null;
             },
         });
         // 注意要再用antd的create()方法包装下
@@ -212,9 +215,11 @@ const SchemaUtils = {
                 }
             }
         });
+        let result = [];
         if (calls.length > 0) {
-            await Promise.all([...calls]);
+            result = await Promise.all([...calls]);
         }
+        return result;
 
     },
     parse(id, schema, uiSchema) {

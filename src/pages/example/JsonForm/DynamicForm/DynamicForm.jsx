@@ -159,7 +159,7 @@ const uiSchema = {
         "ui:rules": [{ required: true, message: '请选择模块!' }],//校验规则
         "ui:remoteConfig": {
             "apiKey": "getAllMenu",
-            "hand": (data) => {
+            "hand": function (data) {
                 return data;
             },//数据处理函数
         },
@@ -333,7 +333,7 @@ const uiSchema = {
         "ui:type": "date",
         "ui:options": {
             "style": { width: 130 }
-        }, 
+        },
         "ui:rules": [{ required: true, message: '不能为空!' }],
         "ui:title": "范围参数组件",
         "ui:description": "",
@@ -362,7 +362,12 @@ class DynamicFormTest extends React.PureComponent {
         data: ''
     }
     schema = JSON.stringify(schema)
-    uiSchema = JSON.stringify(uiSchema)
+    uiSchema = JSON.stringify(uiSchema, function (key, val) {
+        if (typeof val === 'function') {
+            return val.toString();
+        }
+        return val;
+    })
     formData = JSON.stringify(formData)
     schemaChange = (e) => {
         this.schema = e.target.value;
@@ -379,7 +384,13 @@ class DynamicFormTest extends React.PureComponent {
         }
         try {
             let schema = JSON.parse(this.schema);
-            let uiSchema = JSON.parse(this.uiSchema);
+            let uiSchema = JSON.parse(this.uiSchema, function (k, v) {
+                if (typeof v === "string" && v.indexOf("function") > -1) {
+                    let fun = new Function('return ' + v);
+                    return fun()
+                }
+                return v;
+            });
             let formData = JSON.parse(this.formData);
             let toggleParseSchema = this.state.toggleParseSchema;
             this.setState({
@@ -424,7 +435,12 @@ class DynamicFormTest extends React.PureComponent {
                 </div>
                 <div style={{ marginTop: 10 }}>
                     <Tag color="#87d068">UiSchema</Tag>
-                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.uiSchema, null, 4)} onChange={this.uiSchemaChange} />
+                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.uiSchema, function (key, val) {
+                        if (typeof val === 'function') {
+                            return val.toString();
+                        }
+                        return val;
+                    }, 4)} onChange={this.uiSchemaChange} />
                 </div>
                 <div style={{ marginTop: 10 }}>
                     <Tag color="#87d068">FormData</Tag>

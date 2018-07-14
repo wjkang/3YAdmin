@@ -71,23 +71,23 @@ const schema = {
             "type": "boolean",
             "title": "switch组件"
         },
-        "numberBetweenBegin":{
-            "type":"number",
-            "title":"numberBetweenBegin"
+        "numberBetweenBegin": {
+            "type": "number",
+            "title": "numberBetweenBegin"
         },
-        "numberBetweenEnd":{
-            "type":"number",
-            "title":"numberBetweenEnd"
+        "numberBetweenEnd": {
+            "type": "number",
+            "title": "numberBetweenEnd"
         },
-        "dateBetweenBegin":{
-            "type":"string",
-            "title":"dateBetweenBegin"
+        "dateBetweenBegin": {
+            "type": "string",
+            "title": "dateBetweenBegin"
         },
-        "dateBetweenEnd":{
-            "type":"string",
-            "title":"dateBetweenEnd"
+        "dateBetweenEnd": {
+            "type": "string",
+            "title": "dateBetweenEnd"
         }
-        
+
     }
 }
 const uiSchema = {
@@ -239,8 +239,8 @@ const uiSchema = {
     "datetime": {
         "ui:widget": "datetime",
         "ui:options": {
-            showTime:true,
-            format:"YYYY-MM-DD HH:mm:ss"
+            showTime: true,
+            format: "YYYY-MM-DD HH:mm:ss"
         },
         "ui:rules": [{ required: true, message: '不能为空!' }],
         "ui:title": "datetime",
@@ -272,7 +272,7 @@ const uiSchema = {
     "select": {
         "ui:widget": "select",
         "ui:options": {
-           
+
         },
         "ui:rules": [{ required: true, message: '不能为空!' }],
         "ui:dataOptions": [
@@ -313,15 +313,15 @@ const uiSchema = {
             "wrapperCol": { span: 16 }
         }
     },
-    "numberBetween":{
+    "numberBetween": {
         "ui:widget": "between",
-        "ui:type":"number",
+        "ui:type": "number",
         "ui:options": {
             "step": 0.1
         },
         "ui:rules": [{ required: true, message: '不能为空!' }],
-        "ui:defaultBeginValue":0.1,
-        "ui:defaultEndValue":0.2,
+        "ui:defaultBeginValue": 0.1,
+        "ui:defaultEndValue": 0.2,
         "ui:title": "范围参数组件",
         "ui:description": "",
         "ui:formItemConfig": {
@@ -329,9 +329,9 @@ const uiSchema = {
             "wrapperCol": { span: 16 }
         }
     },
-    "dateBetween":{
+    "dateBetween": {
         "ui:widget": "between",
-        "ui:type":"date",
+        "ui:type": "date",
         "ui:options": {
             "style": { width: 130 }
         },
@@ -361,7 +361,12 @@ class CommonFormTest extends React.PureComponent {
         data: ''
     }
     schema = JSON.stringify(schema)
-    uiSchema = JSON.stringify(uiSchema)
+    uiSchema = JSON.stringify(uiSchema, function (key, val) {
+        if (typeof val === 'function') {
+            return val.toString();
+        }
+        return val;
+    })
 
     getFormData = (data) => {
         this.setState({
@@ -393,7 +398,12 @@ class CommonFormTest extends React.PureComponent {
                 </div>
                 <div style={{ marginTop: 10 }}>
                     <Tag color="#87d068">UiSchema</Tag>
-                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.uiSchema, null, 4)} />
+                    <TextArea rows={15} defaultValue={JSON.stringify(this.state.uiSchema, function (key, val) {
+                        if (typeof val === 'function') {
+                            return val.toString();
+                        }
+                        return val;
+                    }, 4)} />
                 </div>
                 <div style={{ marginTop: 10 }}>
                     <Tag color="#87d068">FormData</Tag>
