@@ -71,25 +71,6 @@ const schema = {
             "type": "boolean",
             "title": "switch组件"
         },
-<<<<<<< HEAD
-        "numberBetweenBegin":{
-            "type":"number",
-            "title":"numberBetweenBegin"
-        },
-        "numberBetweenEnd":{
-            "type":"number",
-            "title":"numberBetweenEnd"
-        },
-        "dateBetweenBegin":{
-            "type":"string",
-            "title":"dateBetweenBegin"
-        },
-        "dateBetweenEnd":{
-            "type":"string",
-            "title":"dateBetweenEnd"
-        }
-        
-=======
         "numberBetweenBegin": {
             "type": "number",
             "title": "numberBetweenBegin"
@@ -107,7 +88,6 @@ const schema = {
             "title": "dateBetweenEnd"
         }
 
->>>>>>> dev
     }
 }
 const uiSchema = {
