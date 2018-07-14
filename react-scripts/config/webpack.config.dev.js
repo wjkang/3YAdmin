@@ -144,7 +144,8 @@ module.exports = {
               rules: {
                 "eqeqeq": "off",
                 "no-throw-literal": "off",
-                "no-script-url": "off"
+                "no-script-url": "off",
+                "no-new-func": "off"
               },
               ignore: false,
               useEslintrc: false,
