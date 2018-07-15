@@ -390,19 +390,37 @@ const SchemaUtils = {
             field);
     },
     transformUpload(field, schemaProperty) {
-        return this.formItemWrapper(
-            (getFieldDecorator, formData) =>
-                getFieldDecorator(field.key, {
-                    initialValue: formData[field.key] || field["ui:defaultValue"],
-                    rules: [...field["ui:rules"]],
-                    valuePropName: 'fileList',
-                    getValueFromEvent: field["ui:getValueFromEvent"]
-                })(
-                    <Upload {...field["ui:options"]}>
-                        {field["ui:children"]}
-                    </Upload>
-                )
-            , field);
+        switch (field["ui:type"]) {
+            case 'dragger':
+                return this.formItemWrapper(
+                    (getFieldDecorator, formData) =>
+                        getFieldDecorator(field.key, {
+                            initialValue: formData[field.key] || field["ui:defaultValue"],
+                            rules: [...field["ui:rules"]],
+                            valuePropName: 'fileList',
+                            getValueFromEvent: field["ui:getValueFromEvent"]
+                        })(
+                            <Upload.Dragger {...field["ui:options"]}>
+                                {field["ui:children"]}
+                            </Upload.Dragger>
+                        )
+                    , field);
+            default:
+                return this.formItemWrapper(
+                    (getFieldDecorator, formData) =>
+                        getFieldDecorator(field.key, {
+                            initialValue: formData[field.key] || field["ui:defaultValue"],
+                            rules: [...field["ui:rules"]],
+                            valuePropName: 'fileList',
+                            getValueFromEvent: field["ui:getValueFromEvent"]
+                        })(
+                            <Upload {...field["ui:options"]}>
+                                {field["ui:children"]}
+                            </Upload>
+                        )
+                    , field);
+
+        }
     },
     transformNormal(field, schemaProperty) {
         switch (field["ui:widget"]) {

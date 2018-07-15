@@ -90,6 +90,10 @@ const schema = {
         "upload": {
             "type": "string",
             "title": "upload上传"
+        },
+        "upload.dragger": {
+            "type": "string",
+            "title": "upload上传"
         }
 
     }
@@ -351,7 +355,8 @@ const uiSchema = {
         "ui:widget": "upload",
         "ui:options": {
             name: 'file',
-            action: '//jsonplaceholder.typicode.com/posts/'
+            action: '//jsonplaceholder.typicode.com/posts/',
+            listType: 'picture'
         },
         "ui:children": <Button><Icon type="upload" /> Click to Upload</Button>,
         "ui:rules": [{ required: true, message: '请上传!' }],
@@ -361,7 +366,73 @@ const uiSchema = {
             }
             return e && e.fileList;
         },
+        "ui:defaultValue": [{
+            uid: 1,
+            name: 'xxx.png',
+            status: 'done',
+            response: 'Server Error 500', // custom error message to show
+            url: 'https://i.loli.net/2018/07/15/5b4b530ecc1b1.jpg',
+        }, {
+            uid: 2,
+            name: 'yyy.png',
+            status: 'done',
+            url: 'https://i.loli.net/2018/07/15/5b4b530ecc1b1.jpg',
+        }, {
+            uid: 3,
+            name: 'zzz.png',
+            status: 'error',
+            response: 'Server Error 500', // custom error message to show
+            url: 'https://i.loli.net/2018/07/15/5b4b530ecc1b1.jpg',
+        }],
         "ui:title": "上传组件",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "upload.dragger": {
+        "ui:widget": "upload",
+        "ui:type": "dragger",
+        "ui:options": {
+            name: 'file',
+            action: '//jsonplaceholder.typicode.com/posts/',
+            listType: 'picture',
+            multiple: true
+        },
+        "ui:children": <div>
+            <p className="ant-upload-drag-icon">
+                <Icon type="inbox" />
+            </p>
+            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+            <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+        </div>,
+        "ui:rules": [{ required: true, message: '请上传!' }],
+        "ui:getValueFromEvent": (e) => {
+            if (Array.isArray(e)) {
+                return e;
+            }
+            return e && e.fileList;
+        },
+        "ui:defaultValue": [{
+            uid: 1,
+            name: 'xxx.png',
+            status: 'done',
+            response: 'Server Error 500', // custom error message to show
+            url: 'https://i.loli.net/2018/07/15/5b4b530ecc1b1.jpg',
+        }, {
+            uid: 2,
+            name: 'yyy.png',
+            status: 'done',
+            url: 'https://i.loli.net/2018/07/15/5b4b530ecc1b1.jpg',
+        }, {
+            uid: 3,
+            name: 'zzz.png',
+            status: 'error',
+            response: 'Server Error 500', // custom error message to show
+            url: 'https://i.loli.net/2018/07/15/5b4b530ecc1b1.jpg',
+        }],
+        "ui:title": "拖拽上传",
         "ui:description": "",
         "ui:formItemConfig": {
             "labelCol": { span: 6 },
