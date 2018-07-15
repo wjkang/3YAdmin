@@ -11,7 +11,8 @@ import {
     Radio,
     Select,
     Switch,
-    Cascader
+    Cascader,
+    Upload
 } from 'antd';
 import * as api from 'api';
 import remoteDataUtil from './FormRemoteDataUtil';
@@ -236,6 +237,9 @@ const SchemaUtils = {
                 case 'between':
                     items.push(util.transformBetween(field, schemaProperty));
                     break;
+                case 'upload':
+                    items.push(util.transformUpload(field, schemaProperty));
+                    break;
                 default:
                     items.push(util.transformNormal(field, schemaProperty));
             }
@@ -385,6 +389,21 @@ const SchemaUtils = {
                 })(<Cascader {...field["ui:options"]} />),//函数作为参数传递
             field);
     },
+    transformUpload(field, schemaProperty) {
+        return this.formItemWrapper(
+            (getFieldDecorator, formData) =>
+                getFieldDecorator(field.key, {
+                    initialValue: formData[field.key] || field["ui:defaultValue"],
+                    rules: [...field["ui:rules"]],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: field["ui:getValueFromEvent"]
+                })(
+                    <Upload {...field["ui:options"]}>
+                        {field["ui:children"]}
+                    </Upload>
+                )
+            , field);
+    },
     transformNormal(field, schemaProperty) {
         switch (field["ui:widget"]) {
             case 'input.textarea':
@@ -415,11 +434,11 @@ const SchemaUtils = {
         );
     },
     betweenFormItemWrapper(beginItem, endItem, field) {
-        let isNumber=field["ui:type"]==="number";
-        let sm=isNumber?8:11;
-        let md=isNumber?6:8;
-        let lg=isNumber?5:6;
-        let xl=isNumber?3:5;
+        let isNumber = field["ui:type"] === "number";
+        let sm = isNumber ? 8 : 11;
+        let md = isNumber ? 6 : 8;
+        let lg = isNumber ? 5 : 6;
+        let xl = isNumber ? 3 : 5;
         return (getFieldDecorator, formData) => (
             <FormItem
                 key={field.key}

@@ -1,7 +1,7 @@
 import React from 'react';
 import CommonForm from '@/schema/CommonForm';
 
-import { Input, Tag, Button, Divider } from 'antd';
+import { Input, Tag, Button, Divider, Icon } from 'antd';
 const { TextArea } = Input;
 const schema = {
     "$id": "function-edit-schema",
@@ -86,6 +86,10 @@ const schema = {
         "dateBetweenEnd": {
             "type": "string",
             "title": "dateBetweenEnd"
+        },
+        "upload": {
+            "type": "string",
+            "title": "upload上传"
         }
 
     }
@@ -337,6 +341,27 @@ const uiSchema = {
         },
         "ui:rules": [{ required: true, message: '不能为空!' }],
         "ui:title": "范围参数组件",
+        "ui:description": "",
+        "ui:formItemConfig": {
+            "labelCol": { span: 6 },
+            "wrapperCol": { span: 16 }
+        }
+    },
+    "upload": {
+        "ui:widget": "upload",
+        "ui:options": {
+            name: 'file',
+            action: '//jsonplaceholder.typicode.com/posts/'
+        },
+        "ui:children": <Button><Icon type="upload" /> Click to Upload</Button>,
+        "ui:rules": [{ required: true, message: '请上传!' }],
+        "ui:getValueFromEvent": (e) => {
+            if (Array.isArray(e)) {
+                return e;
+            }
+            return e && e.fileList;
+        },
+        "ui:title": "上传组件",
         "ui:description": "",
         "ui:formItemConfig": {
             "labelCol": { span: 6 },
