@@ -4,9 +4,9 @@ import DynamicForm from '@/schema/DynamicForm';
 import { Input, Tag, Button, Divider } from 'antd';
 const { TextArea } = Input;
 const schema = {
-    "$id": "function-edit-schema",
-    "title": "function-edit-schema",
-    "description": "function-edit-schema.",
+    "$id": "dynamic-edit-schema",
+    "title": "dynamic-edit-schema",
+    "description": "dynamic-edit-schema.",
     "type": "object",
     "required": ["moduleId", "name", "code"],//可传给后端判断，暂时不使用此处配置检验前端表单,前端表单校验规则配置在uiSchema
     "properties": {
