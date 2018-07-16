@@ -5,9 +5,9 @@ import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 const { TextArea } = Input;
 const searchSchema = {
-    "$id": "user-search-schema",
-    "title": "user-search-schema",
-    "description": "user-search-schema.",
+    "$id": "example-search-schema",
+    "title": "example-search-schema",
+    "description": "example-search-schema.",
     "type": "object",
     "required": [],
     "properties": {

@@ -32,6 +32,9 @@ class App extends Component {
     window.onresize = () => {
       this.getClientWidth();
     }
+    setTimeout(() => {
+      document.body.removeChild(document.getElementById("StartLoading"));
+    }, 200);
   }
   componentWillUpdate(nextProps) {
     if (this.props.location.pathname !== nextProps.location.pathname) {
