@@ -23,7 +23,7 @@ class App extends Component {
   state = {
     collapsed: false,
     responsive: false,
-    navTabShow: true,
+    navTabShow: false,
     navTabTop: 65
   }
   componentDidMount() {
@@ -33,7 +33,8 @@ class App extends Component {
       this.getClientWidth();
     }
     setTimeout(() => {
-      document.body.removeChild(document.getElementById("StartLoading"));
+      let loading = document.getElementById("StartLoading");
+      loading && document.body.removeChild(loading);
     }, 200);
   }
   componentWillUpdate(nextProps) {
