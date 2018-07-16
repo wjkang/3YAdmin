@@ -49,6 +49,10 @@ class Login extends React.PureComponent {
     }
     componentDidMount() {
         //noise.Init();
+        setTimeout(() => {
+            let loading = document.getElementById("StartLoading");
+            loading && document.body.removeChild(loading);
+        }, 200);
     }
     render() {
         const { getFieldDecorator } = this.props.form;

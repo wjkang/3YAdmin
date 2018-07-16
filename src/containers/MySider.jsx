@@ -23,11 +23,13 @@ class MySiderContainer extends React.PureComponent {
                 let moduleList = accessMenu.filter(item => {
                     return item.leftMemu && item.name === currentModule
                 });
-                let moduleMenu = moduleList[0].children;
-                this.props.updateModule({
-                    currentModule: currentModule,
-                    moduleMenu: moduleMenu
-                });
+                if (moduleList.length > 0) {
+                    let moduleMenu = moduleList[0].children;
+                    this.props.updateModule({
+                        currentModule: currentModule,
+                        moduleMenu: moduleMenu
+                    });
+                }
             }
             if (!this.props.collapsed) {//菜单收缩状态，回退或前进显示菜单 BUG
                 this.setState({
