@@ -50,7 +50,8 @@ class Login extends React.PureComponent {
     componentDidMount() {
         //noise.Init();
         setTimeout(() => {
-            document.body.removeChild(document.getElementById("StartLoading"));
+            let loading = document.getElementById("StartLoading");
+            loading && document.body.removeChild(loading);
         }, 200);
     }
     render() {

@@ -28,7 +28,8 @@ class TabMode extends React.PureComponent {
             this.getClientWidth();
         }
         setTimeout(() => {
-            document.body.removeChild(document.getElementById("StartLoading"));
+            let loading = document.getElementById("StartLoading");
+            loading && document.body.removeChild(loading);
         }, 200);
     }
     componentWillUpdate(nextProps) {
