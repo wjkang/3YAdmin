@@ -23,7 +23,7 @@ class App extends Component {
   state = {
     collapsed: false,
     responsive: false,
-    navTabShow: true,
+    navTabShow: false,
     navTabTop: 65
   }
   componentDidMount() {

@@ -69,7 +69,7 @@ class MyHeader extends React.PureComponent {
                     <Col xs={8} sm={4} md={2} lg={1} xl={2} style={{ textAlign: 'right' }}>
                         <ul className="top-nav" style={{ lineHeight: '65px' }}>
                             <li>
-                                <a className="item" href="https://github.com/ant-design/ant-design/" target={"_blank"}>
+                                <a className="item" href="https://github.com/wjkang/3YAdmin" target={"_blank"}>
                                     <Icon type="github" />
                                 </a>
                             </li>

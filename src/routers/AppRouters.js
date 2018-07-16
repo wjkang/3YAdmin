@@ -41,6 +41,10 @@ const User = Loadable({
     loader: () => import('@/pages/user'),
     loading: ContentLoader
 });
+const RequestLog = Loadable({
+    loader: () => import('@/pages/RequestLog'),
+    loading: ContentLoader
+});
 //example
 const Page403 = Loadable({
     loader: () => import('@/pages/Page403'),
@@ -74,6 +78,7 @@ export default () => (
         <AuthorizedRoute exact path="/app/permission/roleuser" component={RoleUser} />
         <AuthorizedRoute exact path="/app/permission/userrole" component={UserRole} />
         <AuthorizedRoute exact path="/app/user/index" component={User} />
+        <AuthorizedRoute exact path="/app/requestlog" component={RequestLog} />
         {/* example */}
         <AuthorizedRoute exact path="/app/example/404" component={Page404} />
         <AuthorizedRoute exact path="/app/example/403" component={Page403} />

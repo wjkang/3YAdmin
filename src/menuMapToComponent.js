@@ -41,6 +41,10 @@ const Page403 = Loadable({
     loader: () => import('@/pages/Page403'),
     loading: ContentLoader
 });
+const RequestLog = Loadable({
+    loader: () => import('@/pages/RequestLog'),
+    loading: ContentLoader
+});
 // example
 const PermissionTest = Loadable({
     loader: () => import('@/pages/example/PermissionTest'),
@@ -70,6 +74,7 @@ export default {
     "user_index": User,
     "page404": Page404,
     "page403": Page403,
+    "requestlog":RequestLog,
     // example
     "error_404": Page404,
     "error_403": Page403,

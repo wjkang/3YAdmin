@@ -25,7 +25,7 @@ export default {
     business: "",
     sku: "",
     userinfo: "",
-    requestlog: "",
+    requestlog: "/app/requestlog",
     // example
     error_404: '/app/example/404',
     error_403: '/app/example/403',
