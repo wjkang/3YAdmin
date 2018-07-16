@@ -15,6 +15,7 @@ class MySider extends React.PureComponent {
                 trigger={null}
                 collapsible
                 collapsed={this.props.collapsed}
+                style={{ background: '#fff' }}
             >
                 <div className="logo" style={{ paddingLeft: this.props.collapsed ? '14px' : '6px' }}><img src={logo} alt="" /><h3>3YAdmin</h3></div>
                 <SiderMenu
