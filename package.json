@@ -1,7 +1,8 @@
 {
-  "name": "react-antd-admin",
+  "name": "3YAdmin",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/3YAdmin-preview/",
   "scripts": {
     "start": "node react-scripts/scripts/start.js",
     "build": "node react-scripts/scripts/build.js",
@@ -13,6 +14,7 @@
     "axios": "^0.18.0",
     "create-react-class": "^15.6.3",
     "qs": "^6.5.2",
+    "query-string": "^5.1.1",
     "react": "^16.3.2",
     "react-content-loader": "^3.1.2",
     "react-dom": "^16.3.2",

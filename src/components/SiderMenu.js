@@ -8,11 +8,11 @@ const { Item } = Menu;
 
 const renderMenuItem =
     ({ name, title, icon }) => {
-        let link=MenuToRouter[name];
+        let link = MenuToRouter[name];
         return <Item
             key={name}
         >
-            { link? <Link to={link}><span>{title}</span></Link> : <span>{title}</span>}
+            {link ? <Link to={link}><span>{icon && <Icon type={icon} style={{ color: '#08c' }} />}<span>{title}</span></span></Link> : <span>{icon && <Icon type={icon} style={{ color: '#08c' }} />}<span>{title}</span></span>}
         </Item>;
     }
 
@@ -22,14 +22,14 @@ const renderSubMenu =
             key={name}
             title={
                 <span>
-                    {icon && <Icon type="user" />}
+                    {icon && <Icon type={icon} style={{ color: '#08c' }} />}
                     <span>{title}</span>
                 </span>
             }
 
         >
             {children && children.map(
-                item => item.children && item.children.filter(s=>s.leftMemu).lenth>0 ?
+                item => item.children && item.children.filter(s => s.leftMemu).length > 0 ?
                     renderSubMenu(item) : renderMenuItem(item)
             )}
         </SubMenu>;

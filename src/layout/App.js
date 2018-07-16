@@ -12,6 +12,7 @@ import { updateUserInfo } from '@/reducers/user';
 import { updateAccessMenu } from '@/reducers/app';
 import util from '@/utils/util';
 import AppRouters from '@/routers/AppRouters';
+import constantMenu from '@/constantMenu';
 
 
 
@@ -89,6 +90,7 @@ class App extends Component {
     }
     localStorage.setItem("permission", JSON.stringify(permission));
     localStorage.setItem("isAdmin", isAdmin);
+    menuRes.data.push(...constantMenu);
     let openAccesseMenu = util.openAccesseMenu(menuRes.data);
     let moduleList = menuRes.data.filter(item => {
       return item.leftMemu

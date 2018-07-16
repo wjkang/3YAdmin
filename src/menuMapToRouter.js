@@ -1,3 +1,4 @@
+//key为与后端返回菜单的name相对应
 export default {
     menu: "/app/system/menu",
     function: "/app/permission/function",
@@ -25,6 +26,13 @@ export default {
     sku: "",
     userinfo: "",
     requestlog: "",
+    // example
+    error_404: '/app/example/404',
+    error_403: '/app/example/403',
+    permission_test: '/app/example/permissiontest',
+    search_form: '/app/example/searchform',
+    common_form: '/app/example/commonform',
+    dynamic_form:'/app/example/dynamicform'
 }
 
 

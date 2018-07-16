@@ -4,7 +4,6 @@ import { Tabs } from 'antd';
 import { withRouter } from 'react-router-dom';
 import MenuToRouter from '@/menuMapToRouter';
 import MenuMapToComponent from '@/menuMapToComponent';
-import util from '@/utils/util';
 
 const TabPane = Tabs.TabPane;
 
@@ -19,11 +18,13 @@ class MyNavTabs extends React.PureComponent {
       content: MenuMapToComponent["home"]
     }]
   }
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.show) {
+  hasPermission = true
+  componentWillReceiveProps(nextProps,nextState) {
+    if (!nextProps.show||nextProps.openAccessMenu.length===0) {
       return;
     }
-    let name = Object.keys(MenuToRouter).find(key => MenuToRouter[key] === nextProps.location.pathname);
+    const pathname = nextProps.location.pathname;
+    let name = Object.keys(MenuToRouter).find(key => MenuToRouter[key] === pathname);
     if (name) {
       if (this.state.openPages.some(s => s.name === name)) {
         if (this.state.currentPage !== name) {
@@ -32,8 +33,10 @@ class MyNavTabs extends React.PureComponent {
           });
         }
       } else {
-        let menu = util.getMenuByName(name, nextProps.accessMenu);
-        if (menu.name) {
+        const { openAccessMenu } = nextProps
+        const menus = openAccessMenu.filter(s => s.name === name)
+        if (menus.length > 0) {
+          let menu = menus[0];
           let openPages = this.state.openPages;
           openPages.push({
             name: menu.name,
@@ -45,12 +48,54 @@ class MyNavTabs extends React.PureComponent {
             openPages: openPages,
             currentPage: name
           });
+        } else {
+          //403
+          if (this.state.openPages.some(s => s.name === 'page403')) {
+            if (this.state.currentPage !== 'page403') {
+              this.setState({
+                currentPage: 'page403'
+              });
+            }
+          } else {
+            let openPages = this.state.openPages;
+            openPages.push({
+              name: 'page403',
+              title: '没有权限',
+              path: pathname,
+              closable: true
+            });
+            this.setState({
+              openPages: openPages,
+              currentPage: 'page403'
+            });
+          }
         }
       }
-    } else if (nextProps.location.pathname === "/app/home" && this.state.currentPage !== 'home') {
+    } else if (nextProps.location.pathname === "/app/home" && nextState.currentPage !== 'home') {
       this.setState({
         currentPage: "home"
       })
+    } else {
+      //404
+      if (this.state.openPages.some(s => s.name === 'page404')) {
+        if (this.state.currentPage !== 'page404') {
+          this.setState({
+            currentPage: 'page404'
+          });
+        }
+      } else {
+        let openPages = this.state.openPages;
+        openPages.push({
+          name: 'page404',
+          title: '页面不存在',
+          path: pathname,
+          closable: true
+        });
+        this.setState({
+          openPages: openPages,
+          currentPage: 'page404'
+        });
+      }
     }
   }
   onTabClick = (activeKey) => {
@@ -99,13 +144,13 @@ class MyNavTabs extends React.PureComponent {
         <Tabs
           hideAdd
           activeKey={this.state.currentPage}
-          tabBarStyle={{ background: 'white',width:'100%', padding: 10, margin: 0,position:'fixed',zIndex:99, border: 'none' }}
+          tabBarStyle={{ background: 'white', width: '100%', padding: 10, margin: 0, position: 'fixed', zIndex: 99, border: 'none' }}
           type="editable-card"
           onEdit={this.onEdit}
           onTabClick={this.onTabClick}
         >
           {this.state.openPages.map(page => {
-            const Page=MenuMapToComponent[page.name]?MenuMapToComponent[page.name]:MenuMapToComponent["page404"];
+            let Page = MenuMapToComponent[page.name] ? MenuMapToComponent[page.name] : MenuMapToComponent["page404"];
             return <TabPane forceRender tab={page.title} closable={page.closable} key={page.name}>
               <Page />
             </TabPane>
@@ -119,7 +164,7 @@ class MyNavTabs extends React.PureComponent {
 }
 const mapStateToProps = state => {
   return {
-    accessMenu: state.app.accessMenu
+    openAccessMenu: state.app.openAccessMenu
   }
 }
 export default withRouter(connect(mapStateToProps)(MyNavTabs));

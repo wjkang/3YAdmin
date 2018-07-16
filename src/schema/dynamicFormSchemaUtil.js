@@ -18,13 +18,19 @@ import remoteDataUtil from './FormRemoteDataUtil';
 
 const FormItem = Form.Item;
 
-// 暂存的JsxGenerator
+//暂存的JsxGenerator
 const JsxGeneratorMap = new Map();
-// 暂存表单组件, key是schema 的$id, value是对应的react组件
+
+//暂存表单组件, key是schema 的$id, value是对应的react组件
 const FormMap = new Map();
 
 //缓存uiSchema,uiSchema中存在需动态获取的数据,获取后更新uiSchema并缓存
 const UiSchemaMap = new Map();
+
+//缓存表单实例,key还是用schema 的$id+Index,组件实例化的时候存入，组件销毁的时候移除
+const FormInstanceMap = new Map();
+//缓存表单实例maxIndex;
+const FormInstanceIndexMap = new Map();
 
 const SchemaUtils = {
     getForm(schema, uiSchema) {
@@ -38,20 +44,33 @@ const SchemaUtils = {
         }
     },
     createForm(id, schema, uiSchema) {
-        console.log("createCommonForm")
+        console.log("createDynamicForm")
         const util = this;
         // 只能用传统的ES5的写法, 函数式(无状态)组件应该也可以, 但是需要生命周期相关方法
         const tmpComponent = createClass({
             getInitialState() {
+                let index = FormInstanceIndexMap.get(id);
+                if (!index) {
+                    index = 1;
+                } else {
+                    index++;
+                }
+                FormInstanceIndexMap.set(id, index);
+                FormInstanceMap.set(id + "-" + index, this);
                 return {
-                    inited: false
+                    inited: false,
+                    index: id + "-" + index,
+                    generateJsx: null
                 };
             },
             componentWillMount() {
-                console.log("tmpCommonForm componentWillMount");
+                console.log("tmpDynamicForm componentWillMount");
+
                 // 组件初始化时读取generator
                 if (JsxGeneratorMap.has(id)) {
-                    this.generateJsx = JsxGeneratorMap.get(id);
+                    this.setState({
+                        generateJsx: JsxGeneratorMap.get(id)
+                    })
                     return;
                 }
             },
@@ -61,36 +80,56 @@ const SchemaUtils = {
                     return;
                 }
 
-                util.mergeSchema(schema, uiSchema);
+                util.mergeSchema(this.state.index, schema, uiSchema);
 
                 await util.getRemoteData(id, uiSchema);
 
                 UiSchemaMap.set(id, true);
 
 
-                const generateJsx = util.parse(id, schema, uiSchema);
+                const generateJsx = util.parse(id, schema, uiSchema);//parse方法返回一个真正生成jsx结构的方法，调用的时候传入组件实例的index,从全局缓存获取组件实例传入(也可以直接传入组件实例)
 
-                JsxGeneratorMap.set(id, generateJsx);
-
-                this.generateJsx = generateJsx;
+                //JsxGeneratorMap.set(id, generateJsx);//永远不缓存
 
                 this.setState({
-                    inited: true
+                    inited: true,
+                    generateJsx: generateJsx
                 })
 
             },
+            componentDidUpdate(prevProps) {
+                //antd 表单项变更都会引起组件的变更，根据props判断是否为schema变更触发的，是则重新parse
+                if (this.props.toggleParseSchema != prevProps.toggleParseSchema) {
+
+                    console.log('reParse')
+                    let propsSchema = this.props.schema;
+                    let propsUiSchema = this.props.uiSchema;
+                    util.mergeSchema(this.state.index, propsSchema, propsUiSchema);
+                    util.getRemoteData(id, propsUiSchema).then(() => {
+                        const generateJsx = util.parse(id, propsSchema, propsUiSchema);
+                        this.setState({
+                            generateJsx: generateJsx
+                        })
+                    });
+                }
+            },
+            componentWillUnmount() {
+                FormInstanceMap.delete(this.state.index);
+                console.log(FormInstanceMap.size)
+            },
             render() {
-                console.log("tmpCommonForm render");
+                console.log("tmpDynamicForm render");
                 let formData = this.props.formData;
                 formData = formData || {}
-                // getFieldDecorator一层层往下传递(高阶函数的使用)
-                return this.generateJsx ? this.generateJsx(this.props.form.getFieldDecorator, formData) : null;
+                //组件实例key一层层往下传递
+                return this.state.generateJsx ? this.state.generateJsx(this.state.index, formData) : null;
             },
         });
         // 注意要再用antd的create()方法包装下
         return Form.create()(tmpComponent);
     },
-    mergeSchema(schema, uiSchema) {
+    mergeSchema(formInstanceIndex, schema, uiSchema) {
+        let instance = FormInstanceMap.get(formInstanceIndex);
         Object.keys(uiSchema).forEach(function (key) {
             let schemaProperty = schema["properties"][key];
             let uiSchemaProperty = uiSchema[key];
@@ -122,6 +161,25 @@ const SchemaUtils = {
             //config wrapperCol 
             if (uiSchemaProperty["ui:formItemConfig"]["wrapperCol"] === undefined) {
                 uiSchemaProperty["ui:formItemConfig"]["wrapperCol"] = { span: 16 };
+            }
+            //required
+            if (uiSchemaProperty["ui:required"] !== undefined) {
+                uiSchemaProperty["ui:rules"].push({
+                    validator: (rule, value, callback) => {
+                        const form = instance.props.form;
+                        let msg = [];
+                        for (let required of uiSchemaProperty["ui:required"]) {
+                            if (value && !form.getFieldValue(required.name)) {
+                                msg.push(required.message)
+                            }
+                        }
+                        if (msg.length > 0) {
+                            callback(msg.join(","));
+                        } else {
+                            callback();
+                        }
+                    }
+                })
             }
 
         })
@@ -157,13 +215,15 @@ const SchemaUtils = {
                 }
             }
         });
+        let result = [];
         if (calls.length > 0) {
-            await Promise.all([...calls]);
+            result = await Promise.all([...calls]);
         }
+        return result;
 
     },
     parse(id, schema, uiSchema) {
-        console.log("parse CommonForm schema")
+        console.log("parse DynamicForm schema")
         let items = [];
         let schemaProperties = schema["properties"];
         const util = this;
@@ -200,9 +260,10 @@ const SchemaUtils = {
                     items.push(util.transformNormal(field, schemaProperty));
             }
         });
-
-        return (getFieldDecorator, formData) => {
+        //调用parse返回的函数，也是被缓存的函数(其实是为了缓存items,一些构建form item的函数)，真正构建jsx是调用此函数，
+        return (formInstanceIndex, formData) => {
             const formItems = [];
+            const getFieldDecorator = FormInstanceMap.get(formInstanceIndex).props.form.getFieldDecorator;
             for (const item of items) {
                 formItems.push(item(getFieldDecorator, formData));
             }
@@ -212,7 +273,7 @@ const SchemaUtils = {
         };
     },
     getCascaderRemoteData(id, field) {
-        const { apiKey, hand } = field["ui:remoteConfig"];
+        const { apiKey } = field["ui:remoteConfig"];
         return new Promise(function (resolve, reject) {
             api[apiKey]().then(res => {
                 let data = res.data;
@@ -374,32 +435,39 @@ const SchemaUtils = {
         );
     },
     betweenFormItemWrapper(beginItem, endItem, field) {
+        let isNumber = field["ui:type"] === "number";
+        let sm = isNumber ? 8 : 11;
+        let md = isNumber ? 6 : 8;
+        let lg = isNumber ? 5 : 6;
+        let xl = isNumber ? 3 : 5;
         return (getFieldDecorator, formData) => (
             <FormItem
                 key={field.key}
                 {...field["ui:formItemConfig"]}
             >
-                <Col span={11}>
-                    <FormItem
-                        key={'begin' + field.key}
-                        {...field["ui:beginFormItemConfig"]}
-                    >
-                        {beginItem(getFieldDecorator, formData)}
-                    </FormItem>
-                </Col>
-                <Col span={2}>
-                    <span style={{ display: 'inline-block', width: '100%', textAlign: 'center' }}>
-                        -
-                    </span>
-                </Col>
-                <Col span={11}>
-                    <FormItem
-                        key={'end' + field.key}
-                        {...field["ui:endFormItemConfig"]}
-                    >
-                        {endItem(getFieldDecorator, formData)}
-                    </FormItem>
-                </Col>
+                <Row>
+                    <Col xs={11} sm={sm} md={md} lg={lg} xl={xl}>
+                        <FormItem
+                            key={'begin' + field.key}
+                            {...field["ui:beginFormItemConfig"]}
+                        >
+                            {beginItem(getFieldDecorator, formData)}
+                        </FormItem>
+                    </Col>
+                    <Col span={1}>
+                        <span style={{ display: 'inline-block', width: '100%', textAlign: 'center' }}>
+                            -
+                        </span>
+                    </Col>
+                    <Col xs={11} sm={sm} md={md} lg={lg} xl={xl} >
+                        <FormItem
+                            key={'end' + field.key}
+                            {...field["ui:endFormItemConfig"]}
+                        >
+                            {endItem(getFieldDecorator, formData)}
+                        </FormItem>
+                    </Col>
+                </Row>
             </FormItem>
         )
     }

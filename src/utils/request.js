@@ -7,7 +7,7 @@ import { message } from 'antd';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://69.171.69.13:3000', // api的base_url
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://69.171.69.13:3001', // api的base_url
   timeout: 20000 // request timeout
 })
 
@@ -15,7 +15,6 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // Do something before request is sent
   if (!permission.check(config)) {
-    message.error('没有请求权限');
     throw "403"
   }
   loading.show(config)
@@ -56,11 +55,11 @@ service.interceptors.response.use(
 
     } else if (error.response && error.response.status === 500) {
       message.error('系统错误!');
-    } else if (error.message.indexOf("timeout") > -1) {
+    } else if (error.message&&error.message.indexOf("timeout") > -1) {
       message.error('网络超时!');
     }
     else if (error === "403") {
-      message.error('没有权限!');
+      message.error('没有请求权限!');
     } else {
       message.error('网络错误!');
     }

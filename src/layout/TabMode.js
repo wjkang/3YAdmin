@@ -10,11 +10,7 @@ import { getUserInfo, getAccessMemu } from 'api';
 import { updateUserInfo } from '@/reducers/user';
 import { updateAccessMenu } from '@/reducers/app';
 import util from '@/utils/util';
-
-
-
-
-
+import constantMenu from '@/constantMenu';
 
 const { Content } = Layout;
 
@@ -34,6 +30,7 @@ class TabMode extends React.PureComponent {
     }
     componentWillUpdate(nextProps) {
         if (this.props.location.pathname !== nextProps.location.pathname) {
+            //路由变更,选中菜单
             this.initChildData(nextProps)
         }
     }
@@ -89,6 +86,7 @@ class TabMode extends React.PureComponent {
         }
         localStorage.setItem("permission", JSON.stringify(permission));
         localStorage.setItem("isAdmin", isAdmin);
+        menuRes.data.push(...constantMenu);
         let openAccesseMenu = util.openAccesseMenu(menuRes.data);
         let moduleList = menuRes.data.filter(item => {
             return item.leftMemu

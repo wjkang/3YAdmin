@@ -58,15 +58,21 @@ class Login extends React.PureComponent {
                 <Row type="flex" justify="center" align="middle">
                     <Col span={4}>
                         <Form onSubmit={this.handleSubmit} className="login-form">
-                            <FormItem>
+                            <FormItem
+                                hasFeedback
+                            >
                                 {getFieldDecorator('userName', {
+                                    initialValue: 'admin',
                                     rules: [{ required: true, message: '请输入登录账号!' }],
                                 })(
                                     <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
                                 )}
                             </FormItem>
-                            <FormItem>
+                            <FormItem
+                                hasFeedback
+                            >
                                 {getFieldDecorator('password', {
+                                    initialValue: '123',
                                     rules: [{ required: true, message: '请输入密码!' }],
                                 })(
                                     <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />

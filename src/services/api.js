@@ -263,6 +263,7 @@ export function getTopPostByQuery(query) {
     url: '/post/top',
     method: 'get',
     params: query,
-    loading: "spin"
+    //loading: "spin",
+    permission: ["xxoo"]
   })
 }
