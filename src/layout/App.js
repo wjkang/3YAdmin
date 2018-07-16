@@ -124,7 +124,7 @@ class App extends Component {
           collapsed={this.state.collapsed}
         >
         </MySider>
-        <Layout>
+        <Layout style={{background:'#fff'}}>
           <MyHeader collapsed={this.state.collapsed} toggle={this.toggle} toggleNavTab={this.toggleNavTab} navTabshow={this.state.navTabShow}>
           </MyHeader>
           <MyNavTabs style={{ top: this.state.navTabTop, position: 'fixed', zIndex: 9, width: '100%', display: this.state.navTabShow ? 'block' : 'none' }} show={this.state.navTabShow} />
