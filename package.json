@@ -2,7 +2,7 @@
   "name": "3YAdmin",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/3YAdmin-preview/",
+  "homepage": "/3YAdmin-preview-common/",
   "scripts": {
     "start": "node react-scripts/scripts/start.js",
     "build": "node react-scripts/scripts/build.js",
