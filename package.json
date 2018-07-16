@@ -10,7 +10,7 @@
     "eject": "node react-scripts/scripts/eject.js"
   },
   "dependencies": {
-    "antd": "^3.5.3",
+    "antd": "3.5.3",
     "axios": "^0.18.0",
     "create-react-class": "^15.6.3",
     "qs": "^6.5.2",
