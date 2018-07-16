@@ -10,7 +10,11 @@
 [![react-router-dom](https://img.shields.io/badge/react--router--dom-4.2.2-brightgreen.svg)](https://github.com/axios/axios)
 [![MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)]()
 
-[online demo ](http://jaycewu.coding.me/3YAdmin-preview)
+online demo:
+
+[Tab Mode](http://jaycewu.coding.me/3YAdmin-preview)    
+
+[Common Mode](http://jaycewu.coding.me/3YAdmin-preview-common)
 
 登录账号:
 
