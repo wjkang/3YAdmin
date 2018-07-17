@@ -1,6 +1,6 @@
 
 ## 3YAdmin
-&emsp;&emsp;[3YAdmin](http://jaycewu.coding.me/vue-quasar-admin)是一个专注通用权限控制与表单的后台管理系统模板。
+&emsp;&emsp;[3YAdmin](https://github.com/wjkang/3YAdmin)是一个专注通用权限控制与表单的后台管理系统模板。
 
 &emsp;&emsp;3YAdmin支持两种布局模式，Tab模式和正常模式。两种模式是webpack打包编译时确定的，打包某个模式时不会引入另外一种模式下的多余代码(React 实现Tab模式比较蛋疼)。
 
@@ -117,3 +117,26 @@ npm run build
 
 ## 效果展示
 
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/1.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/2.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/3.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/4.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/5.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/6.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/7.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/8.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/9.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/10.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/11.jpg)
+
+![image](https://raw.githubusercontent.com/wjkang/3YAdmin/master/screenshot/12.jpg)
