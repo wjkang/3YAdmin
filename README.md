@@ -74,7 +74,7 @@ online demo:
         - Search Form(查询表单)
         - Common Form(静态表单,解析第一次后,JSON数据改变后表单不会跟着变)
         - Dynamic Form(动态表单,JSON数据改变后表单重新生成)
-        
+
 
 ## 安装使用
 
@@ -110,6 +110,10 @@ npm run build
 直接将react-react-app生成的配置复制出来进行修改，都在react-scripts文件夹下，当前配置了antd按需引入，分chunk打包以及使用了AutoDllPlugin。可以按照自己的需要进行修改。
 
 打包模式的配置需修改buils.js与start.js文件中的process.env.REACT_APP_LAYOUT_MODE
+
+## 使用教程
+
+后面会出详细使用教程以及前后端分离的后台管理系统前端架构设计思路(包含vue和react)，喜欢的话可以给个star。
 
 ## 效果展示
 
