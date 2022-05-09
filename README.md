@@ -1,3 +1,4 @@
+代码太丑，不建议照搬，可以看一看 RBAC 的实现思路，这是通用的。
 
 ## 3YAdmin
 &emsp;&emsp;[3YAdmin](https://github.com/wjkang/3YAdmin)是一个专注通用权限控制与表单的后台管理系统模板。
